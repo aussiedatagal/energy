@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "last_updated": "2026-06-05",
+    "global_co2_total_mt": 37000,
+    "global_electricity_twh": 29000,
+    "notes": "Values in Mt CO2e (million tonnes CO2 equivalent) unless noted. Sector figures are annual. Per-activity figures use kg CO2e. Sources keyed to sources.md."
+  },
+
+  "sectors": [
+    {
+      "id": "ai_inference",
+      "label": "AI Inference (all gen-AI queries)",
+      "category": "digital",
+      "value_twh": 15,
+      "value_year": 2025,
+      "notes": "IEA estimate for all generative AI queries globally. Projected 347 TWh by 2030.",
+      "source": "iea_energy_ai"
+    },
+    {
+      "id": "ai_training",
+      "label": "AI Model Training",
+      "category": "digital",
+      "value_twh": 15,
+      "value_year": 2024,
+      "notes": "Training is a one-off cost per model, not annual. GPT-4 estimated ~50 GWh alone. Included here for completeness but not directly comparable to operational figures.",
+      "source": "iea_energy_ai"
+    },
+    {
+      "id": "data_centers_all",
+      "label": "All Data Centres (global)",
+      "category": "digital",
+      "value_twh": 415,
+      "value_year": 2024,
+      "notes": "Includes AI and non-AI. ~1.5% of global electricity. US (180 TWh) + China (102 TWh) = 69% of total. Projected to reach 945 TWh by 2030.",
+      "source": "iea_energy_ai"
+    },
+    {
+      "id": "bitcoin",
+      "label": "Bitcoin Mining",
+      "category": "digital",
+      "value_twh": 138,
+      "value_mt_co2e": 39.8,
+      "value_year": 2025,
+      "notes": "Cambridge CBECI 2025 Digital Mining Industry Report. ~0.5% of global electricity. Some estimates range to 175 TWh.",
+      "source": "cambridge_cbeci"
+    },
+    {
+      "id": "video_streaming",
+      "label": "Video Streaming (Netflix + YouTube)",
+      "category": "digital",
+      "value_twh": 300,
+      "value_year": 2024,
+      "notes": "Highly disputed figures. Netflix external estimate ~94 TWh/yr (not Netflix's own 0.45 TWh which excludes CDN/ISP/device). YouTube theoretical ~600 TWh/yr at 1B hrs/day. 300 TWh used as conservative combined estimate. Video = 60-70% of global internet traffic.",
+      "source": "carbonbrief_streaming,iea_streaming"
+    },
+    {
+      "id": "cloud_storage",
+      "label": "Cloud & Personal Storage (iCloud, Google Photos etc.)",
+      "category": "digital",
+      "value_twh": null,
+      "notes": "No reliable global TWh figure. Per-unit: 3-7 kWh per GB transferred+stored (Carnegie Mellon). ~40-70 kWh per TB per year ongoing. Billions of users storing thousands of photos indefinitely.",
+      "source": "greenly_storage,ecoflow_storage"
+    },
+    {
+      "id": "mobile_networks",
+      "label": "Mobile / Cellular Networks",
+      "category": "digital",
+      "value_twh": 50,
+      "value_year": 2015,
+      "notes": "2015 baseline (Andrae). Substantially higher now with 5G rollout — 5G uses more energy per tower than 4G. No reliable 2024 global figure found.",
+      "source": "davidmytton_5g"
+    },
+    {
+      "id": "standby_power",
+      "label": "Standby / Vampire Power",
+      "category": "digital",
+      "value_pct_global_electricity": 5,
+      "value_pct_global_co2": 1,
+      "value_year": 2024,
+      "notes": "IEA: ~5% of global electricity, ~1% of global CO2. Equivalent to ~15 million petrol cars. In developed countries, 5-25% of residential electricity.",
+      "source": "iea_standby,lbnl_standby"
+    },
+    {
+      "id": "aviation",
+      "label": "Global Aviation",
+      "category": "transport",
+      "value_mt_co2e": 942,
+      "value_year": 2024,
+      "notes": "IATA 2024 data. International flights = ~60% (~550 Mt CO2). Grew ~8% YoY. Does not include non-CO2 warming effects (contrails etc.) which may double effective impact.",
+      "source": "iata_2024,ourworldindata_aviation"
+    },
+    {
+      "id": "beef_livestock",
+      "label": "Beef & Livestock Farming",
+      "category": "agriculture",
+      "value_mt_co2e": 7100,
+      "value_pct_global": 14.5,
+      "value_year": 2024,
+      "notes": "FAO: all livestock supply chains = 7.1 Gt CO2e = 14.5% of global emissions. Cattle (beef+dairy) = ~2/3 of that (~4.7 Gt). Beef alone ~3 Gt CO2e. Emissions from methane (enteric fermentation), feed production, land-use change.",
+      "source": "fao_livestock,wri_beef"
+    },
+    {
+      "id": "food_waste",
+      "label": "Food Waste",
+      "category": "agriculture",
+      "value_mt_co2e": 3300,
+      "value_pct_global": 8,
+      "value_year": 2024,
+      "notes": "UNFCCC: 8-10% of global GHG. ~3.3 Gt CO2e (conservative). Nearly 5x aviation. 1/3 of all food produced is lost or wasted. If food waste were a country, it would be 3rd largest emitter.",
+      "source": "unfccc_foodwaste,ourworldindata_foodwaste"
+    },
+    {
+      "id": "mining_metals",
+      "label": "Mining & Metals Sector",
+      "category": "industry",
+      "value_pct_global": 11,
+      "value_year": 2024,
+      "notes": "11% of global GHG. Steel/aluminium/coal mining = 93% of sector. Asia = 80% of sector emissions. Includes coal, iron ore, bauxite, lithium (EV batteries). 93% classified as Scope 1.",
+      "source": "semafor_mining,indexbox_mining"
+    },
+    {
+      "id": "cement_concrete",
+      "label": "Cement & Concrete Production",
+      "category": "industry",
+      "value_mt_co2e": 1470,
+      "value_pct_global": 8,
+      "value_year": 2024,
+      "notes": "~7-8% of global CO2. 1.47 Gt CO2 in 2024. 50% from chemical process (calcination of limestone), 40% from fuel burning. Emissions tripled 1990-2020. Most-used material on earth after water.",
+      "source": "statista_cement,wef_cement"
+    },
+    {
+      "id": "fast_fashion",
+      "label": "Fast Fashion & Apparel",
+      "category": "consumer",
+      "value_mt_co2e": 1200,
+      "value_pct_global": 10,
+      "value_year": 2024,
+      "notes": "8-10% of global CO2 emissions. More than aviation + shipping combined. 110 million tonnes of oil equivalent in synthetic fibre production alone. Projected 26% of global emissions by 2050 if unchanged.",
+      "source": "earthorg_fashion,climateq_fashion"
+    },
+    {
+      "id": "bushfires_black_summer",
+      "label": "Australian Black Summer Bushfires (2019-20)",
+      "category": "natural_events",
+      "value_mt_co2e": 715,
+      "value_year": 2020,
+      "notes": "Nature study: 715 Mt CO2. Climate Council: ~900 Mt CO2. Australia's normal annual emissions: ~537 Mt CO2e. Black Summer released more CO2 in one season than Australia normally emits in a full year. Partly carbon-cycle neutral long-term (regrowth reabsorbs) but increasing frequency/intensity disrupts this balance.",
+      "source": "nature_blacksummer,climatecouncil_blacksummer,dcceew_bushfires"
+    }
+  ],
+
+  "per_activity": [
+    {
+      "id": "chatgpt_text_query",
+      "label": "One ChatGPT text query",
+      "value_wh": 0.3,
+      "value_kg_co2e": 0.00012,
+      "notes": "~0.3 Wh per query (IEA / Sam Altman). ~10x a Google search. Image generation is 10-50x higher.",
+      "source": "iea_energy_ai"
+    },
+    {
+      "id": "google_search",
+      "label": "One Google search",
+      "value_wh": 0.03,
+      "notes": "~0.03 Wh per search. Widely cited estimate.",
+      "source": "iea_energy_ai"
+    },
+    {
+      "id": "netflix_hour",
+      "label": "One hour Netflix streaming",
+      "value_wh": 36,
+      "value_kg_co2e": 0.036,
+      "notes": "IEA/Carbon Brief corrected figure. Netflix's own figure (100g CO2/hr) excludes network and device energy.",
+      "source": "iea_streaming,carbonbrief_streaming"
+    },
+    {
+      "id": "beef_1kg",
+      "label": "1 kg beef (production)",
+      "value_kg_co2e": 99.48,
+      "notes": "Average across beef herd. Equivalent to ~333 ChatGPT queries.",
+      "source": "fao_livestock"
+    },
+    {
+      "id": "transatlantic_flight",
+      "label": "One transatlantic flight (economy, per passenger)",
+      "value_kg_co2e": 1500,
+      "notes": "London–New York return, economy class. Equivalent to ~5 million ChatGPT queries.",
+      "source": "ourworldindata_aviation,atag"
+    },
+    {
+      "id": "cloud_storage_1tb_year",
+      "label": "1 TB cloud storage (per year)",
+      "value_kwh": 55,
+      "notes": "Mid-range estimate: 40-70 kWh/TB/year. Does not include upload/download energy.",
+      "source": "ecoflow_storage,greenly_storage"
+    },
+    {
+      "id": "hot_shower_10min",
+      "label": "10-minute hot shower",
+      "value_kwh": 1.5,
+      "notes": "Electric water heater. Gas heater roughly half. One of the largest single household energy uses.",
+      "source": "general_household"
+    }
+  ]
+}
