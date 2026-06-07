@@ -4,6 +4,6 @@ export function fmtBarVal(kg: number): string {
   if (kg < 1)      return `${(kg * 1000).toFixed(0)}g CO₂e`;
   if (kg < 1000)   return `${kg.toFixed(kg < 10 ? 1 : 0)}kg CO₂e`;
   if (kg < 1e9)    return `${Math.round(kg / 1000).toLocaleString()}t CO₂e`;
-  if (kg < 1e12)   return `${+(kg / 1e9).toFixed(1)}Mt CO₂e`;
+  if (kg < 1e12)   return `${Math.round(kg / 1e9)}M t CO₂e`;
   return `${+(kg / 1e12).toFixed(1)}Gt CO₂e`;
 }

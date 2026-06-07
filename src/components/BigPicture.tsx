@@ -3,6 +3,18 @@ import * as d3 from 'd3';
 import { TREEMAP_DATA } from '../data/treemap';
 import type { TreemapCategory, TreemapLeaf } from '../types';
 
+function fmtLeafDisplay(mt: number): string {
+  return mt >= 1000
+    ? `${+(mt / 1000).toFixed(1)} Gt CO₂e`
+    : `${Math.round(mt)} million t CO₂e`;
+}
+
+function fmtLeafLabel(mt: number): string {
+  return mt >= 1000
+    ? `${+(mt / 1000).toFixed(1)} Gt`
+    : `${Math.round(mt)}M t`;
+}
+
 interface TooltipState {
   html: string;
   x: number;
@@ -91,7 +103,7 @@ function drawTreemap(el: HTMLElement, setTooltip: (s: TooltipState) => void) {
         x, y,
         html: [
           `<strong style="display:block;margin-bottom:4px">${leaf.name}</strong>`,
-          `${leaf.value.toLocaleString()} Mt CO₂e<br>${pct}% of sectors shown`,
+          `${fmtLeafDisplay(leaf.value)}<br>${pct}% of sectors shown`,
           leaf.detail ? `<br><br><span style="color:#8b949e;font-style:italic">${leaf.detail}</span>` : '',
           `<br><span style="color:#8b949e;display:block;margin-top:4px">Source: ${leaf.source}</span>`,
           leaf.note ? `<br><span style="color:#f78166">⚠ ${leaf.note}</span>` : '',
@@ -122,7 +134,7 @@ function drawTreemap(el: HTMLElement, setTooltip: (s: TooltipState) => void) {
       const w = d.x1 - d.x0;
       const h = d.y1 - d.y0;
       if (w < 80 || h < 42) return '';
-      return `${(d.data as TreemapLeaf).value.toLocaleString()} Mt`;
+      return fmtLeafLabel((d.data as TreemapLeaf).value);
     })
     .attr('fill', 'rgba(255,255,255,0.55)')
     .attr('font-size', '10px')
@@ -140,7 +152,7 @@ function drawTreemap(el: HTMLElement, setTooltip: (s: TooltipState) => void) {
       .join('') + `
         <div class="legend-item legend-ai-note">
           <div class="legend-dot" style="background:#56d364;outline:1.5px solid #fff;outline-offset:1px"></div>
-          All AI queries (in Digital Technology): ~6 Mt CO₂e, too small to see at this scale
+          All AI queries (in Digital Technology): ~6 million t CO₂e, too small to see at this scale
         </div>`;
   }
 }
@@ -177,13 +189,14 @@ export function BigPicture() {
       <div className="section-inner">
         <div className="section-header fade-in">
           <h2>Global annual emissions, by sector</h2>
-          <p className="section-sub">Greenhouse gas emissions worldwide, per year, broken down by sector. Each block's area represents Mt CO₂ equivalent. Hover for details.</p>
+          <p className="section-sub">
+We use the unit CO₂e (carbon dioxide equivalent) to compare warming effects across different industries. Methane, nitrous oxide, and other gases are all converted into their equivalent CO₂ by warming effect, so different sources can be compared on the same scale. Each block's area is proportional to annual emissions in tonnes of CO₂e. Hover a block to see the figure and source.</p>
         </div>
         <div ref={treemapRef} id="treemap" className="fade-in" />
         <div className="legend fade-in" id="treemap-legend" />
         <p className="chart-note fade-in">
-          Some figures are direct Mt CO₂e from primary sources; others are converted from TWh at 0.4 kg CO₂/kWh (global average, conservative).
-          Road transport (~6,000 Mt CO₂e) is not shown; a reliable 2024 primary source was not found.
+          Some figures come directly from sources as greenhouse gas totals; others are converted from energy use at 0.4 kg CO₂/kWh (global average, conservative).
+          Road transport (~6 Gt CO₂e) is not shown; a reliable 2024 primary source was not found.
           {' '}<a href="#sources">Full sources ↓</a>
         </p>
 

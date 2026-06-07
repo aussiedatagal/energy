@@ -32,6 +32,12 @@ export const STEPS: StepItem[] = [
     sub: '125× a ChatGPT query. A kettle is essentially a resistor submerged in water — it draws 2.4 kW and converts almost all of it to heat. It\'s one of the highest-draw appliances in most kitchens, just in a very short burst.',
   },
   {
+    step: 5,
+    commentary: true,
+    heading: 'A movie night in queries',
+    sub: 'An hour of Netflix, microwave popcorn, and a boiled kettle add up to about 85 g CO₂e on the grid figures above, which is around 177 ChatGPT text queries.',
+  },
+  {
     step: 6,
     heading: '1 day storing 1TB in the cloud',
     sub: 'About 125× a ChatGPT query, just sitting there. Cloud storage means servers in data centres running around the clock to keep your files accessible.',
@@ -112,6 +118,12 @@ export const STEPS: StepItem[] = [
     sub: '~15 t CO₂e, about 66% more than a new petrol car. The battery pack is the difference. Lifetime emissions are lower as grids decarbonise, but the factory carbon is higher.',
   },
   {
+    step: 21,
+    commentary: true,
+    heading: 'One event or one year',
+    sub: 'Each comparison above was for a single action or item: one trip, one garment, one device. The next comparisons are individual large-scale events (a rocket launch, a film production, a model training run) or the annual operating cost of a specific organization. Neither is a per-action figure.',
+  },
+  {
     step: 22,
     heading: 'Falcon 9 launch (SpaceX)',
     sub: '~233 t CO₂e from propellant, one launch. SpaceX flew Falcon 9 more than 90 times in 2024, roughly one every four days. The first stage lands and is reused, so manufacturing carbon is spread across a dozen or more flights.',
@@ -154,38 +166,44 @@ export const STEPS: StepItem[] = [
     sub: '~550,000 t CO₂e. Running a city\'s rail network for a year is about 48× Llama 3.1\'s training. Sydney Trains switched to 100% renewable electricity in 2021.',
   },
   {
+    step: 27,
+    commentary: true,
+    heading: 'Global annual totals from here',
+    sub: 'The figures above are for individual organizations or one-off events. From here, each bar is a global annual total across an entire industry: every AI query worldwide, every iPhone manufactured, all gas flaring globally. These are sector-wide aggregates, not figures for any single organization.',
+  },
+  {
     step: 28,
     heading: 'All AI queries, 2025 (annual)',
-    sub: '~15 TWh for all generative AI globally in 2025, about 6 Mt CO₂e. That covers every text prompt, image generation, and code completion across all providers. It does not include training, which adds roughly 1–2% on top. Running AI for a full year costs about 530× training a single Llama 3.1 model.',
+    sub: '~15 TWh for all generative AI globally in 2025, about 6 million t CO₂e. That covers every text prompt, image generation, and code completion across all providers. It does not include training, which adds roughly 1–2% on top. Running AI for a full year costs about 530× training a single Llama 3.1 model.',
   },
   {
     step: 29,
     heading: 'All iPhones manufactured in 2024',
-    sub: '~15.1 Mt CO₂e. Apple shipped 232 million iPhones in 2024. At ~65 kg CO₂e each, manufacturing the full year\'s fleet is about 1,300× a Llama 3.1 training run.',
+    sub: '~15 million t CO₂e. Apple shipped 232 million iPhones in 2024. At ~65 kg CO₂e each, manufacturing the full year\'s fleet is about 1,300× a Llama 3.1 training run.',
   },
   {
     step: 30,
     heading: 'Global oil well gas flaring, 2024',
-    sub: 'When an oil well also strikes natural gas, drillers often just burn it off at the wellhead rather than build pipeline infrastructure to capture it. You can see the flames from satellite imagery over Siberia, Iraq, and the US Permian Basin. 389 Mt CO₂e in 2024, the highest in nearly 20 years, just from burning off gas that\'s inconvenient to sell.',
+    sub: 'When an oil well also strikes natural gas, drillers often just burn it off at the wellhead rather than build pipeline infrastructure to capture it. You can see the flames from satellite imagery over Siberia, Iraq, and the US Permian Basin. 389 million t CO₂e in 2024, the highest in nearly 20 years, just from burning off gas that\'s inconvenient to sell.',
   },
   {
     step: 31,
     heading: 'Global commercial aviation, 1 year',
-    sub: '~942 Mt CO₂ from jet fuel combustion in 2023, about 2.4× all gas flaring. That\'s direct CO₂ only. With aircraft\'s radiative forcing effects (contrails, NOₓ, water vapour at altitude), the actual warming impact is roughly 2–3× that figure, but radiative forcing is excluded from official accounting.',
+    sub: '~942 million t CO₂ from jet fuel combustion in 2023, about 2.4× all gas flaring. That\'s direct CO₂ only. With aircraft\'s radiative forcing effects (contrails, NOₓ, water vapour at altitude), the actual warming impact is roughly 2–3× that figure, but radiative forcing is excluded from official accounting.',
   },
   {
     step: 32,
     heading: 'Global fashion industry, 1 year',
-    sub: '~1,200 Mt CO₂e estimated across global apparel and footwear. About 1.3× aviation. The range across studies is wide (800–1,800 Mt) because supply chains are difficult to measure end-to-end.',
+    sub: '~1.2 Gt CO₂e estimated across global apparel and footwear. About 1.3× aviation. The range across studies is wide (0.8–1.8 Gt) because supply chains are difficult to measure end-to-end.',
   },
   {
     step: 33,
     heading: 'Global food waste, 1 year',
-    sub: '~3,300 Mt CO₂e from food that is produced but never eaten. About one-third of all food globally is lost or wasted. Includes the methane from organic matter decomposing in landfill. About 3–4× global aviation.',
+    sub: '~3.3 Gt CO₂e from food that is produced but never eaten. About one-third of all food globally is lost or wasted. Includes the methane from organic matter decomposing in landfill. About 3–4× global aviation.',
   },
   {
     step: 34,
     heading: 'Global beef and dairy, 1 year',
-    sub: '~4,300 Mt CO₂e from beef and dairy cattle combined. Digestive methane, manure, feed production, and land clearing for pasture. About 1.3× food waste, and roughly 60% of all livestock emissions globally.',
+    sub: '~4.3 Gt CO₂e from beef and dairy cattle combined. Digestive methane, manure, feed production, and land clearing for pasture. About 1.3× food waste, and roughly 60% of all livestock emissions globally.',
   },
 ];

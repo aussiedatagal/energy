@@ -102,11 +102,17 @@ h1 {
 
 .quote { color: var(--warm); }
 
-.hero-sub {
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
+.hero-framing {
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+  text-align: left;
+}
+
+.hero-framing p {
+  font-size: 0.9rem;
   color: var(--muted);
-  font-style: italic;
-  margin-bottom: 3rem;
+  line-height: 1.7;
+  margin-bottom: 0.65rem;
 }
 
 .hero-stat-row {
@@ -164,6 +170,16 @@ h1 {
   transition: color 0.2s, border-color 0.2s;
 }
 .scroll-cta:hover { color: var(--text); border-color: var(--muted); text-decoration: none; }
+
+
+.hero-stat-note {
+  font-size: 0.65rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+  opacity: 0.65;
+  line-height: 1.4;
+  font-style: italic;
+}
 
 .arrow {
   display: inline-block;
