@@ -4,7 +4,7 @@ export const STEPS: StepItem[] = [
   {
     step: 0,
     heading: 'Google search vs ChatGPT',
-    sub: 'A ChatGPT query uses about 40× the energy of a traditional Google search. This is a standard keyword search. Google\'s AI-generated answers use more energy per query.',
+    sub: "A ChatGPT query uses about 40× the energy of a traditional Google search. This is a standard keyword search. Google's AI-generated answers use more energy per query.",
   },
   {
     step: 1,
@@ -14,12 +14,12 @@ export const STEPS: StepItem[] = [
   {
     step: 2,
     heading: 'Charging your phone (daily)',
-    sub: 'About 8× a ChatGPT query. And manufacturing the phone was about 16,000× more than that. But we\'ll get to that in a minute.',
+    sub: "About 8× a ChatGPT query. And manufacturing the phone was about 16,000× more than that. But we'll get to that in a minute.",
   },
   {
     step: 3,
     heading: '1 hour of Netflix HD',
-    sub: 'About 10× a ChatGPT query, for the data centre and network only. The IEA\'s full-chain figure of 36g CO₂e includes your viewing device (laptop or TV), which adds another ~31g. That\'s excluded here because ChatGPT\'s figure is server-side only.',
+    sub: "About 10× a ChatGPT query, for the data centre and network only. The IEA's full-chain figure of 36g CO₂e includes your viewing device (laptop or TV), which adds another ~31g. That's excluded here because ChatGPT's figure is server-side only.",
   },
   {
     step: 4,
@@ -29,7 +29,7 @@ export const STEPS: StepItem[] = [
   {
     step: 5,
     heading: 'Boiling a full kettle',
-    sub: '125× a ChatGPT query. A kettle is essentially a resistor submerged in water — it draws 2.4 kW and converts almost all of it to heat. It\'s one of the highest-draw appliances in most kitchens, just in a very short burst.',
+    sub: "125× a ChatGPT query. A kettle is essentially a resistor submerged in water — it draws 2.4 kW and converts almost all of it to heat. It's one of the highest-draw appliances in most kitchens, just in a very short burst.",
   },
   {
     step: 5,
@@ -45,17 +45,17 @@ export const STEPS: StepItem[] = [
   {
     step: 7,
     heading: 'A 500ml bottle of water',
-    sub: 'About 100g CO₂e for a typical locally sourced bottle. The PET plastic accounts for roughly half of it. Petroleum-derived plastic is energy-intensive to produce, and the emissions are locked into the bottle before it\'s even filled.',
+    sub: "About 100g CO₂e for a typical locally sourced bottle. The PET plastic accounts for roughly half of it. Petroleum-derived plastic is energy-intensive to produce, and the emissions are locked into the bottle before it's even filled.",
   },
   {
     step: 8,
     heading: 'AI video, 10 seconds',
-    sub: 'About 780× a ChatGPT text prompt, based on Sora\'s estimated compute time. Smaller video models use less; this is the high end.',
+    sub: "About 780× a ChatGPT text prompt, based on Sora's estimated compute time. Smaller video models use less; this is the high end.",
   },
   {
     step: 9,
     heading: '10-minute electric shower',
-    sub: '1,250× a ChatGPT query. An electric shower heats cold water on demand using a resistive element drawing 9 kW continuously for the whole duration. It\'s the same mechanism as a kettle, just running for 10 minutes instead of 3.',
+    sub: "1,250× a ChatGPT query. An electric shower heats cold water on demand using a resistive element drawing 9 kW continuously for the whole duration. It's the same mechanism as a kettle, just running for 10 minutes instead of 3.",
   },
   {
     step: 10,
@@ -65,7 +65,7 @@ export const STEPS: StepItem[] = [
   {
     step: 11,
     heading: 'Drive 10 km in a petrol car',
-    sub: '3,100× a ChatGPT query. Burning petrol releases CO₂ directly from the exhaust — about 150g per kilometre for an average car. Around 80% of the fuel\'s energy is lost as heat; only about 20% actually moves the vehicle.',
+    sub: "3,100× a ChatGPT query. Burning petrol releases CO₂ directly from the exhaust — about 150g per kilometre for an average car. Around 80% of the fuel's energy is lost as heat; only about 20% actually moves the vehicle.",
   },
   {
     step: 12,
@@ -80,12 +80,12 @@ export const STEPS: StepItem[] = [
   {
     step: 14,
     heading: 'Manufacturing 1 smartphone',
-    sub: '135,000× a ChatGPT query. Manufacturing is 80% of the device\'s total lifetime emissions; using it for years adds relatively little.',
+    sub: "135,000× a ChatGPT query. Manufacturing is 80% of the device's total lifetime emissions; using it for years adds relatively little.",
   },
   {
     step: 15,
     heading: '1 kilogram of beef',
-    sub: '207,000× a ChatGPT query. About 60% of it is methane from the cow\'s digestive system, burped out continuously. Methane has about 28× the warming effect of CO₂ over 100 years. The rest is feed production (fertiliser, land use) and manure.',
+    sub: "207,000× a ChatGPT query. About 60% of it is methane from the cow's digestive system, burped out continuously. Methane has about 28× the warming effect of CO₂ over 100 years. The rest is feed production (fertiliser, land use) and manure.",
   },
   {
     step: 16,
@@ -131,7 +131,7 @@ export const STEPS: StepItem[] = [
   {
     step: 23,
     heading: 'Wikipedia servers, 1 year',
-    sub: '~1,680 t CO₂e on the average grid per year, about 3.5 billion GPT-4o queries\' worth of electricity. Covers serving 1.7 billion devices per month across 60 million articles in 300+ languages. The entire annual cost is less than one Llama 3.1 training run.',
+    sub: "~1,680 t CO₂e on the average grid per year, about 3.5 billion GPT-4o queries' worth of electricity. Covers serving 1.7 billion devices per month across 60 million articles in 300+ languages. The entire annual cost is less than one Llama 3.1 training run.",
   },
   {
     step: 24,
@@ -141,7 +141,7 @@ export const STEPS: StepItem[] = [
   {
     step: 24,
     commentary: true,
-    heading: 'That\'s the per-query cost. What about training?',
+    heading: "That's the per-query cost. What about training?",
     sub: 'Training is a one-time cost per model, not per query. A model like Llama 3.1 is trained once; every query since then runs on those same weights. The figures below are training runs compared to other one-off events at a similar scale.',
   },
   {
@@ -163,7 +163,7 @@ export const STEPS: StepItem[] = [
   {
     step: 27,
     heading: 'Sydney Trains, 1 year (pre-renewable)',
-    sub: '~550,000 t CO₂e. Running a city\'s rail network for a year is about 48× Llama 3.1\'s training. Sydney Trains switched to 100% renewable electricity in 2021.',
+    sub: "~550,000 t CO₂e. Running a city's rail network for a year is about 48× Llama 3.1's training. Sydney Trains switched to 100% renewable electricity in 2021.",
   },
   {
     step: 27,
@@ -179,17 +179,17 @@ export const STEPS: StepItem[] = [
   {
     step: 29,
     heading: 'All iPhones manufactured in 2024',
-    sub: '~15 million t CO₂e. Apple shipped 232 million iPhones in 2024. At ~65 kg CO₂e each, manufacturing the full year\'s fleet is about 1,300× a Llama 3.1 training run.',
+    sub: "~15 million t CO₂e. Apple shipped 232 million iPhones in 2024. At ~65 kg CO₂e each, manufacturing the full year's fleet is about 1,300× a Llama 3.1 training run.",
   },
   {
     step: 30,
     heading: 'Global oil well gas flaring, 2024',
-    sub: 'When an oil well also strikes natural gas, drillers often just burn it off at the wellhead rather than build pipeline infrastructure to capture it. You can see the flames from satellite imagery over Siberia, Iraq, and the US Permian Basin. 389 million t CO₂e in 2024, the highest in nearly 20 years, just from burning off gas that\'s inconvenient to sell.',
+    sub: "When an oil well also strikes natural gas, drillers often just burn it off at the wellhead rather than build pipeline infrastructure to capture it. You can see the flames from satellite imagery over Siberia, Iraq, and the US Permian Basin. 389 million t CO₂e in 2024, the highest in nearly 20 years, just from burning off gas that's inconvenient to sell.",
   },
   {
     step: 31,
     heading: 'Global commercial aviation, 1 year',
-    sub: '~942 million t CO₂ from jet fuel combustion in 2023, about 2.4× all gas flaring. That\'s direct CO₂ only. With aircraft\'s radiative forcing effects (contrails, NOₓ, water vapour at altitude), the actual warming impact is roughly 2–3× that figure, but radiative forcing is excluded from official accounting.',
+    sub: "~942 million t CO₂ from jet fuel combustion in 2023, about 2.4× all gas flaring. That's direct CO₂ only. With aircraft's radiative forcing effects (contrails, NOₓ, water vapour at altitude), the actual warming impact is roughly 2–3× that figure, but radiative forcing is excluded from official accounting.",
   },
   {
     step: 32,

@@ -4,14 +4,18 @@ import { CSTEPS } from './src/data/csteps';
 import { SOURCES } from './src/data/sources';
 
 function esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 function fmtKg(kg: number): string {
   const sig = (n: number) => parseFloat(n.toPrecision(3)).toLocaleString('en-US');
-  if (kg < 1)    return `${sig(kg * 1000)} g CO₂e`;
+  if (kg < 1) return `${sig(kg * 1000)} g CO₂e`;
   if (kg < 1000) return `${sig(kg)} kg CO₂e`;
-  if (kg < 1e9)  return `${sig(kg / 1000)} t CO₂e`;
+  if (kg < 1e9) return `${sig(kg / 1000)} t CO₂e`;
   if (kg < 1e12) return `${Math.round(kg / 1e9)} million t CO₂e`;
   return `${+(kg / 1e12).toFixed(1)} Gt CO₂e`;
 }
@@ -51,27 +55,34 @@ const CSS = `
 `.trim();
 
 function buildHtml(): string {
-  const allLeaves   = TREEMAP_DATA.children.flatMap(c => c.children);
-  const agLeaves    = TREEMAP_DATA.children.find(c => c.name === 'Agriculture & Land Use')!.children;
-  const aiKg        = CSTEPS.find(s => s.label.startsWith('All AI queries'))!.value;
-  const llamaKg     = CSTEPS.find(s => s.label.startsWith('Training Llama'))!.value;
-  const beefKg      = CSTEPS.find(s => s.label.startsWith('Global beef and dairy'))!.value;
-  const fashionKg   = CSTEPS.find(s => s.label.startsWith('Global fashion'))!.value;
-  const foodWasteKg = CSTEPS.find(s => s.label.startsWith('Global food waste'))!.value;
-  const bitcoinMt   = allLeaves.find(l => l.name === 'Bitcoin Mining')!.value;
-  const livestockMt = agLeaves.filter(l => l.name !== 'Food Waste').reduce((s, l) => s + l.value, 0);
+  const allLeaves = TREEMAP_DATA.children.flatMap((c) => c.children);
+  const agLeaves = TREEMAP_DATA.children.find((c) => c.name === 'Agriculture & Land Use')!.children;
+  const aiKg = CSTEPS.find((s) => s.label.startsWith('All AI queries'))!.value;
+  const llamaKg = CSTEPS.find((s) => s.label.startsWith('Training Llama'))!.value;
+  const beefKg = CSTEPS.find((s) => s.label.startsWith('Global beef and dairy'))!.value;
+  const fashionKg = CSTEPS.find((s) => s.label.startsWith('Global fashion'))!.value;
+  const foodWasteKg = CSTEPS.find((s) => s.label.startsWith('Global food waste'))!.value;
+  const bitcoinMt = allLeaves.find((l) => l.name === 'Bitcoin Mining')!.value;
+  const livestockMt = agLeaves
+    .filter((l) => l.name !== 'Food Waste')
+    .reduce((s, l) => s + l.value, 0);
 
-  const sectorRows = TREEMAP_DATA.children.flatMap(cat =>
-    cat.children.map(item => `
+  const sectorRows = TREEMAP_DATA.children
+    .flatMap((cat) =>
+      cat.children.map(
+        (item) => `
       <tr>
         <td class="cat">${esc(cat.name)}</td>
         <td>${esc(item.name)}</td>
         <td class="val">${fmtMt(item.value)}</td>
         <td class="note">${esc(item.detail)}</td>
-      </tr>`)
-  ).join('');
+      </tr>`
+      )
+    )
+    .join('');
 
-  const compRows = CSTEPS.map(step => `
+  const compRows = CSTEPS.map(
+    (step) => `
       <tr>
         <td>${esc(step.label)}</td>
         <td class="val">${fmtKg(step.value)}</td>
@@ -79,7 +90,8 @@ function buildHtml(): string {
       </tr>`
   ).join('');
 
-  const sourceRows = SOURCES.map(s => `
+  const sourceRows = SOURCES.map(
+    (s) => `
       <tr>
         <td><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a></td>
         <td class="note">${esc(s.what)}</td>

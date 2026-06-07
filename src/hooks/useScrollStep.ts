@@ -18,7 +18,7 @@ export function useScrollStep(stickyRef: React.RefObject<HTMLElement | null>) {
       const readingY = chartBottom + (window.innerHeight - chartBottom) * 0.2;
 
       let maxStep = -1;
-      document.querySelectorAll<HTMLElement>('.comparison-step').forEach(el => {
+      document.querySelectorAll<HTMLElement>('.comparison-step').forEach((el) => {
         const r = el.getBoundingClientRect();
         const inZone = r.top <= readingY && r.bottom >= readingY;
         if (inZone) maxStep = Math.max(maxStep, parseInt(el.dataset.step ?? '-1', 10));

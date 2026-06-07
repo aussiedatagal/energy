@@ -10,17 +10,20 @@ interface Props {
 }
 
 export function ComparisonSection({ onShowProof }: Props) {
-  const stickyRef   = useRef<HTMLDivElement>(null);
+  const stickyRef = useRef<HTMLDivElement>(null);
   const [chartKey, setChartKey] = useState(0);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     const onResize = () => {
       clearTimeout(timer);
-      timer = setTimeout(() => setChartKey(k => k + 1), 280);
+      timer = setTimeout(() => setChartKey((k) => k + 1), 280);
     };
     window.addEventListener('resize', onResize);
-    return () => { window.removeEventListener('resize', onResize); clearTimeout(timer); };
+    return () => {
+      window.removeEventListener('resize', onResize);
+      clearTimeout(timer);
+    };
   }, []);
 
   const { activeStep, visibleCount } = useScrollStep(stickyRef);
@@ -31,7 +34,9 @@ export function ComparisonSection({ onShowProof }: Props) {
       <div className="section-inner">
         <div className="section-header fade-in">
           <h2>One ChatGPT query, compared to everything else</h2>
-          <p className="section-sub">Scroll through to see how the scale changes, from a daily activity to training a model.</p>
+          <p className="section-sub">
+            Scroll through to see how the scale changes, from a daily activity to training a model.
+          </p>
         </div>
       </div>
       <div className="comparison-outer">
@@ -59,7 +64,10 @@ export function ComparisonSection({ onShowProof }: Props) {
                     <button
                       className="step-proof-btn"
                       aria-label="Show source"
-                      onClick={e => { e.stopPropagation(); onShowProof(cstepItem); }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onShowProof(cstepItem);
+                      }}
                     >
                       ?
                     </button>

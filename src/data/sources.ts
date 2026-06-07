@@ -9,7 +9,7 @@ export const SOURCES: Source[] = [
   {
     title: 'IEA: Streaming video factcheck',
     url: 'https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines',
-    what: 'Corrected video streaming carbon figures (The Shift Project\'s 2019 estimates were widely overstated)',
+    what: "Corrected video streaming carbon figures (The Shift Project's 2019 estimates were widely overstated)",
   },
   {
     title: 'Carbon Brief: Netflix streaming factcheck',
@@ -119,7 +119,7 @@ export const SOURCES: Source[] = [
   {
     title: 'Nature: Black Summer bushfire CO₂',
     url: 'https://www.nature.com/articles/s41586-021-03712-y',
-    what: '715 Mt CO₂ released in 2019–20 Australian bushfires, more than a full year of Australia\'s normal emissions',
+    what: "715 Mt CO₂ released in 2019–20 Australian bushfires, more than a full year of Australia's normal emissions",
   },
   {
     title: 'Meta AI: Llama 3.1 Model Card',
