@@ -3,14 +3,7 @@ import { BigPicture } from './components/BigPicture';
 import { ComparisonSection } from './components/ComparisonSection';
 import { ProofModal } from './components/ProofModal';
 import { Sources } from './components/Sources';
-import { CSTEPS } from './data/csteps';
 import type { CStep } from './types';
-
-const aiKg = CSTEPS.find((s) => s.label.startsWith('All AI queries'))!.value;
-const llamaKg = CSTEPS.find((s) => s.label.startsWith('Training Llama'))!.value;
-const beefKg = CSTEPS.find((s) => s.label.startsWith('Global beef and dairy'))!.value;
-const fashionKg = CSTEPS.find((s) => s.label.startsWith('Global fashion'))!.value;
-const foodWasteKg = CSTEPS.find((s) => s.label.startsWith('Global food waste'))!.value;
 
 export function App() {
   const [proofItem, setProofItem] = useState<CStep | null>(null);
@@ -76,17 +69,14 @@ export function App() {
           </div>
           <div className="takeaway-body fade-in">
             <p>
-              AI does use a lot of energy, and the IEA projects data centre electricity demand will
-              roughly double by 2030. And while it is disrupting jobs and causing hardship for some
-              people, it's also doing a lot of good things too. It is making huge breakthroughs in
-              medicine, has cracked century-old mathematical enigmas, has increased solar panel
-              efficiency, and is working on the cutting-edge of battery technology, just to name a
-              few.
+              AI's energy use is real and it is growing. Data centres are projected to roughly
+              double their electricity consumption by 2030, and most of the world's grid is still
+              partly fossil-fuelled.
             </p>
             <p>
-              Meanwhile, there are a number of other industries that contribute to orders of
-              magnitude more emissions for things that don't bring anywhere near thesame benefits
-              and we must ensure that they have equal, if not more, scrutiny.
+              But the comparisons above show that other industries require far more of our
+              attention. Beef and dairy farming, food waste, and the fashion industry are hurting
+              the environment orders of magnitude more than the AI distraction.
             </p>
           </div>
         </div>
