@@ -438,6 +438,35 @@ export const CSTEPS: CStep[] = [
     },
   },
   {
+    label: 'All AI queries, 2030 (projected)',
+    value: 139200000000,
+    mult: '~×12,200 Llama',
+    color: '#79c0ff',
+    proof: {
+      primary:
+        '~347 TWh projected for all generative AI inference globally by 2030; ~139 Mt CO₂e on the average grid',
+      source: 'IEA: Energy and AI (2025)',
+      sourceUrl: 'https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai',
+      calc: '347 TWh × 0.4 kg CO₂/kWh = 138,800,000 t CO₂e.',
+      result: '~139 Mt CO₂e (projected, 2030)',
+      note: 'IEA Base Case projection. Assumes continued growth in AI adoption but does not account for potential efficiency improvements in hardware or models. ~23× the 2025 figure.',
+    },
+  },
+  {
+    label: 'All data centres globally, 2024 (annual)',
+    value: 166000000000,
+    mult: '~×14,600 Llama',
+    color: '#56d364',
+    proof: {
+      primary: '~166 Mt CO₂e from all global data centres in 2024',
+      source: 'IEA: Energy and AI (2025)',
+      sourceUrl: 'https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai',
+      calc: '415 TWh × 0.4 kg CO₂/kWh = 166,000,000 t CO₂e. Covers all workloads: AI, streaming, cloud storage, web, enterprise, and everything else.',
+      result: '~166 Mt CO₂e (2024)',
+      note: 'AI generative inference is a subset of this — estimated at ~6 Mt CO₂e. Data centres accounted for ~1.5% of global electricity in 2024, projected to roughly double by 2030. Multiplier vs Llama 3.1 training: 166,000,000 ÷ 11,390 ≈ 14,600.',
+    },
+  },
+  {
     label: 'Global gas flaring, 2024',
     value: 389000000000,
     mult: '~×34,000 Llama',

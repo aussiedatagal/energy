@@ -34,6 +34,9 @@ const llama = v('Training Llama');
 const f1 = v('Formula 1');
 const sydney = v('Sydney Trains');
 const ai = v('All AI queries');
+const aiProjected = v('All AI queries, 2030');
+const dataCentres = v('All data centres globally');
+const dataCentresProjected = 378000000000; // IEA Base Case: 945 TWh × 0.4 kg CO₂/kWh
 const iphones = v('All iPhones');
 const flaring = v('Global gas flaring');
 const aviation = v('Global commercial aviation');
@@ -207,35 +210,45 @@ export const STEPS: StepItem[] = [
   {
     step: 27,
     heading: 'All AI queries, 2025 (annual)',
-    sub: `But AI queries are not just people talking to ChatGPT. It is estimated that every text prompt, image, and code completion across all generative AI providers in 2025 added up to around ${Math.round(ai / 1e9 / 0.4)} TWh, about ${Mt(ai)} million t CO₂e.`,
+    sub: `AI queries are not just people talking to ChatGPT. Every text prompt, image, and code completion across all generative AI providers in 2025 added up to around ${Math.round(ai / 1e9 / 0.4)} TWh, about ${Mt(ai)} million t CO₂e.`,
   },
   {
     step: 28,
     heading: 'All iPhones manufactured in 2024',
-    sub: `But if we're talking global annual emissions, we should also look at Apple, which shipped 232 million iPhones in 2024. At around 65 kg CO₂e each to manufacture, the full year's fleet adds up to ${Mt(iphones)} million t CO₂e, about ${n(Math.round(iphones / llama / 100) * 100)}× a Llama 3.1 training run.`,
+    sub: `For context, Apple shipped 232 million iPhones in 2024. At around 65 kg CO₂e each to manufacture, the full year's fleet adds up to ${Mt(iphones)} million t CO₂e, already ${Math.round(iphones / ai)}× the entire global AI query footprint.`,
   },
   {
     step: 29,
-    heading: 'Global oil well gas flaring, 2024',
-    sub: `But the tech industry is quite insignificant when compared to these last few heavy hitters. When an oil well also strikes natural gas, drillers often burn it off at the wellhead because its cheaper than building pipeline to capture it. This practice emitted ${Mt(flaring)} million t CO₂e in 2024, just from burning off gas that's inconvenient to sell.`,
+    heading: 'All AI queries, 2030 (projected)',
+    sub: `But the biggest concern with AI isn't the cost right now, but how fast it is growing. The IEA projects generative AI inference will reach 347 TWh by 2030, around ${Math.round(aiProjected / ai)}× current levels.`,
   },
   {
     step: 30,
-    heading: 'Global commercial aviation, 1 year',
-    sub: `Global commercial aviation burned through ${Mt(aviation)} million t CO₂ from jet fuel in 2023, about ${+(aviation / flaring).toFixed(1)}× all gas flaring. That's direct CO₂ only. Contrails, NOₓ, and water vapour at altitude roughly double to triple the actual warming impact, but radiative forcing isn't counted in official figures. While none of us enjoyed being locked down during Covid, the reduced number of flights in 2020 actually halved aviation emissions from the previous year, saving around 485 Mt CO₂, about ${Math.round(485e9 / ai)}× the annual cost of all AI queries worldwide.`,
+    heading: 'All data centres globally, 2024 (annual)',
+    sub: `The projected AI cost is just shy of the current data centre costs globally across all industries. Not just AI but every website, every stream, every cloud backup, and every email server. The IEA projects that total roughly doubles to ${Mt(dataCentresProjected)} million t CO₂e by 2030, which means AI moves from ${Math.round((ai / dataCentres) * 100)}% of total data center emissions in 2024 to ${Math.round((aiProjected / dataCentresProjected) * 100)}% in 2030.`,
   },
   {
     step: 31,
+    heading: 'Global oil well gas flaring, 2024',
+    sub: `But these last few heavy hitters have immense immissions right now and will continue to have them for years to come. When an oil well also strikes natural gas, drillers often burn it off at the wellhead because its cheaper than building pipeline to capture it. This practice emitted ${Mt(flaring)} million t CO₂e in 2024, just from burning off gas that's inconvenient to sell.`,
+  },
+  {
+    step: 32,
+    heading: 'Global commercial aviation, 1 year',
+    sub: `Global commercial aviation burned through ${Mt(aviation)} million t CO₂ from jet fuel in 2023, about ${+(aviation / flaring).toFixed(1)}× all gas flaring. That's direct CO₂ only, excluding contrails, NOₓ, and water vapour at altitude which roughly double to triple the actual warming impact. While none of us enjoyed being locked down during Covid, the reduced number of flights in 2020 actually halved aviation emissions from the previous year, saving around 485 Mt CO₂, about ${Math.round(485e9 / ai)}× the annual cost of all AI queries worldwide.`,
+  },
+  {
+    step: 33,
     heading: 'Global fashion industry, 1 year',
     sub: `The global fashion industry emits around ${Gt(fashion)} Gt CO₂e per year, roughly ${+(fashion / aviation).toFixed(1)}× commercial aviation. Supply chains are hard to measure end-to-end, so estimates range from 0.8 to 1.8 Gt depending on methodology.`,
   },
   {
-    step: 32,
+    step: 34,
     heading: 'Global food waste, 1 year',
     sub: `Around one-third of all food produced globally is lost or wasted before it reaches a plate. That's ${Gt(foodWaste)} Gt CO₂e per year, including methane from organic matter decomposing in landfill. About ${Math.floor(foodWaste / aviation)}–${Math.ceil(foodWaste / aviation)}× commercial aviation.`,
   },
   {
-    step: 33,
+    step: 35,
     heading: 'Global beef and dairy, 1 year',
     sub: `Beef and dairy cattle together produce ${Gt(beefDairy)} Gt CO₂e per year, roughly ${+(beefDairy / foodWaste).toFixed(1)}× food waste and about 60% of all livestock emissions globally. Digestive methane, manure, feed production, and land clearing for pasture. That's ${Math.round(beefDairy / ai)}× more than all AI queries worldwide.`,
   },
