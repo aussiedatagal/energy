@@ -104,7 +104,7 @@ export const STEPS: StepItem[] = [
   {
     step: 10,
     heading: '7-minute shower',
-    sub: `That 10-second Sora video costs around the same as a 7-minute instant electric shower. An electric-powered hot-water shower draws 9 kW continuously, the same mechanism as a kettle but running for minutes rather than seconds.`,
+    sub: `That 10-second Sora video costs around the same as a 7-minute shower. An electric-powered hot-water shower draws 9 kW continuously, the same mechanism as a kettle but running for minutes rather than seconds.`,
   },
   {
     step: 11,
