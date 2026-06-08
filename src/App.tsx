@@ -77,15 +77,16 @@ export function App() {
           <div className="takeaway-body fade-in">
             <p>
               AI does use a lot of energy, and the IEA projects data centre electricity demand will
-              roughly double by 2030. And yes, it is disrupting the jobs and going to cause hardship
-              for some people. But it's also going to do a lot of good things too. It is making huge
-              breakthroughs in medicine, has cracked century-old mathematical enigmas, has increased
-              solar panel efficiency, and is working on the cutting-edge of battery technology.
+              roughly double by 2030. And while it is disrupting jobs and causing hardship for some
+              people, it's also doing a lot of good things too. It is making huge breakthroughs in
+              medicine, has cracked century-old mathematical enigmas, has increased solar panel
+              efficiency, and is working on the cutting-edge of battery technology, just to name a
+              few.
             </p>
             <p>
               Meanwhile, there are a number of other industries that contribute to orders of
-              magnitude more emissions for things that don't break anywhere near the benefits and we
-              must ensure that they have equal, if not more, scrutiny.
+              magnitude more emissions for things that don't bring anywhere near thesame benefits
+              and we must ensure that they have equal, if not more, scrutiny.
             </p>
           </div>
         </div>
