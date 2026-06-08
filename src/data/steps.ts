@@ -129,12 +129,12 @@ export const STEPS: StepItem[] = [
   {
     step: 15,
     heading: 'Manufacturing 1 smartphone',
-    sub: `At some point as a society we already decided we were willing to trade off the environment for small tech conveniences like a smartphone, which costs ${n(Math.round(phoneMfg))} kg CO₂e to make. According to CIRP data, Americans replace their phones roughly every ${phoneReplaceYears} years, which makes the manufacturing carbon alone equivalent to about ${qn(phoneMfg / phoneReplaceYears / 365)} ChatGPT queries per day of ownership, and that's not including the emissions from actually using it.`,
+    sub: `Smartphones are a good example of an environmental tradeoff we've already made and accepted, collectively. Each smartphone costs on average ${n(Math.round(phoneMfg))} kg CO₂e to make. According to CIRP data, Americans replace their phones roughly every ${phoneReplaceYears} years, which makes the manufacturing carbon alone equivalent to about ${qn(phoneMfg / phoneReplaceYears / 365)} ChatGPT queries per day of ownership, and that's not including the emissions from actually using it.`,
   },
   {
     step: 16,
     heading: '1 kilogram of beef',
-    sub: `Back to the agriculture industry, beef is the biggest emitter, with 1 kg emitting the same as ${n(Math.round(beef / chatgpt / 1000) * 1000)} ChatGPT queries. About 60% of it is methane from the cow's digestive system, burped out continuously. In fact, 1 kg of beef costs the same as running your fridge for half a year, a device that keeps your entire household's food safe around the clock. To put the industry in perspective: global beef and dairy farming produces about ${Math.round(beefDairy / ai)}× more CO₂e per year than all AI queries worldwide.`,
+    sub: `A phone is a purchase every few years, but people in general eat beef multiple times per week. Just 1 kg emits the same as ${n(Math.round(beef / chatgpt / 1000) * 1000)} ChatGPT queries. About 60% of it is methane from the cow's digestive system, burped out continuously.`,
   },
   {
     step: 17,
@@ -160,7 +160,7 @@ export const STEPS: StepItem[] = [
     step: 20,
     commentary: true,
     heading: 'Frequency is the key',
-    sub: `Each comparison above was a single action or item: one query, one trip, one garment, one device. You might not fly to London and back very often, but even if you messaged ChatGPT every second around the clock it would take ${Math.round(flight / chatgpt / (24 * 60 * 60)).toPrecision(2)} days to emit the same CO₂e.\n\n But if your familiy lives in London, don't feel too bad. Because your yearly visit for Christmas (and your ChatGPT usage) is still a drop in the water compared to what's below`,
+    sub: `Each comparison above was a single action or item: one query, one trip, one garment, one device. You might not fly to London and back very often, but even if you messaged ChatGPT every second around the clock it would take ${Math.round(flight / chatgpt / (24 * 60 * 60)).toPrecision(2)} days to emit the same CO₂e. If your familiy lives in London, don't feel too bad. Because your yearly visit for Christmas (and your ChatGPT usage) is still a drop in the water compared to what's below`,
   },
   {
     step: 21,
@@ -170,7 +170,7 @@ export const STEPS: StepItem[] = [
   {
     step: 22,
     heading: 'Wikipedia servers, 1 year',
-    sub: `Wikipedia serves 1.7 billion devices a month across 60 million articles in 300+ languages. Running it costs ${t(wiki)} t CO₂e each year, about ${+(wiki / chatgpt / 1e9).toFixed(1)} billion ChatGPT queries' worth of electricity.`,
+    sub: `Data centers are used across the whole internet, not just AI. Wikipedia's servers costs ${t(wiki)} t CO₂e each year, about ${+(wiki / chatgpt / 1e9).toFixed(1)} billion ChatGPT queries' worth of electricity.`,
   },
   {
     step: 23,
@@ -192,7 +192,7 @@ export const STEPS: StepItem[] = [
     step: 24,
     commentary: true,
     heading: 'Each new model is a new training run',
-    sub: 'Since 2023, every major AI lab has shipped at least one new frontier model, each a separate training run at roughly this scale, roughly once a year per lab. It is a whopping amount of CO₂e, but it is not the only thing emitting at this kind of scale. Lets take a look at other annual emission costs. We will now use this training cost as the annual baseline going forwards.',
+    sub: 'Since 2023, every major AI lab has shipped at least one new frontier model, each a separate training run at roughly this scale, roughly once a year per lab. It is a whopping amount of CO₂e, but it is not the only thing emitting at this kind of scale. Lets take a look at other annual emission costs, using this training cost as the annual baseline.',
   },
   {
     step: 25,
@@ -207,22 +207,22 @@ export const STEPS: StepItem[] = [
   {
     step: 27,
     heading: 'All AI queries, 2025 (annual)',
-    sub: `Every text prompt, image, and code completion across all generative AI providers in 2025 added up to around ${Math.round(ai / 1e9 / 0.4)} TWh, about ${Mt(ai)} million t CO₂e. Training is separate and adds roughly 1–2% on top. Running AI for a full year costs about ${Math.round(ai / llama / 10) * 10}× training a single Llama 3.1 model.`,
+    sub: `But AI queries are not just people talking to ChatGPT. It is estimated that every text prompt, image, and code completion across all generative AI providers in 2025 added up to around ${Math.round(ai / 1e9 / 0.4)} TWh, about ${Mt(ai)} million t CO₂e.`,
   },
   {
     step: 28,
     heading: 'All iPhones manufactured in 2024',
-    sub: `Apple shipped 232 million iPhones in 2024. At around 65 kg CO₂e each to manufacture, the full year's fleet adds up to ${Mt(iphones)} million t CO₂e, about ${n(Math.round(iphones / llama / 100) * 100)}× a Llama 3.1 training run.`,
+    sub: `But if we're talking global annual emissions, we should also look at Apple, which shipped 232 million iPhones in 2024. At around 65 kg CO₂e each to manufacture, the full year's fleet adds up to ${Mt(iphones)} million t CO₂e, about ${n(Math.round(iphones / llama / 100) * 100)}× a Llama 3.1 training run.`,
   },
   {
     step: 29,
     heading: 'Global oil well gas flaring, 2024',
-    sub: `When an oil well also strikes natural gas, drillers often burn it off at the wellhead rather than build pipeline to capture it. You can see the flames from satellite imagery over Siberia, Iraq, and the US Permian Basin. That added up to ${Mt(flaring)} million t CO₂e in 2024, the highest in nearly 20 years, just from burning off gas that's inconvenient to sell.`,
+    sub: `But the tech industry is quite insignificant when compared to these last few heavy hitters. When an oil well also strikes natural gas, drillers often burn it off at the wellhead because its cheaper than building pipeline to capture it. This practice emitted ${Mt(flaring)} million t CO₂e in 2024, just from burning off gas that's inconvenient to sell.`,
   },
   {
     step: 30,
     heading: 'Global commercial aviation, 1 year',
-    sub: `Global commercial aviation burned through ${Mt(aviation)} million t CO₂ from jet fuel in 2023, about ${+(aviation / flaring).toFixed(1)}× all gas flaring. That's direct CO₂ only. Contrails, NOₓ, and water vapour at altitude roughly double to triple the actual warming impact, but radiative forcing isn't counted in official figures. While none of us enjoyed being locked down during Covid, the reduced number of flights in 2020 actually halved aviation emissions from 2019, saving around 485 Mt CO₂, about ${Math.round(485e9 / ai)}× the annual cost of all AI queries worldwide.`,
+    sub: `Global commercial aviation burned through ${Mt(aviation)} million t CO₂ from jet fuel in 2023, about ${+(aviation / flaring).toFixed(1)}× all gas flaring. That's direct CO₂ only. Contrails, NOₓ, and water vapour at altitude roughly double to triple the actual warming impact, but radiative forcing isn't counted in official figures. While none of us enjoyed being locked down during Covid, the reduced number of flights in 2020 actually halved aviation emissions from the previous year, saving around 485 Mt CO₂, about ${Math.round(485e9 / ai)}× the annual cost of all AI queries worldwide.`,
   },
   {
     step: 31,
