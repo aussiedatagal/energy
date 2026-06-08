@@ -64,7 +64,7 @@ export const STEPS: StepItem[] = [
   {
     step: 2,
     heading: 'Charging your phone (daily)',
-    sub: `To put that into perspective, you can ask ChatGPT ${Math.floor(phone / chatgpt)} questions a day, or generate just over ${Math.floor(phone / image)} AI images, for the same amount of electricity that your phone uses over a whole day.`,
+    sub: `To put that into perspective, you can ask ChatGPT ${Math.floor(phone / chatgpt)} questions, or generate just over ${Math.floor(phone / image)} AI images, for the same amount of electricity that your phone uses over a whole day.`,
   },
   {
     step: 3,
@@ -119,7 +119,7 @@ export const STEPS: StepItem[] = [
   {
     step: 13,
     heading: 'A cotton t-shirt',
-    sub: `And it would be remiss to not talk about the fast fashion industry too. A standard 200 g cotton shirt emits about ${Math.round(tshirt)} kg CO₂e in production. According to WRAP UK research, the average garment is only worn around ${avgGarmentWears} times before disposal. So each time it's worn, it emits the same CO₂e as ${qn(tshirt / avgGarmentWears)} ChatGPT queries.`,
+    sub: `And it would be remiss to not talk about the fast fashion industry too. A standard 200 g cotton shirt emits about ${Math.round(tshirt)} kg CO₂e in production. Now obviously the t-shirt lasts much longer than anything we've discussed above, but according to WRAP UK research, the average fast-fashion garment is only worn around ${avgGarmentWears} times before disposal. So each time it's worn, it emits the same CO₂e as ${qn(tshirt / avgGarmentWears)} ChatGPT queries.`,
   },
   {
     step: 14,
