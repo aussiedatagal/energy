@@ -101,6 +101,21 @@ export const CSTEPS: CStep[] = [
     },
   },
   {
+    label: 'Movie night',
+    value: 0.085,
+    mult: '×177',
+    color: '#e3b341',
+    proof: {
+      primary: '~85 g CO₂e total: 1hr Netflix streaming + microwave popcorn (3 min) + full kettle',
+      source: 'IEA streaming (2020); standard appliance load figures',
+      sourceUrl:
+        'https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines',
+      calc: 'Netflix (server+network, 1hr): ~5g CO₂e. Microwave popcorn (1kW × 3min × 0.4 kg CO₂/kWh): ~20g. Full kettle (2.4kW × 3.5min × 0.4 kg CO₂/kWh): ~60g. Total: 85g CO₂e.',
+      result: '~85g CO₂e (0.085 kg). Equivalent to ~177 ChatGPT text queries.',
+      note: 'Streaming figure is server and network only; the viewing screen adds roughly 31g/hr on a laptop. Multiplier: 0.085 ÷ 0.00048 ≈ 177.',
+    },
+  },
+  {
     label: 'Cloud photos, 1 day (1TB)',
     value: 0.06,
     mult: '~×125',
@@ -145,17 +160,17 @@ export const CSTEPS: CStep[] = [
     },
   },
   {
-    label: 'Hot shower, 10 min',
-    value: 0.6,
-    mult: '×1,250',
+    label: 'Hot shower, 7 min',
+    value: 0.42,
+    mult: '×875',
     color: '#ffa657',
     proof: {
-      primary: '1.5 kWh (9 kW instant electric shower, 10 minutes)',
+      primary: '1.05 kWh (9 kW instant electric shower, 7 minutes)',
       source:
         'Standard household energy data — 9 kW is typical for an Australian/UK electric shower',
-      calc: '9 kW × 10/60 hr = 1.5 kWh × 0.4 kg CO₂/kWh',
-      result: '0.600 kg CO₂e (600 g)',
-      note: 'Tank water heaters and gas systems use less. Gas is roughly half. Multiplier: 0.600 ÷ 0.00048 = 1,250.',
+      calc: '9 kW × 7/60 hr = 1.05 kWh × 0.4 kg CO₂/kWh',
+      result: '0.420 kg CO₂e (420 g)',
+      note: 'Tank water heaters and gas systems use less. Gas is roughly half. Multiplier: 0.420 ÷ 0.00048 = 875.',
     },
   },
   {
@@ -198,7 +213,7 @@ export const CSTEPS: CStep[] = [
         "Carbon Trust 'Product Carbon Footprinting' guidelines; peer-reviewed LCAs for cotton apparel",
       calc: 'Cotton farming: ~2.5 kg CO₂e (fertiliser, irrigation). Spinning and weaving: ~2 kg CO₂e (often coal-powered mills). Dyeing and finishing: ~1.5 kg CO₂e. Cut, sew, transport: ~1 kg CO₂e.',
       result: '~7 kg CO₂e (range: 5–10 kg across studies)',
-      note: 'Organic cotton reduces fertiliser emissions but yield per hectare is lower. A polyester t-shirt typically has lower production emissions but is petroleum-derived. Multiplier: 7 ÷ 0.00048 ≈ 14,600.',
+      note: 'Organic cotton reduces fertiliser emissions but yield per hectare is lower. A polyester t-shirt typically has lower production emissions but is petroleum-derived. Multiplier: 7 ÷ 0.00048 ≈ 14,600. Per-wear calculation uses ~30 wears before disposal (WRAP UK, "Valuing our Clothes", 2020 — measured average for UK garments). UK-specific but the most rigorous published figure available; global fast fashion averages are likely lower.',
     },
   },
   {
@@ -246,16 +261,16 @@ export const CSTEPS: CStep[] = [
     },
   },
   {
-    label: 'Running a fridge, 1 year',
-    value: 200,
-    mult: '~×417K',
+    label: 'Running a fridge, 6 months',
+    value: 100,
+    mult: '~×208K',
     color: '#a0c4f0',
     proof: {
-      primary: '~500 kWh/year for a typical household fridge',
+      primary: '~250 kWh (6 months, typical household fridge at 500 kWh/year)',
       source: 'US DOE / ENERGY STAR appliance data; Australian Energy Council appliance data',
-      calc: '500 kWh/year × 0.4 kg CO₂/kWh global average',
-      result: '~200 kg CO₂e/year',
-      note: "Range: 400–800 kWh/year depending on size, age, and model. An ENERGY STAR certified fridge uses ~400 kWh/year; a large side-by-side with ice maker can reach 700–800 kWh. A chest freezer uses only ~215 kWh/year, less than a fridge despite running colder, because cold air doesn't fall out when opened. Multiplier vs ChatGPT: 200 ÷ 0.00048 ≈ 417,000.",
+      calc: '500 kWh/year ÷ 2 = 250 kWh × 0.4 kg CO₂/kWh global average',
+      result: '~100 kg CO₂e (6 months). Full year: ~200 kg CO₂e.',
+      note: "Range: 400–800 kWh/year depending on size, age, and model. An ENERGY STAR certified fridge uses ~400 kWh/year; a large side-by-side with ice maker can reach 700–800 kWh. A chest freezer uses only ~215 kWh/year, less than a fridge despite running colder, because cold air doesn't fall out when opened. Multiplier vs ChatGPT: 100 ÷ 0.00048 ≈ 208,000.",
     },
   },
   {
@@ -303,37 +318,6 @@ export const CSTEPS: CStep[] = [
     },
   },
   {
-    label: 'Manufacturing a new car',
-    value: 9000,
-    mult: '~×19M',
-    color: '#c09060',
-    proof: {
-      primary: '~9 t CO₂e for the manufacturing phase of a mid-size petrol car',
-      source:
-        "Volkswagen Golf 8 Product LCA (2021); ICCT 'Comparison of lifecycle greenhouse gas emissions of various passenger vehicles' (2021)",
-      calc: 'VW-published LCA for Golf 8: 9.3 t CO₂e manufacturing phase. ICCT average for a new ICE passenger car: ~8.4 t CO₂e. Mid-point used.',
-      result: '~9,000 kg CO₂e',
-      note: "Manufacturing only. A car's lifetime fuel emissions are typically 5–10× the production footprint. Electric vehicle manufacturing is similar (~10–14 t CO₂e) but lifetime emissions are much lower. Multiplier: 9,000 ÷ 0.00048 ≈ 18,750,000.",
-    },
-  },
-  {
-    label: 'Manufacturing a new EV',
-    value: 15000,
-    mult: '~×31M',
-    color: '#70b8d8',
-    proof: {
-      primary:
-        '~14–17 t CO₂e manufacturing; battery pack accounts for most of the difference vs a petrol car',
-      source:
-        "Volkswagen ID.3 Product Sustainability Assessment (2021); ICCT 'Lifecycle GHG Emissions of EVs' (2021)",
-      sourceUrl:
-        'https://theicct.org/publication/a-global-comparison-of-the-life-cycle-greenhouse-gas-emissions-of-combustion-engine-and-electric-passenger-cars/',
-      calc: 'VW ID.3 published LCA: 14.6–16.4 t CO₂e manufacturing phase, depending on battery source. Battery alone: ~8–10 t CO₂e. Body/chassis: ~6 t CO₂e, similar to an ICE car (9 t CO₂e total).',
-      result: '~15,000 kg CO₂e (15 t)',
-      note: 'Manufacturing an EV costs about 60–70% more carbon than an equivalent petrol car (9 t CO₂e); the battery is the difference. Lifetime emissions are lower as electricity grids decarbonise, but the production carbon is higher. The break-even point depends on where and how the car is charged. Multiplier vs ChatGPT: 15,000 ÷ 0.00048 ≈ 31 million.',
-    },
-  },
-  {
     label: 'Falcon 9 launch (SpaceX)',
     value: 233000,
     mult: '~486M queries',
@@ -354,10 +338,10 @@ export const CSTEPS: CStep[] = [
     mult: '~3.5B queries',
     color: '#a8b8d0',
     proof: {
-      primary: '~1,680 t CO₂e per year from data center electricity',
+      primary: '~1,680 t CO₂e per year from data centre electricity',
       source: 'Wikimedia Foundation Sustainability Data (FY 2022–23)',
       sourceUrl: 'https://wikimediafoundation.org/about/wmf-reports/wmf-annual-report/',
-      calc: 'Wikimedia data centers consumed ~4.2 GWh in FY 2022–23. 4,200,000 kWh × 0.4 kg CO₂/kWh = ~1,680 t CO₂e/year (location-based).',
+      calc: 'Wikimedia data centres consumed ~4.2 GWh in FY 2022–23. 4,200,000 kWh × 0.4 kg CO₂/kWh = ~1,680 t CO₂e/year (location-based).',
       result: '~1,680 t CO₂e/year',
       note: 'Wikimedia Foundation uses renewable energy certificates for 100% of its electricity; market-based figure is near zero. Location-based shown for consistency. Wikipedia serves ~1.7 billion unique devices per month across 60+ million articles in 300+ languages. Equivalent GPT-4o queries: 1,680,000 t ÷ 0.00048 kg ≈ 3.5 billion queries.',
     },
@@ -525,6 +509,37 @@ export const CSTEPS: CStep[] = [
       calc: 'Beef: 2,891 Mt CO₂e. Dairy: 1,387 Mt CO₂e. Combined: ~4,278 Mt CO₂e. Covers enteric fermentation (digestive methane), manure, feed production (including soya-driven deforestation), and transport.',
       result: '~4,300 Mt CO₂e',
       note: 'Total global livestock is around 7,100 Mt CO₂e (FAO). Beef and dairy cattle together account for roughly 60% of that. Multiplier vs Llama 3.1 training: 4,300,000 ÷ 11.39 ≈ 378,000.',
+    },
+  },
+  {
+    label: 'Manufacturing a new car',
+    value: 9000,
+    mult: '~×19M',
+    color: '#c09060',
+    proof: {
+      primary: '~9 t CO₂e for the manufacturing phase of a mid-size petrol car',
+      source:
+        "Volkswagen Golf 8 Product LCA (2021); ICCT 'Comparison of lifecycle greenhouse gas emissions of various passenger vehicles' (2021)",
+      calc: 'VW-published LCA for Golf 8: 9.3 t CO₂e manufacturing phase. ICCT average for a new ICE passenger car: ~8.4 t CO₂e. Mid-point used.',
+      result: '~9,000 kg CO₂e',
+      note: "Manufacturing only. A car's lifetime fuel emissions are typically 5–10× the production footprint. Electric vehicle manufacturing is similar (~10–14 t CO₂e) but lifetime emissions are much lower. Multiplier: 9,000 ÷ 0.00048 ≈ 18,750,000.",
+    },
+  },
+  {
+    label: 'Manufacturing a new EV',
+    value: 15000,
+    mult: '~×31M',
+    color: '#70b8d8',
+    proof: {
+      primary:
+        '~14–17 t CO₂e manufacturing; battery pack accounts for most of the difference vs a petrol car',
+      source:
+        "Volkswagen ID.3 Product Sustainability Assessment (2021); ICCT 'Lifecycle GHG Emissions of EVs' (2021)",
+      sourceUrl:
+        'https://theicct.org/publication/a-global-comparison-of-the-life-cycle-greenhouse-gas-emissions-of-combustion-engine-and-electric-passenger-cars/',
+      calc: 'VW ID.3 published LCA: 14.6–16.4 t CO₂e manufacturing phase, depending on battery source. Battery alone: ~8–10 t CO₂e. Body/chassis: ~6 t CO₂e, similar to an ICE car (9 t CO₂e total).',
+      result: '~15,000 kg CO₂e (15 t)',
+      note: 'Manufacturing an EV costs about 60–70% more carbon than an equivalent petrol car (9 t CO₂e); the battery is the difference. Lifetime emissions are lower as electricity grids decarbonise, but the production carbon is higher. The break-even point depends on where and how the car is charged. Multiplier vs ChatGPT: 15,000 ÷ 0.00048 ≈ 31 million.',
     },
   },
 ];

@@ -16,7 +16,7 @@ export const TREEMAP_DATA: TreemapRoot = {
         },
         {
           name: 'Dairy cattle',
-          value: 1700,
+          value: 1400,
           detail:
             'Milk, cheese, butter and yoghurt. Dairy cattle emit methane similarly to beef cattle. Some emissions are shared with beef when dairy cows are slaughtered.',
           source: 'FAO: Tackling Climate Change Through Livestock',

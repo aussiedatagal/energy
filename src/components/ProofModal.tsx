@@ -48,10 +48,14 @@ export function ProofModal({ item, onClose }: Props) {
               p.source
             )}
           </dd>
-          <dt>Calculation</dt>
-          <dd>
-            <code>{p.calc}</code>
-          </dd>
+          {p.calc && (
+            <>
+              <dt>Calculation</dt>
+              <dd>
+                <code>{p.calc}</code>
+              </dd>
+            </>
+          )}
           <dt>Result</dt>
           <dd>
             <strong>{p.result}</strong>

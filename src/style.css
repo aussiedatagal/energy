@@ -313,6 +313,10 @@ section:nth-child(even) {
 }
 
 /* ── TREEMAP ─────────────────────────────────────────── */
+#big-picture .section-header {
+  margin-bottom: 1rem;
+}
+
 #treemap {
   width: 100%;
   border-radius: 8px;
@@ -658,22 +662,6 @@ details[open].methodology summary::before {
   padding: 0.15em 0.4em;
   border-radius: 3px;
   color: var(--accent);
-}
-
-/* ── TOOLTIP ─────────────────────────────────────────── */
-.tooltip {
-  position: fixed;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.75rem 1rem;
-  font-size: 0.78rem;
-  line-height: 1.55;
-  max-width: 290px;
-  pointer-events: none;
-  z-index: 1000;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
-  display: none;
 }
 
 /* ── FOOTER ──────────────────────────────────────────── */
