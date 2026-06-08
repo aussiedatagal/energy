@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { TREEMAP_DATA } from '../data/treemap';
-import type { TreemapCategory, TreemapLeaf } from '../types';
+import type { CStep, TreemapCategory, TreemapLeaf } from '../types';
 
 function fmtLeafDisplay(mt: number): string {
   return mt >= 1000 ? `${+(mt / 1000).toFixed(1)} Gt CO₂e` : `${Math.round(mt)} million t CO₂e`;
@@ -11,18 +11,11 @@ function fmtLeafLabel(mt: number): string {
   return mt >= 1000 ? `${+(mt / 1000).toFixed(1)} Gt` : `${Math.round(mt)}M t`;
 }
 
-interface TooltipState {
-  html: string;
-  x: number;
-  y: number;
-  visible: boolean;
-}
-
-function drawTreemap(el: HTMLElement, setTooltip: (s: TooltipState) => void) {
+function drawTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
   el.innerHTML = '';
 
   const W = el.clientWidth || 900;
-  const H = Math.round(Math.min(W * 0.58, 560));
+  const H = Math.round(Math.min(W < 600 ? W * 0.95 : W * 0.58, 560));
 
   const svg = d3
     .select(el)
@@ -92,31 +85,33 @@ function drawTreemap(el: HTMLElement, setTooltip: (s: TooltipState) => void) {
     .attr('stroke-width', 2)
     .attr('rx', 2)
     .style('cursor', 'pointer')
-    .on('mousemove', (event: MouseEvent, d) => {
-      const total = root.value ?? 1;
-      const leaf = d.data as TreemapLeaf;
-      const pct = ((leaf.value / total) * 100).toFixed(2);
-      const pad = 14;
-      const tw = 290;
-      let x = event.clientX + pad;
-      let y = event.clientY - pad;
-      if (x + tw > window.innerWidth - 10) x = event.clientX - tw - pad;
-      setTooltip({
-        visible: true,
-        x,
-        y,
-        html: [
-          `<strong style="display:block;margin-bottom:4px">${leaf.name}</strong>`,
-          `${fmtLeafDisplay(leaf.value)}<br>${pct}% of sectors shown`,
-          leaf.detail
-            ? `<br><br><span style="color:#8b949e;font-style:italic">${leaf.detail}</span>`
-            : '',
-          `<br><span style="color:#8b949e;display:block;margin-top:4px">Source: ${leaf.source}</span>`,
-          leaf.note ? `<br><span style="color:#f78166">⚠ ${leaf.note}</span>` : '',
-        ].join(''),
-      });
+    .on('mouseenter', function (_, d) {
+      d3.select(this).attr('opacity', (d.data as TreemapLeaf).highlight ? 0.85 : 0.88);
     })
-    .on('mouseleave', () => setTooltip({ visible: false, html: '', x: 0, y: 0 }));
+    .on('mouseleave', function (_, d) {
+      d3.select(this).attr('opacity', (d.data as TreemapLeaf).highlight ? 1 : 0.72);
+    })
+    .on('click', (event, d) => {
+      event.stopPropagation();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const leafData = d.data as TreemapLeaf;
+      const total = root.value ?? 1;
+      const pct = ((leafData.value / total) * 100).toFixed(1);
+      const color = (d.parent!.data as TreemapCategory).color;
+      onShow({
+        label: leafData.name,
+        value: leafData.value,
+        mult: '',
+        color,
+        proof: {
+          primary: leafData.detail,
+          source: leafData.source,
+          sourceUrl: leafData.sourceUrl,
+          result: `${fmtLeafDisplay(leafData.value)} · ${pct}% of sectors shown`,
+          note: leafData.note,
+        },
+      });
+    });
 
   leaf
     .append('text')
@@ -126,8 +121,8 @@ function drawTreemap(el: HTMLElement, setTooltip: (s: TooltipState) => void) {
       const w = d.x1 - d.x0;
       const h = d.y1 - d.y0;
       const name = (d.data as TreemapLeaf).name;
-      if (w < 42 || h < 20) return '';
-      if (w < 85) return name.split(' ')[0];
+      if (w < 36 || h < 18) return '';
+      if (w < 80) return name.split(' ')[0];
       return name;
     })
     .attr('fill', '#fff')
@@ -151,8 +146,8 @@ function drawTreemap(el: HTMLElement, setTooltip: (s: TooltipState) => void) {
     .attr('font-family', 'inherit')
     .style('pointer-events', 'none');
 
-  const legendEl = el.nextElementSibling as HTMLElement | null;
-  if (legendEl?.id === 'treemap-legend') {
+  const legendEl = document.getElementById('treemap-legend');
+  if (legendEl) {
     legendEl.innerHTML =
       (root.children ?? [])
         .map(
@@ -171,31 +166,27 @@ function drawTreemap(el: HTMLElement, setTooltip: (s: TooltipState) => void) {
   }
 }
 
-export function BigPicture() {
+interface Props {
+  onShowProof: (item: CStep) => void;
+}
+
+export function BigPicture({ onShowProof }: Props) {
   const treemapRef = useRef<HTMLDivElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
+  const onShowProofRef = useRef(onShowProof);
+  onShowProofRef.current = onShowProof;
 
   useEffect(() => {
     if (!treemapRef.current) return;
 
-    function setTooltip(s: TooltipState) {
-      const el = tooltipRef.current;
-      if (!el) return;
-      el.style.display = s.visible ? 'block' : 'none';
-      el.style.left = s.x + 'px';
-      el.style.top = s.y + 'px';
-      el.innerHTML = s.html;
-    }
+    drawTreemap(treemapRef.current, (item) => onShowProofRef.current(item));
 
-    drawTreemap(treemapRef.current, setTooltip);
-
-    const onResize = () => {
-      if (treemapRef.current) drawTreemap(treemapRef.current, setTooltip);
-    };
     let timer: ReturnType<typeof setTimeout>;
     const debounced = () => {
       clearTimeout(timer);
-      timer = setTimeout(onResize, 280);
+      timer = setTimeout(() => {
+        if (treemapRef.current)
+          drawTreemap(treemapRef.current, (item) => onShowProofRef.current(item));
+      }, 280);
     };
     window.addEventListener('resize', debounced);
     return () => {
@@ -210,10 +201,10 @@ export function BigPicture() {
         <div className="section-header fade-in">
           <h2>Global annual emissions, by sector</h2>
           <p className="section-sub">
-            CO₂e (carbon dioxide equivalent) converts all greenhouse gases into equivalent CO₂ by
-            warming effect, so methane from cattle and CO₂ from a flight sit on the same scale. Each
-            block's area is proportional to annual emissions in CO₂e. Hover a block to see the
-            figure and source.
+            CO₂e is a unit of measurement that represents the equivalent warming effect from all
+            greenhouse gases. It's a way to put methane from cattle and CO₂ from a flights onto the
+            same scale. Each block's area is proportional to annual emissions in CO₂e. Tap or click
+            a block to see the figure and source.
           </p>
         </div>
         <div ref={treemapRef} id="treemap" className="fade-in" />
@@ -418,11 +409,6 @@ export function BigPicture() {
           </div>
         </details>
       </div>
-      <div
-        ref={tooltipRef}
-        className="tooltip"
-        style={{ display: 'none', position: 'fixed', pointerEvents: 'none' }}
-      />
     </section>
   );
 }

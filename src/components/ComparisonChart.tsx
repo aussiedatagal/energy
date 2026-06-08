@@ -34,7 +34,7 @@ function buildChart(container: HTMLElement, sticky: HTMLElement | null): ChartIn
     svg.attr('height', H);
     if (sticky) sticky.style.height = H + 16 + 'px';
 
-    x.domain([0, data[data.length - 1].value * 1.08]);
+    x.domain([0, d3.max(data, (d) => d.value)! * 1.08]);
 
     const t = d3.transition().duration(480).ease(d3.easeCubicInOut);
 
@@ -128,7 +128,10 @@ function buildChart(container: HTMLElement, sticky: HTMLElement | null): ChartIn
       .attr('height', bh)
       .attr('width', (d) => Math.max(2, x(d.value)));
 
-    merged.select('.bm').attr('y', midY - lineGap / 2);
+    merged
+      .select('.bm')
+      .attr('y', midY - lineGap / 2)
+      .text((d) => d.mult);
     merged.select('.bv').attr('y', midY + lineGap / 2);
   }
 

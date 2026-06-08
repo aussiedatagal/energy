@@ -2,7 +2,7 @@ export interface Proof {
   primary: string;
   source: string;
   sourceUrl?: string;
-  calc: string;
+  calc?: string;
   result: string;
   note?: string;
 }

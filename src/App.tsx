@@ -65,7 +65,7 @@ export function App() {
         </div>
       </section>
 
-      <BigPicture />
+      <BigPicture onShowProof={setProofItem} />
 
       <ComparisonSection onShowProof={setProofItem} />
 
