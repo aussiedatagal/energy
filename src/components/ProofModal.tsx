@@ -36,9 +36,19 @@ export function ProofModal({ item, onClose }: Props) {
         </button>
         <p className="proof-content-title">{item.label}</p>
         <dl className="proof-dl">
-          <dt>Primary value</dt>
-          <dd>{p.primary}</dd>
-          <dt>Source</dt>
+          {p.quote && (
+            <>
+              <dt>Source</dt>
+              <dd>{p.quote}</dd>
+            </>
+          )}
+          {p.quote2 && (
+            <>
+              <dt>Source (continued)</dt>
+              <dd>{p.quote2}</dd>
+            </>
+          )}
+          <dt>Reference</dt>
           <dd>
             {p.sourceUrl ? (
               <a href={p.sourceUrl} target="_blank" rel="noopener noreferrer">
@@ -48,6 +58,24 @@ export function ProofModal({ item, onClose }: Props) {
               p.source
             )}
           </dd>
+          {p.source2 && (
+            <>
+              <dt>Reference (continued)</dt>
+              <dd>
+                {p.sourceUrl2 ? (
+                  <a href={p.sourceUrl2} target="_blank" rel="noopener noreferrer">
+                    {p.source2}
+                  </a>
+                ) : (
+                  p.source2
+                )}
+              </dd>
+            </>
+          )}
+          <dt>Result</dt>
+          <dd>
+            <strong>{p.result}</strong>
+          </dd>
           {p.calc && (
             <>
               <dt>Calculation</dt>
@@ -56,10 +84,6 @@ export function ProofModal({ item, onClose }: Props) {
               </dd>
             </>
           )}
-          <dt>Result</dt>
-          <dd>
-            <strong>{p.result}</strong>
-          </dd>
           {p.note && (
             <>
               <dt>Notes</dt>

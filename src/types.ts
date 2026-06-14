@@ -1,7 +1,11 @@
 export interface Proof {
   primary: string;
+  quote?: string;
+  quote2?: string;
   source: string;
   sourceUrl?: string;
+  source2?: string;
+  sourceUrl2?: string;
   calc?: string;
   result: string;
   note?: string;
@@ -19,8 +23,12 @@ export interface TreemapLeaf {
   name: string;
   value: number;
   detail: string;
+  quote?: string;
+  quote2?: string;
   source: string;
   sourceUrl?: string;
+  source2?: string;
+  sourceUrl2?: string;
   note?: string;
   highlight?: boolean;
 }

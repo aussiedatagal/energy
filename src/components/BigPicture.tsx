@@ -99,14 +99,18 @@ function drawTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
       const pct = ((leafData.value / total) * 100).toFixed(1);
       const color = (d.parent!.data as TreemapCategory).color;
       onShow({
-        label: leafData.name,
+        label: `${leafData.name} – ${fmtLeafDisplay(leafData.value)}`,
         value: leafData.value,
         mult: '',
         color,
         proof: {
           primary: leafData.detail,
+          quote: leafData.quote,
+          quote2: leafData.quote2,
           source: leafData.source,
           sourceUrl: leafData.sourceUrl,
+          source2: leafData.source2,
+          sourceUrl2: leafData.sourceUrl2,
           result: `${fmtLeafDisplay(leafData.value)} · ${pct}% of sectors shown`,
           note: leafData.note,
         },
@@ -121,8 +125,8 @@ function drawTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
       const w = d.x1 - d.x0;
       const h = d.y1 - d.y0;
       const name = (d.data as TreemapLeaf).name;
-      if (w < 36 || h < 18) return '';
-      if (w < 80) return name.split(' ')[0];
+      if (w < 20 || h < 8) return '';
+      if (w < 60) return name.split(' ')[0];
       return name;
     })
     .attr('fill', '#fff')
@@ -138,7 +142,7 @@ function drawTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
     .text((d) => {
       const w = d.x1 - d.x0;
       const h = d.y1 - d.y0;
-      if (w < 80 || h < 42) return '';
+      if (w < 45 || h < 24) return '';
       return fmtLeafLabel((d.data as TreemapLeaf).value);
     })
     .attr('fill', 'rgba(255,255,255,0.55)')
