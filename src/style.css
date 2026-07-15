@@ -556,11 +556,14 @@ details[open].methodology summary::before {
   display: block;
 }
 
-.source-what {
+.source-quote {
   font-size: 0.72rem;
   color: var(--muted);
-  margin-top: 0.25rem;
-  line-height: 1.4;
+  margin: 0.35rem 0 0;
+  padding-left: 0.65rem;
+  border-left: 2px solid var(--border);
+  line-height: 1.45;
+  font-style: normal;
 }
 
 /* ── PROOF MODAL ─────────────────────────────────────── */
@@ -707,6 +710,12 @@ footer {
   }
   .section-inner {
     padding: 0 1rem;
+  }
+  .legend {
+    gap: 0.5rem 0.85rem;
+  }
+  .legend-item {
+    font-size: 0.72rem;
   }
   .sources-grid {
     grid-template-columns: 1fr;

@@ -11,11 +11,177 @@ function fmtLeafLabel(mt: number): string {
   return mt >= 1000 ? `${+(mt / 1000).toFixed(1)} Gt` : `${Math.round(mt)}M t`;
 }
 
-function drawTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
-  el.innerHTML = '';
+const MOBILE_LABELS: Record<string, string> = {
+  'Agriculture & Land Use': 'Agriculture',
+  'Consumer & Transport': 'Consumer',
+  'Digital Technology': 'Digital',
+  'Fast Fashion': 'Fashion',
+  'Standby / Vampire Power': 'Standby',
+  'Sheep & goats': 'Sheep',
+  'Cement & Concrete': 'Cement',
+  'Mining & Metals': 'Mining',
+  'Video Streaming': 'Streaming',
+  'Other livestock': 'Other',
+  'Beef cattle': 'Beef',
+  'Dairy cattle': 'Dairy',
+};
 
-  const W = el.clientWidth || 900;
-  const H = Math.round(Math.min(W < 600 ? W * 0.95 : W * 0.58, 560));
+function fitLeafName(name: string, w: number, h: number, mobile: boolean): string {
+  if (w < 22 || h < 14) return '';
+  const label = mobile && MOBILE_LABELS[name] ? MOBILE_LABELS[name] : name;
+  const maxChars = Math.floor((w - 10) / 5.5);
+  if (maxChars < 3) return '';
+  if (label.length <= maxChars) return label;
+  const short = mobile && MOBILE_LABELS[name] ? MOBILE_LABELS[name] : name.split(/[\s&/]+/)[0];
+  return short.length <= maxChars ? short : short.slice(0, maxChars);
+}
+
+function fitCategoryName(name: string, w: number, mobile: boolean): string {
+  if (w < 44) return '';
+  const label = mobile && MOBILE_LABELS[name] ? MOBILE_LABELS[name] : name;
+  const maxChars = Math.floor((w - 12) / 6);
+  if (maxChars < 3) return '';
+  if (label.length <= maxChars) return label;
+  const short = MOBILE_LABELS[name] ?? name.split(/[\s&/]+/)[0];
+  return short.length <= maxChars ? short : short.slice(0, maxChars);
+}
+
+type HierarchyDatum = typeof TREEMAP_DATA | TreemapCategory | TreemapLeaf;
+type RectNode = d3.HierarchyRectangularNode<HierarchyDatum>;
+
+function updateTreemapLegend(categories: TreemapCategory[]) {
+  const legendEl = document.getElementById('treemap-legend');
+  if (!legendEl) return;
+
+  legendEl.innerHTML =
+    categories
+      .map(
+        (cat) => `
+        <div class="legend-item">
+          <div class="legend-dot" style="background:${cat.color}"></div>
+          ${cat.name}
+        </div>`
+      )
+      .join('') +
+    `
+        <div class="legend-item legend-ai-note">
+          <div class="legend-dot" style="background:#56d364;outline:1.5px solid #fff;outline-offset:1px"></div>
+          All AI queries (in Digital Technology): ~6 million t CO₂e, too small to see at this scale
+        </div>`;
+}
+
+function appendLeaves(
+  parent: d3.Selection<any, unknown, null, undefined>,
+  leaves: RectNode[],
+  opts: {
+    el: HTMLElement;
+    color?: string;
+    mobile: boolean;
+    total: number;
+    offsetX: number;
+    offsetY: number;
+    onShow: (item: CStep) => void;
+  }
+) {
+  const { el, color, mobile, total, offsetX, offsetY, onShow } = opts;
+  const leafColor = (d: RectNode) => color ?? (d.parent!.data as TreemapCategory).color;
+
+  const leaf = parent
+    .selectAll<SVGGElement, RectNode>('g.leaf')
+    .data(leaves, (d) => (d.data as TreemapLeaf).name)
+    .join('g')
+    .attr('class', 'leaf')
+    .attr('transform', (d) => `translate(${d.x0 + offsetX},${d.y0 + offsetY})`);
+
+  leaf
+    .append('rect')
+    .attr('width', (d) => Math.max(0, d.x1 - d.x0))
+    .attr('height', (d) => Math.max(0, d.y1 - d.y0))
+    .attr('fill', (d) => leafColor(d))
+    .attr('opacity', (d) => ((d.data as TreemapLeaf).highlight ? 1 : 0.72))
+    .attr('stroke', (d) => ((d.data as TreemapLeaf).highlight ? '#fff' : 'none'))
+    .attr('stroke-width', 2)
+    .attr('rx', 2)
+    .style('cursor', 'pointer')
+    .on('mouseenter', function (_, d) {
+      d3.select(this).attr('opacity', (d.data as TreemapLeaf).highlight ? 0.85 : 0.88);
+    })
+    .on('mouseleave', function (_, d) {
+      d3.select(this).attr('opacity', (d.data as TreemapLeaf).highlight ? 1 : 0.72);
+    })
+    .on('click', (event, d) => {
+      event.stopPropagation();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const leafData = d.data as TreemapLeaf;
+      const pct = ((leafData.value / total) * 100).toFixed(1);
+      onShow({
+        label: `${leafData.name} – ${fmtLeafDisplay(leafData.value)}`,
+        value: leafData.value,
+        mult: '',
+        color: leafColor(d),
+        proof: {
+          primary: leafData.detail,
+          quote: leafData.quote,
+          quote2: leafData.quote2,
+          source: leafData.source,
+          sourceUrl: leafData.sourceUrl,
+          source2: leafData.source2,
+          sourceUrl2: leafData.sourceUrl2,
+          result: `${fmtLeafDisplay(leafData.value)} · ${pct}% of sectors shown`,
+          note: leafData.note,
+        },
+      });
+    });
+
+  leaf
+    .append('text')
+    .attr('x', 5)
+    .attr('y', 16)
+    .text((d) => fitLeafName((d.data as TreemapLeaf).name, d.x1 - d.x0, d.y1 - d.y0, mobile))
+    .attr('fill', '#fff')
+    .attr('font-size', (d) => {
+      const w = d.x1 - d.x0;
+      const cap = mobile ? 11 : 12;
+      const floor = mobile ? 8 : 9;
+      return `${Math.min(cap, Math.max(floor, w / 12))}px`;
+    })
+    .attr('font-weight', '500')
+    .attr('font-family', 'inherit')
+    .style('pointer-events', 'none');
+
+  leaf
+    .append('text')
+    .attr('x', 5)
+    .attr('y', 30)
+    .text((d) => {
+      const w = d.x1 - d.x0;
+      const h = d.y1 - d.y0;
+      const minW = mobile ? 38 : 45;
+      const minH = mobile ? 28 : 24;
+      if (w < minW || h < minH) return '';
+      return fmtLeafLabel((d.data as TreemapLeaf).value);
+    })
+    .attr('fill', 'rgba(255,255,255,0.55)')
+    .attr('font-size', mobile ? '9px' : '10px')
+    .attr('font-family', 'inherit')
+    .style('pointer-events', 'none');
+}
+
+function drawMobileTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
+  const W = el.clientWidth || 360;
+  const gap = 8;
+  const headerH = 18;
+  const minBand = headerH + 30;
+  const categories = TREEMAP_DATA.children;
+
+  const catMeta = categories.map((cat) => ({
+    cat,
+    value: d3.sum(cat.children, (leaf) => leaf.value),
+  }));
+  const total = d3.sum(catMeta, (d) => d.value) || 1;
+  const bodyTarget = Math.round(W * 1.45);
+  const bandHeights = catMeta.map(({ value }) => Math.max((value / total) * bodyTarget, minBand));
+  const H = Math.round(d3.sum(bandHeights) + gap * (categories.length - 1));
 
   const svg = d3
     .select(el)
@@ -24,8 +190,76 @@ function drawTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
     .attr('height', H)
     .style('display', 'block');
 
-  type HierarchyDatum = typeof TREEMAP_DATA | TreemapCategory | TreemapLeaf;
-  type RectNode = d3.HierarchyRectangularNode<HierarchyDatum>;
+  let y = 0;
+
+  for (let i = 0; i < catMeta.length; i++) {
+    const { cat } = catMeta[i];
+    const bandH = bandHeights[i];
+    const innerW = W - 4;
+    const innerH = bandH - headerH - 4;
+
+    svg
+      .append('rect')
+      .attr('class', 'cat-border')
+      .attr('x', 0)
+      .attr('y', y)
+      .attr('width', W)
+      .attr('height', bandH)
+      .attr('fill', 'none')
+      .attr('stroke', cat.color)
+      .attr('stroke-width', 1)
+      .attr('rx', 5);
+
+    svg
+      .append('text')
+      .attr('class', 'cat-label')
+      .attr('x', 8)
+      .attr('y', y + 14)
+      .text(fitCategoryName(cat.name, W - 16, true))
+      .attr('fill', cat.color)
+      .attr('font-size', '10px')
+      .attr('font-weight', '600')
+      .attr('font-family', 'inherit')
+      .style('pointer-events', 'none');
+
+    const innerRoot = d3
+      .hierarchy<TreemapCategory | TreemapLeaf>(cat)
+      .sum((d) => ('value' in d ? d.value : 0))
+      .sort((a, b) => (b.value ?? 0) - (a.value ?? 0));
+
+    d3
+      .treemap<TreemapCategory | TreemapLeaf>()
+      .size([innerW, innerH])
+      .paddingInner(1)
+      .paddingOuter(0)
+      .round(true)(innerRoot);
+
+    appendLeaves(svg.append('g'), innerRoot.leaves() as RectNode[], {
+      el,
+      color: cat.color,
+      mobile: true,
+      total,
+      offsetX: 2,
+      offsetY: y + headerH + 2,
+      onShow,
+    });
+
+    y += bandH + gap;
+  }
+
+  updateTreemapLegend(categories);
+}
+
+function drawDesktopTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
+  const W = el.clientWidth || 900;
+  const H = Math.round(Math.min(W * 0.58, 560));
+
+  const svg = d3
+    .select(el)
+    .append('svg')
+    .attr('width', W)
+    .attr('height', H)
+    .style('display', 'block');
 
   const hier = d3
     .hierarchy<HierarchyDatum>(TREEMAP_DATA as HierarchyDatum)
@@ -61,113 +295,30 @@ function drawTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
     .attr('class', 'cat-label')
     .attr('x', (d) => d.x0 + 6)
     .attr('y', (d) => d.y0 + 15)
-    .text((d) => (d.x1 - d.x0 > 70 ? (d.data as TreemapCategory).name : ''))
+    .text((d) => fitCategoryName((d.data as TreemapCategory).name, d.x1 - d.x0, false))
     .attr('fill', (d) => (d.data as TreemapCategory).color)
     .attr('font-size', '11px')
     .attr('font-weight', '600')
     .attr('font-family', 'inherit')
     .style('pointer-events', 'none');
 
-  const leaf = svg
-    .selectAll('.leaf')
-    .data(root.leaves())
-    .join('g')
-    .attr('class', 'leaf')
-    .attr('transform', (d) => `translate(${d.x0},${d.y0})`);
+  appendLeaves(svg.append('g'), root.leaves() as RectNode[], {
+    el,
+    mobile: false,
+    total: root.value ?? 1,
+    offsetX: 0,
+    offsetY: 0,
+    onShow,
+  });
 
-  leaf
-    .append('rect')
-    .attr('width', (d) => Math.max(0, d.x1 - d.x0))
-    .attr('height', (d) => Math.max(0, d.y1 - d.y0))
-    .attr('fill', (d) => (d.parent!.data as TreemapCategory).color)
-    .attr('opacity', (d) => ((d.data as TreemapLeaf).highlight ? 1 : 0.72))
-    .attr('stroke', (d) => ((d.data as TreemapLeaf).highlight ? '#fff' : 'none'))
-    .attr('stroke-width', 2)
-    .attr('rx', 2)
-    .style('cursor', 'pointer')
-    .on('mouseenter', function (_, d) {
-      d3.select(this).attr('opacity', (d.data as TreemapLeaf).highlight ? 0.85 : 0.88);
-    })
-    .on('mouseleave', function (_, d) {
-      d3.select(this).attr('opacity', (d.data as TreemapLeaf).highlight ? 1 : 0.72);
-    })
-    .on('click', (event, d) => {
-      event.stopPropagation();
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const leafData = d.data as TreemapLeaf;
-      const total = root.value ?? 1;
-      const pct = ((leafData.value / total) * 100).toFixed(1);
-      const color = (d.parent!.data as TreemapCategory).color;
-      onShow({
-        label: `${leafData.name} – ${fmtLeafDisplay(leafData.value)}`,
-        value: leafData.value,
-        mult: '',
-        color,
-        proof: {
-          primary: leafData.detail,
-          quote: leafData.quote,
-          quote2: leafData.quote2,
-          source: leafData.source,
-          sourceUrl: leafData.sourceUrl,
-          source2: leafData.source2,
-          sourceUrl2: leafData.sourceUrl2,
-          result: `${fmtLeafDisplay(leafData.value)} · ${pct}% of sectors shown`,
-          note: leafData.note,
-        },
-      });
-    });
+  updateTreemapLegend(TREEMAP_DATA.children);
+}
 
-  leaf
-    .append('text')
-    .attr('x', 5)
-    .attr('y', 16)
-    .text((d) => {
-      const w = d.x1 - d.x0;
-      const h = d.y1 - d.y0;
-      const name = (d.data as TreemapLeaf).name;
-      if (w < 20 || h < 8) return '';
-      if (w < 60) return name.split(' ')[0];
-      return name;
-    })
-    .attr('fill', '#fff')
-    .attr('font-size', (d) => `${Math.min(12, Math.max(9, (d.x1 - d.x0) / 11))}px`)
-    .attr('font-weight', '500')
-    .attr('font-family', 'inherit')
-    .style('pointer-events', 'none');
-
-  leaf
-    .append('text')
-    .attr('x', 5)
-    .attr('y', 30)
-    .text((d) => {
-      const w = d.x1 - d.x0;
-      const h = d.y1 - d.y0;
-      if (w < 45 || h < 24) return '';
-      return fmtLeafLabel((d.data as TreemapLeaf).value);
-    })
-    .attr('fill', 'rgba(255,255,255,0.55)')
-    .attr('font-size', '10px')
-    .attr('font-family', 'inherit')
-    .style('pointer-events', 'none');
-
-  const legendEl = document.getElementById('treemap-legend');
-  if (legendEl) {
-    legendEl.innerHTML =
-      (root.children ?? [])
-        .map(
-          (cat) => `
-        <div class="legend-item">
-          <div class="legend-dot" style="background:${(cat.data as TreemapCategory).color}"></div>
-          ${(cat.data as TreemapCategory).name}
-        </div>`
-        )
-        .join('') +
-      `
-        <div class="legend-item legend-ai-note">
-          <div class="legend-dot" style="background:#56d364;outline:1.5px solid #fff;outline-offset:1px"></div>
-          All AI queries (in Digital Technology): ~6 million t CO₂e, too small to see at this scale
-        </div>`;
-  }
+function drawTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
+  el.innerHTML = '';
+  const mobile = (el.clientWidth || 900) < 600;
+  if (mobile) drawMobileTreemap(el, onShow);
+  else drawDesktopTreemap(el, onShow);
 }
 
 interface Props {
@@ -206,19 +357,14 @@ export function BigPicture({ onShowProof }: Props) {
           <h2>Global annual emissions, by sector</h2>
           <p className="section-sub">
             CO₂e is a unit of measurement that represents the equivalent warming effect from all
-            greenhouse gases. It's a way to put methane from cattle and CO₂ from a flights onto the
-            same scale. Each block's area is proportional to annual emissions in CO₂e. Tap or click
-            a block to see the figure and source.
+            greenhouse gases. It's a way to put methane emissions from cattle and exhaust emissions
+            from a flights onto the same scale representing how much they are actually affecting
+            global warming. In the graph below, each block's area is proportional to annual
+            emissions in CO₂e.
           </p>
         </div>
         <div ref={treemapRef} id="treemap" className="fade-in" />
         <div className="legend fade-in" id="treemap-legend" />
-        <p className="chart-note fade-in">
-          Some figures come directly from sources as greenhouse gas totals; others are converted
-          from energy use at 0.4 kg CO₂/kWh (global average, conservative). Road transport (~6 Gt
-          CO₂e) is not shown; a reliable 2024 primary source was not found.{' '}
-          <a href="#sources">Full sources ↓</a>
-        </p>
 
         <details className="methodology fade-in">
           <summary>Data sources, values, and how each was calculated</summary>
@@ -245,79 +391,85 @@ export function BigPicture({ onShowProof }: Props) {
               <tbody>
                 <tr>
                   <td>Beef cattle</td>
-                  <td>2,900 Mt CO₂e</td>
-                  <td>FAO: Tackling Climate Change Through Livestock (2013)</td>
+                  <td>2,542 Mt CO₂e</td>
+                  <td>FAO: Pathways towards lower emissions (2023)</td>
                   <td>
-                    ~41% of the 7.1 Gt livestock total. Includes methane, land-use change, and feed.
+                    ~41% of the 6.2 Gt livestock total. Includes methane, land-use change, and feed.
+                    The beef/dairy split within cattle isn't directly stated in the source; it's
+                    derived from the GLEAM 3 model.
                   </td>
                 </tr>
                 <tr>
                   <td>Dairy cattle</td>
-                  <td>1,700 Mt CO₂e</td>
-                  <td>FAO (2013)</td>
-                  <td>~24% of livestock total.</td>
+                  <td>1,240 Mt CO₂e</td>
+                  <td>FAO Pathways (2023)</td>
+                  <td>~20% of livestock total.</td>
                 </tr>
                 <tr>
                   <td>Pigs</td>
-                  <td>640 Mt CO₂e</td>
-                  <td>FAO (2013)</td>
-                  <td>~9% of livestock total.</td>
+                  <td>868 Mt CO₂e</td>
+                  <td>FAO Pathways (2023)</td>
+                  <td>~14% of livestock total.</td>
                 </tr>
                 <tr>
                   <td>Poultry</td>
-                  <td>570 Mt CO₂e</td>
-                  <td>FAO (2013)</td>
-                  <td>~8% of livestock total.</td>
+                  <td>558 Mt CO₂e</td>
+                  <td>FAO Pathways (2023)</td>
+                  <td>~9% of livestock total.</td>
                 </tr>
                 <tr>
                   <td>Sheep &amp; goats</td>
-                  <td>460 Mt CO₂e</td>
-                  <td>FAO (2013)</td>
-                  <td>~6.5% of livestock total.</td>
+                  <td>434 Mt CO₂e</td>
+                  <td>FAO Pathways (2023)</td>
+                  <td>~7% of livestock total.</td>
                 </tr>
                 <tr>
                   <td>Other livestock</td>
-                  <td>830 Mt CO₂e</td>
-                  <td>FAO (2013)</td>
+                  <td>558 Mt CO₂e</td>
+                  <td>FAO Pathways (2023)</td>
                   <td>
-                    Remainder. Sum of all livestock = 7,100 Mt CO₂e = 14.5% of global GHG (FAO).
+                    Buffalo, horses, aquaculture, and manure management. Sum of all livestock =
+                    6,200 Mt CO₂e, matching the FAO Pathways figure of "6.2 gigatonnes (Gt) of
+                    carbon dioxide equivalent emissions" for the full livestock agrifood system.
                   </td>
                 </tr>
                 <tr>
                   <td>Food waste</td>
-                  <td>3,300 Mt CO₂e</td>
-                  <td>UNFCCC (2021)</td>
+                  <td>9,300 Mt CO₂e</td>
+                  <td>Carbon Brief (2021)</td>
                   <td>
-                    8–10% of global GHG. Covers emissions from growing, processing, transporting,
-                    and discarding food.
+                    2017 data: global food loss and waste across the full supply chain, from
+                    production through to landfill and compost. Around 10× aviation.
                   </td>
                 </tr>
                 <tr>
                   <td>Mining &amp; metals</td>
-                  <td>4,500 Mt CO₂e</td>
-                  <td>IndexBox / Semafor (2026)</td>
+                  <td>6,000 Mt CO₂e</td>
+                  <td>ICMM: Mining and Metals GHG Emissions Report (2026)</td>
                   <td>
-                    Reported as 11% of global GHG. Range: 11% × 37 Gt CO₂ = 4,070 Mt; 11% × 57 Gt
-                    CO₂e = 6,270 Mt. McKinsey estimates 4–5 Gt for direct emissions. 4,500 Mt used
-                    as mid-range.
+                    ~11% of global GHG in 2024 (Scope 1 + Scope 2). Around 8 percentage points from
+                    metal production (steel, aluminium); the remaining 3 from primary mining
+                    activities.
                   </td>
                 </tr>
                 <tr>
                   <td>Cement &amp; concrete</td>
                   <td>1,470 Mt CO₂e</td>
-                  <td>Statista (2024)</td>
+                  <td>IEA: Cement</td>
                   <td>
-                    Direct figure from global cement CO₂ data. ~8% of global CO₂. Half from
-                    calcination (unavoidable by switching fuels).
+                    ~4% of global CO₂. IEA gives an emissions intensity of ~0.6 t CO₂ per tonne of
+                    cement; the total here is derived from that intensity. Roughly half comes from
+                    calcination (limestone releasing CO₂ during production), which can't be
+                    eliminated by switching to clean electricity.
                   </td>
                 </tr>
                 <tr>
                   <td>Fast fashion</td>
                   <td>1,200 Mt CO₂e</td>
-                  <td>Earth.org; Climateq</td>
+                  <td>Carbon Literacy Project</td>
                   <td>
-                    8–10% of global CO₂. Significant uncertainty; the range is 800–1,800 Mt
-                    depending on scope.
+                    More than aviation alone. Significant uncertainty; other estimates range
+                    800–1,800 Mt depending on scope.
                   </td>
                 </tr>
                 <tr>
@@ -331,13 +483,12 @@ export function BigPicture({ onShowProof }: Props) {
                 </tr>
                 <tr>
                   <td>Standby / vampire power</td>
-                  <td>370 Mt CO₂e</td>
-                  <td>IEA</td>
+                  <td>120 Mt CO₂e</td>
+                  <td>IEA (cited in IEA 4E Network Standby report, 2010)</td>
                   <td>
-                    IEA states ~1% of global CO₂ → 1% × 37,000 Mt = 370 Mt. IEA also states ~5% of
-                    global electricity (1,450 TWh). At 0.4 kg/kWh that would imply 580 Mt; the gap
-                    is because standby power is concentrated in countries with cleaner-than-average
-                    grids (lower carbon intensity).
+                    IEA estimate: 200–400 TWh per year (1–2% of global electricity). Converted at
+                    0.4 kg CO₂/kWh using the midpoint (300 TWh) gives ~120 Mt CO₂e. In OECD homes,
+                    standby can reach 5–10% of residential electricity.
                   </td>
                 </tr>
                 <tr>

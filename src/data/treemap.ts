@@ -9,100 +9,78 @@ export const TREEMAP_DATA: TreemapRoot = {
       children: [
         {
           name: 'Beef cattle',
-          value: 3001,
+          value: 2542,
           detail:
             'The single largest animal product contributor. Emissions come from methane (enteric fermentation), feed production, and land cleared for grazing. Per kg of protein produced, beef is around 20× more emissions-intensive than chicken.',
-          source: 'Climate Trace 2024 / JavaForge',
+          source: 'FAO: Pathways towards lower emissions (2023)',
           quote:
-            'Beef accounts for 41% of total livestock emissions. Applied to 2024 global agriculture sector: 7,320 Mt CO₂e (Climate Trace).',
-          sourceUrl: 'https://climatetrace.org/data',
-          source2: 'JavaForge Livestock Emissions Analysis',
-          quote2: 'Beef: 41% of total livestock emissions',
-          sourceUrl2:
-            'https://javaforge.com/livestock-emissions-explained-key-numbers-sources-and-solutions/',
+            'Cattle are the primary contributors to GHG emissions, producing around 3.8 Gt CO2eq per year and accounting for approximately 62 percent of all livestock emissions. In terms of commodities, meat production claims the largest share of emissions at 67 percent, followed by milk at 30 percent and eggs 3 percent.',
+          sourceUrl: 'https://doi.org/10.4060/cc9029en',
+          source2: 'FAO Livestock Environmental Assessment and Performance (LEAP) Partnership',
+          quote2:
+            'Livestock agrifood systems – which include cattle, buffaloes, sheep, goats, pigs and chickens – are responsible for 6.2 gigatonnes (Gt) of carbon dioxide equivalent emissions.',
+          sourceUrl2: 'https://doi.org/10.4060/cc9029en',
         },
         {
           name: 'Dairy cattle',
-          value: 1464,
+          value: 1240,
           detail:
             'Milk, cheese, butter and yoghurt. Dairy cattle emit methane similarly to beef cattle. Some emissions are shared with beef when dairy cows are slaughtered.',
-          source: 'Climate Trace 2024 / JavaForge',
+          source: 'FAO: Pathways towards lower emissions (2023)',
           quote:
-            "Cow's milk accounts for 20% of total livestock emissions. Applied to 2024 global agriculture sector: 7,320 Mt CO₂e (Climate Trace).",
-          sourceUrl: 'https://climatetrace.org/data',
-          source2: 'JavaForge Livestock Emissions Analysis',
-          quote2: "Cow's milk: 20% [of total livestock emissions]",
-          sourceUrl2:
-            'https://javaforge.com/livestock-emissions-explained-key-numbers-sources-and-solutions/',
+            'Cattle are the primary contributors to GHG emissions, producing around 3.8 Gt CO2eq per year and accounting for approximately 62 percent of all livestock emissions. In terms of commodities, milk accounts for 30 percent of livestock emissions.',
+          sourceUrl: 'https://doi.org/10.4060/cc9029en',
         },
         {
           name: 'Food Waste',
-          value: 3300,
+          value: 9300,
           detail:
-            '8–10% of global GHG. Around 3–4× aviation emissions. One-third of all food produced is wasted, and all the energy to grow, refrigerate, and transport it goes with it.',
-          source: 'FAO (via Climate Central)',
+            '~17% of global GHG (2017 estimate). Around 10× aviation. Covers the full food supply chain from farm through to landfill.',
+          source: 'Carbon Brief (2021)',
           quote:
-            'Without accounting for greenhouse gas emissions from land use change, the carbon footprint of food produced and not eaten is estimated at 3.3 Gigatons of CO2 equivalent.',
+            'It finds that, in 2017, global food waste resulted in 9.3bn tonnes of CO2-equivalent (GtCO2e) emissions – roughly the same as the total combined emissions of the US and the EU that same year.',
           sourceUrl:
-            'https://www.climatecentral.org/news/food-waste-worsens-greenhouse-gas-emissions-fao-16498',
+            'https://www.carbonbrief.org/food-waste-makes-up-half-of-global-food-system-emissions/',
         },
         {
           name: 'Pigs',
-          value: 659,
+          value: 868,
           detail:
             "Pork and pork products. Lower methane than ruminants (pigs don't ferment in the same way), but feed production and manure management contribute significant emissions.",
-          source: 'Climate Trace 2024 / JavaForge',
+          source: 'FAO: Pathways towards lower emissions (2023)',
           quote:
-            'Pig meat accounts for 9% of total livestock emissions. Applied to 2024 global agriculture sector: 7,320 Mt CO₂e (Climate Trace).',
-          sourceUrl: 'https://climatetrace.org/data',
-          source2: 'JavaForge Livestock Emissions Analysis',
-          quote2: 'Pig meat: 9% [of total livestock emissions]',
-          sourceUrl2:
-            'https://javaforge.com/livestock-emissions-explained-key-numbers-sources-and-solutions/',
+            "Pigs, chickens, buffaloes and small ruminants contribute to 14, 9, 8 and 7 percent, respectively, of livestock's overall emissions.",
+          sourceUrl: 'https://doi.org/10.4060/cc9029en',
         },
         {
           name: 'Poultry',
-          value: 586,
+          value: 558,
           detail:
             'Chicken, turkey, eggs. The least emissions-intensive of the major meats, roughly 6–7 kg CO₂e per kg compared to ~99 kg CO₂e per kg of beef.',
-          source: 'Climate Trace 2024 / JavaForge',
+          source: 'FAO: Pathways towards lower emissions (2023)',
           quote:
-            'Chicken meat and eggs account for 8% of total livestock emissions. Applied to 2024 global agriculture sector: 7,320 Mt CO₂e (Climate Trace).',
-          sourceUrl: 'https://climatetrace.org/data',
-          source2: 'JavaForge Livestock Emissions Analysis',
-          quote2: 'Chicken meat and eggs: 8% [of total livestock emissions]',
-          sourceUrl2:
-            'https://javaforge.com/livestock-emissions-explained-key-numbers-sources-and-solutions/',
+            "Pigs, chickens, buffaloes and small ruminants contribute to 14, 9, 8 and 7 percent, respectively, of livestock's overall emissions.",
+          sourceUrl: 'https://doi.org/10.4060/cc9029en',
         },
         {
           name: 'Sheep & goats',
-          value: 439,
+          value: 434,
           detail:
             'Like cattle, sheep and goats are ruminants and produce significant methane. Lamb has a high emissions intensity per kg, similar to beef.',
-          source: 'Climate Trace 2024 / JavaForge',
+          source: 'FAO: Pathways towards lower emissions (2023)',
           quote:
-            'Small ruminant products account for 6% of total livestock emissions. Applied to 2024 global agriculture sector: 7,320 Mt CO₂e (Climate Trace).',
-          sourceUrl: 'https://climatetrace.org/data',
-          source2: 'JavaForge Livestock Emissions Analysis',
-          quote2:
-            'Small ruminant products (e.g., sheep and goat): 6% [of total livestock emissions]',
-          sourceUrl2:
-            'https://javaforge.com/livestock-emissions-explained-key-numbers-sources-and-solutions/',
+            "Pigs, chickens, buffaloes and small ruminants contribute to 14, 9, 8 and 7 percent, respectively, of livestock's overall emissions.",
+          sourceUrl: 'https://doi.org/10.4060/cc9029en',
         },
         {
           name: 'Other livestock',
-          value: 1171,
+          value: 558,
           detail:
             'Buffalo, horses, aquaculture, and other animal products. Also includes emissions from manure management across all categories.',
-          source: 'Climate Trace 2024 / JavaForge',
+          source: 'FAO: Pathways towards lower emissions (2023)',
           quote:
-            'Buffalo milk and meat account for 8% of total livestock emissions, and other poultry and non-edible outputs account for the remaining 8%. Applied to 2024 global agriculture sector: 7,320 Mt CO₂e (Climate Trace).',
-          sourceUrl: 'https://climatetrace.org/data',
-          source2: 'JavaForge Livestock Emissions Analysis',
-          quote2:
-            'Buffalo milk and meat: 8%... Other poultry and non-edible outputs make up the remaining share [8%]',
-          sourceUrl2:
-            'https://javaforge.com/livestock-emissions-explained-key-numbers-sources-and-solutions/',
+            'Livestock agrifood systems – which include cattle, buffaloes, sheep, goats, pigs and chickens – are responsible for 6.2 gigatonnes (Gt) of carbon dioxide equivalent emissions.',
+          sourceUrl: 'https://doi.org/10.4060/cc9029en',
         },
       ],
     },
@@ -112,25 +90,24 @@ export const TREEMAP_DATA: TreemapRoot = {
       children: [
         {
           name: 'Mining & Metals',
-          value: 4500,
+          value: 6000,
           detail:
-            '11% of global GHG in 2024. Steel, aluminium, and coal mining = 93% of sector. Asia = 80% of emissions.',
-          source: 'IndexBox / Semafor 2026',
+            '11% of global GHG in 2024, equivalent to ~6 Gt CO₂e. Metal production (steel, aluminium) accounts for around 8 percentage points; primary mining activities account for the remaining 3.',
+          source: 'ICMM: Mining and Metals GHG Emissions Report (2026)',
           quote:
-            'The global mining and metals sector was responsible for 11% of total greenhouse gas emissions in 2024.',
+            'The mining and metals sector accounted for around 11 per cent of global greenhouse gas (GHG) emissions in 2024, as Scope 1 (direct on-site) emissions and Scope 2 (indirect, from purchased power) emissions. This is equivalent to approximately six gigatonnes (Gt) of CO₂e. Of this, approximately three per cent comes from primary mining activities and eight per cent from metal production.',
           sourceUrl:
-            'https://www.indexbox.io/blog/mining-and-metals-emissions-data-11-of-global-ghg-in-2024-steel-leads/',
+            'https://www.icmm.com/website/data/2026/research_mining-metals-ghg-emissions.pdf',
         },
         {
           name: 'Cement & Concrete',
           value: 1470,
           detail:
-            "~8% of global CO₂. Emissions tripled 1990–2020. Half comes from a chemical process that can't be avoided by switching fuels.",
-          source: 'Statista / WEF 2024',
+            "Around 4% of global CO₂. Roughly half comes from the calcination process (limestone releasing CO₂), which can't be eliminated by switching to renewable energy.",
+          source: 'IEA: Cement',
           quote:
-            'Global emissions from the manufacture of cement stood at 1.47 billion metric tons of carbon dioxide (MtCO₂) in 2024.',
-          sourceUrl:
-            'https://www.statista.com/statistics/1299532/carbon-dioxide-emissions-worldwide-cement-manufacturing/',
+            'Cement emissions intensity has remained relatively stable since 2018, at just under 0.6 t CO2 per tonne of cement produced, following several years of modest increase largely due to an increasing clinker-to-cement ratio in China.',
+          sourceUrl: 'https://www.iea.org/energy-system/industry/cement',
         },
       ],
     },
@@ -142,31 +119,34 @@ export const TREEMAP_DATA: TreemapRoot = {
           name: 'Fast Fashion',
           value: 1200,
           detail:
-            '8–10% of global CO₂. More than aviation and shipping combined. Projected 26% of global emissions by 2050 unchanged.',
-          source: 'Earth.org',
+            '1.2 Gt CO₂e annually. More than aviation alone. Supply chain spans cotton farming, synthetic fibre production, manufacturing, transport, and textile waste.',
+          source: 'Carbon Literacy Project',
           quote:
-            'Fashion production comprises 10% of total global carbon emissions, as much as the emissions generated by the European Union.',
-          sourceUrl: 'https://earth.org/fast-fashions-detrimental-effect-on-the-environment/',
+            'The fashion industry is the second-largest industrial polluter, accounting for 10% of global pollution, ranking higher than emissions from air travel! When factoring in the entire lifecycle of a garment, from manufacturing to transportation to, ultimately, ending up in landfill, in total, 1.2 billion tonnes of carbon emissions are released by the fashion industry every year.',
+          sourceUrl: 'https://carbonliteracy.com/fast-fashions-carbon-footprint/',
         },
         {
           name: 'Aviation',
           value: 942,
           detail:
-            '942 Mt CO₂ gross in 2024. Grew ~8% year-on-year. International flights = ~60% of total.',
+            '942 Mt CO₂ gross in 2024. Grew ~8% year-on-year. Up from 914 Mt in 2019. International flights = ~60% of total.',
           source: 'IATA 2024',
-          quote: 'In 2024, airlines emitted a gross total of 942 million tonnes of CO2.',
+          quote:
+            'In 2024, gross emissions totaled 942 million tonnes (Mt) of CO2, up from 882 Mt in 2023, but showing a more modest gain from the 914 Mt emitted in 2019.',
           sourceUrl:
             'https://www.iata.org/en/iata-repository/publications/economic-reports/2024-aviation-emissions-efficiency-gains-vs.-rising-totals',
         },
         {
           name: 'Standby / Vampire Power',
-          value: 370,
+          value: 120,
           detail:
-            '~1% of global CO₂ and 1–2% of global electricity (different metrics; electricity is lower-carbon on average). Equivalent to 15 million petrol cars running continuously just to power devices that appear to be off.',
-          source: 'IEA',
+            'IEA estimate: 200–400 TWh per year (1–2% of global electricity). Converted at 0.4 kg CO₂/kWh, midpoint ~120 Mt CO₂e. In OECD homes, standby can reach 5–10% of residential electricity.',
+          source: 'IEA (cited in IEA 4E Network Standby report, 2010)',
           quote:
-            'The global energy consumption from standby has been estimated by the International Energy Agency (IEA) at between 200 TWh and 400 TWh per year, which is equivalent to 1% to 2% of global electricity.',
-          sourceUrl: 'https://www.iea.org/news/switched-off-but-not-unplugged',
+            'The global energy consumption from standby has been estimated by the International Energy Agency (IEA) at between 200 TWh and 400 TWh per year (E3b, 2006), which is equivalent to 1% to 2% of global electricity consumption.',
+          sourceUrl:
+            'https://www.iea-4e.org/wp-content/uploads/publications/2010/08/Network-Standby-2010-09-final.pdf',
+          note: 'Converted: 300 TWh (midpoint of 200–400 TWh) × 0.4 kg CO₂/kWh = 120 Mt CO₂e.',
         },
       ],
     },
@@ -178,41 +158,36 @@ export const TREEMAP_DATA: TreemapRoot = {
           name: 'Data Centres',
           value: 166,
           detail:
-            'Every website, streaming service, social media feed, cloud backup, email, and online game runs on servers in data centres. 415 TWh globally in 2024, ~1.5% of all electricity. US + China = 69% of total. Projected to double by 2030.',
+            'Every website, streaming service, social media feed, cloud backup, email, and online game runs on servers in data centres. 415 TWh globally in 2024, ~1.5% of all electricity. US + China = 70% of total. Projected to double by 2030.',
           source: 'IEA Energy and AI 2024',
           quote:
-            'With an estimated 182 million tons of CO₂ associated with 460 terawatt hours (TWh) of electricity generation for global data centers in 2024',
-          sourceUrl: 'https://doi.org/10.1016/j.patter.2025.101430',
-          note: 'Converted: 415 TWh × 0.4 kg CO₂/kWh',
+            'In total, electricity consumption from data centres is estimated to amount to around 415 terawatt hours (TWh), or about 1.5% of global electricity consumption in 2024. In the Base Case, electricity consumption from data centres rises to around 945 TWh by 2030, more than doubling from the 2024 level.',
+          sourceUrl: 'https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai',
+          note: 'Converted: 415 TWh × 0.4 kg CO₂/kWh = 166 Mt CO₂e.',
         },
         {
           name: 'Video Streaming',
           value: 100,
           detail:
-            "Highly contested figure. Conservative estimate: ~250 TWh combined (Netflix external estimate ~94 TWh; YouTube lower-end estimate ~150 TWh). Video = 60–70% of all internet traffic. The Shift Project's widely-reported 2019 figures were overstated by ~30–50× and corrected by IEA and Carbon Brief.",
+            "Highly contested figure. Conservative estimate: ~250 TWh combined (Netflix external estimate ~94 TWh; YouTube lower-end estimate ~150 TWh). Video = 60–70% of all internet traffic. The Shift Project's widely-reported 2019 figures were overstated by ~30–50× and corrected by IEA and Carbon Brief. Netflix's own reported figure for 2019 was just 0.45 TWh, 200× lower than the contested 94 TWh estimate below.",
           source: 'IEA / Carbon Brief',
-          quote: 'Netflix streaming consumes around 94 terawatt hours (TWh) per year.',
+          quote:
+            'With 167 million Netflix subscribers watching an average of two hours per day, the corrected Shift Project figures imply that Netflix streaming consumes around 94 terawatt hours (TWh) per year, which is 200 times larger than figures reported by Netflix (0.45TWh in 2019).',
           sourceUrl:
             'https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines',
-          note: 'Converted: ~250 TWh × 0.4 kg CO₂/kWh = ~100 Mt CO₂e. High uncertainty.',
+          note: "The IEA source presents 94 TWh as what the corrected Shift Project methodology implies, not as its own independent estimate, and explicitly contrasts it with Netflix's actual reported figure. Converted: ~250 TWh (upper-bound, contested estimate) × 0.4 kg CO₂/kWh = ~100 Mt CO₂e. High uncertainty.",
         },
         {
           name: 'Bitcoin Mining',
           value: 40,
-          detail: '138 TWh / 39.8 Mt CO₂e per Cambridge CBECI 2025 Digital Mining Industry Report.',
-          source: 'Cambridge CBECI 2025',
-          quote:
-            'Annualised Total Bitcoin Footprints: 112.96 Mt CO2 (Comparable to the carbon footprint of Czech Republic)',
-          sourceUrl: 'https://digiconomist.net/bitcoin-energy-consumption/',
-        },
-        {
-          name: 'All AI Queries',
-          value: 6,
           detail:
-            'All generative AI queries globally in 2025: ChatGPT, image generation, code assistants, everything. Projected 347 TWh by 2030.',
-          source: 'IEA Energy and AI 2025',
-          note: 'Converted: 15 TWh × 0.4 kg CO₂/kWh',
-          highlight: true,
+            '138 TWh annually, 39.8 Mt CO₂e (Cambridge Digital Mining Industry Report 2025). CBECI publishes live electricity estimates that vary with hashrate.',
+          source: 'Cambridge Digital Mining Industry Report 2025',
+          quote:
+            'Our findings reveal an estimated annual electricity usage of Bitcoin mining activity at approximately 138 TWh, resulting in around 39.8 MtCO2e attributable GHG emissions.',
+          sourceUrl:
+            'https://www.jbs.cam.ac.uk/wp-content/uploads/2025/04/2025-04-cambridge-digital-mining-industry-report.pdf',
+          note: 'Live tracker: Cambridge Bitcoin Electricity Consumption Index (CBECI) at ccaf.io/cbnsi/cbeci. Figures update daily.',
         },
       ],
     },

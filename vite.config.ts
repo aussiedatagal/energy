@@ -5,4 +5,8 @@ import { noscriptPlugin } from './noscript-plugin';
 export default defineConfig({
   plugins: [react(), noscriptPlugin()],
   base: '/energy/',
+  server: {
+    port: 9000,
+    strictPort: false,
+  },
 });

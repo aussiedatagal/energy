@@ -57,12 +57,12 @@ const CSS = `
 function buildHtml(): string {
   const allLeaves = TREEMAP_DATA.children.flatMap((c) => c.children);
   const agLeaves = TREEMAP_DATA.children.find((c) => c.name === 'Agriculture & Land Use')!.children;
-  const aiKg = CSTEPS.find((s) => s.label.startsWith('All AI queries'))!.value;
+  const dataCentresKg = CSTEPS.find((s) => s.label.startsWith('All data centres'))!.value;
   const llamaKg = CSTEPS.find((s) => s.label.startsWith('Training Llama'))!.value;
   const beefKg = CSTEPS.find((s) => s.label.startsWith('Global beef and dairy'))!.value;
   const fashionKg = CSTEPS.find((s) => s.label.startsWith('Global fashion'))!.value;
   const foodWasteKg = CSTEPS.find((s) => s.label.startsWith('Global food waste'))!.value;
-  const bitcoinMt = allLeaves.find((l) => l.name === 'Bitcoin Mining')!.value;
+  const aviationMt = allLeaves.find((l) => l.name === 'Aviation')!.value;
   const livestockMt = agLeaves
     .filter((l) => l.name !== 'Food Waste')
     .reduce((s, l) => s + l.value, 0);
@@ -94,7 +94,7 @@ function buildHtml(): string {
     (s) => `
       <tr>
         <td><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a></td>
-        <td class="note">${esc(s.what)}</td>
+        <td class="note">${esc(s.quote)}</td>
       </tr>`
   ).join('');
 
@@ -113,12 +113,12 @@ function buildHtml(): string {
     <p>Here's what the data actually shows.</p>
     <div class="ns-stats">
       <div class="ns-stat">
-        <div class="ns-stat-n">${Math.round(aiKg / 1e9)}M t CO₂e</div>
-        <div class="ns-stat-l">All AI queries globally, 2025</div>
+        <div class="ns-stat-n">${Math.round(dataCentresKg / 1e9)}M t CO₂e</div>
+        <div class="ns-stat-l">All data centres globally, 2024</div>
       </div>
       <div class="ns-stat">
-        <div class="ns-stat-n">${bitcoinMt}M t CO₂e</div>
-        <div class="ns-stat-l">Bitcoin mining, 2025</div>
+        <div class="ns-stat-n">${Math.round(aviationMt)}M t CO₂e</div>
+        <div class="ns-stat-l">Aviation globally, 2024</div>
       </div>
       <div class="ns-stat">
         <div class="ns-stat-n">${+(livestockMt / 1000).toFixed(1)} Gt CO₂e</div>
@@ -141,7 +141,7 @@ function buildHtml(): string {
 
   <section id="ns-comparison">
     <h2>Per-activity comparison</h2>
-    <p>Scroll comparison on the full site. The multiplier column shows each activity relative to one ChatGPT text query (0.48 g CO₂e, baseline).</p>
+    <p>Scroll comparison on the full site. The multiplier column shows each activity relative to one ChatGPT text query (0.17 g CO₂e, baseline).</p>
     <table>
       <thead>
         <tr><th>Activity</th><th>CO₂e</th><th>vs ChatGPT query</th></tr>
@@ -153,17 +153,16 @@ function buildHtml(): string {
 
   <section id="ns-takeaway">
     <h2>So what does this tell us?</h2>
-    <p>AI does use energy. All AI queries globally used around ${Math.round(aiKg / 1e9 / 0.4)} TWh in 2025, about ${Math.round(aiKg / 1e9)} million t CO₂e. The IEA projects data centre electricity demand will roughly double by 2030, and that trajectory is worth tracking.</p>
-    <p>Training is a separate cost from inference. Only Meta has published verified training figures for a current frontier model: Llama 3.1 405B required 27.5 GWh, about ${Math.round(llamaKg / 1e3).toLocaleString('en-US')} t CO₂e on the average grid. GPT-4o, Claude, and Gemini have published nothing comparable. That opacity is a real problem, made worse by the fact that training is not a single event: frontier models are continuously retrained, fine-tuned, and replaced on competitive cycles. The aggregate training cost across the industry is unknown, and will remain unknown until the companies involved start disclosing it.</p>
-    <p>There is also a concern that global percentage figures do not fully capture: data centres create concentrated, constant baseload demand on specific regional grids. In parts of Virginia, Ireland, and Singapore, rapid data centre expansion has contributed to delays in retiring coal and gas plants. That is a legitimate problem worth pressure, and it is separate from the question of total global emissions share.</p>
-    <p>The purpose of these comparisons is not to argue that AI's footprint should go unexamined. The numbers are here because the same scrutiny applied to a ChatGPT query is rarely applied to a cheap flight, a fast fashion purchase, or beef. Beef and dairy produce around ${+(beefKg / 1e12).toFixed(1)} Gt CO₂e per year. The fashion industry, around ${+(fashionKg / 1e12).toFixed(1)} Gt. Food waste, around ${+(foodWasteKg / 1e12).toFixed(1)} Gt. All AI inference globally runs at about ${Math.round(aiKg / 1e9)} million t. These industries attract a fraction of the scrutiny that AI does, and the gap in attention is not proportional to the gap in emissions. Holding AI companies accountable is reasonable. Holding the fashion and food industries to the same standard would have a larger effect.</p>
+    <p>Data centres consume 415 TWh globally in 2024, about 1.5% of global electricity. The IEA projects data centre electricity demand will roughly double by 2030, and that trajectory is worth tracking. This includes AI inference, but also cloud storage, streaming, email, and all other digital services.</p>
+    <p>Training is a separate cost from inference. Only Meta has published verified training figures for a current frontier model: Llama 3.1 405B required 27.5 GWh, about ${Math.round(llamaKg / 1e3).toLocaleString('en-US')} t CO₂e on the average grid. GPT-4o, Claude, and Gemini have published nothing comparable. That opacity is a real problem.</p>
+    <p>The purpose of these comparisons is to put emissions in context. Beef and dairy produce around ${+(beefKg / 1e12).toFixed(1)} Gt CO₂e per year. The fashion industry, around ${+(fashionKg / 1e12).toFixed(1)} Gt. Food waste, around ${+(foodWasteKg / 1e12).toFixed(1)} Gt. Aviation produces ${Math.round(aviationMt)} Mt. All data centres (including all AI) produce around ${Math.round(dataCentresKg / 1e9)} million t. These industries attract a fraction of the scrutiny that AI does, and the gap in attention is not proportional to the gap in emissions. Holding all sectors accountable fairly matters.</p>
   </section>
 
   <section id="ns-sources">
     <h2>Sources</h2>
     <table>
       <thead>
-        <tr><th>Source</th><th>What it covers</th></tr>
+        <tr><th>Source</th><th>Quote</th></tr>
       </thead>
       <tbody>${sourceRows}
       </tbody>

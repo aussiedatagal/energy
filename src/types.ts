@@ -47,7 +47,7 @@ export interface TreemapRoot {
 export interface Source {
   title: string;
   url: string;
-  what: string;
+  quote: string;
 }
 
 export interface StepItem {

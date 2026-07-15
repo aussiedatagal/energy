@@ -11,7 +11,7 @@ export function Sources() {
               <a href={s.url} target="_blank" rel="noopener noreferrer">
                 {s.title}
               </a>
-              <div className="source-what">{s.what}</div>
+              <blockquote className="source-quote">{s.quote}</blockquote>
             </div>
           ))}
         </div>

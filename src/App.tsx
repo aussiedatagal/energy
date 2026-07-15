@@ -34,23 +34,14 @@ export function App() {
 
       <section id="hero">
         <div className="hero-inner">
-          <p className="eyebrow">Global energy use, in context</p>
+          <p className="eyebrow">Global energy use in perspective</p>
           <h1>
-            <span className="quote">
-              "AI is
-              <br />
-              destroying
-              <br />
-              the planet."
-            </span>
+            <span className="quote">Is AI really the biggest problem?</span>
           </h1>
           <div className="hero-framing">
-            <p>
-              That concern is valid. AI runs in data centres, and most of the world's electricity
-              still comes partly from gas and coal, which releases greenhouse gases that contribute
-              to climate change.
-            </p>
-            <p>But how large is that footprint, compared to other industries?</p>
+            <p>There's been a lot of talk lately about the environmental impact of AI.</p>
+            <p>Those concerns are valid, but are they overblown?</p>
+            <p> Lets find out how large the energy footprint is, compared to other industries?</p>
           </div>
           <a href="#big-picture" className="scroll-cta">
             Scroll down <span className="arrow">↓</span>
