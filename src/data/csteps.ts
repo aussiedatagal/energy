@@ -582,6 +582,22 @@ export const CSTEPS: CStep[] = [
     },
   },
   {
+    label: 'Global beef and dairy, 1 year',
+    value: 4300000000000,
+    mult: '~×378,000 Llama',
+    color: '#d97706',
+    proof: {
+      primary: '~4,300 Mt CO₂e from beef and dairy cattle worldwide',
+      quote:
+        'Beef contribute 2.9 gigatonnes CO2-eq, or 41 percent, and cattle milk 1.4 gigatonnes CO2-eq, or 20 percent, of total sector emissions.',
+      source: 'FAO: Tackling Climate Change Through Livestock (2013)',
+      sourceUrl: 'https://www.fao.org/3/i3437e/i3437e.pdf',
+      calc: 'Beef: 2,891 Mt CO₂e. Dairy: 1,387 Mt CO₂e. Combined: ~4,278 Mt CO₂e. Covers enteric fermentation (digestive methane), manure, feed production (including soya-driven deforestation), and transport.',
+      result: '~4,300 Mt CO₂e',
+      note: 'Total global livestock is around 7,100 Mt CO₂e (FAO). Beef and dairy cattle together account for roughly 60% of that. Multiplier vs Llama 3.1 training: 4,300,000 ÷ 11.39 ≈ 378,000.',
+    },
+  },
+  {
     label: 'Global food waste, 1 year',
     value: 9300000000000,
     mult: '~×817,000 Llama',
@@ -596,22 +612,6 @@ export const CSTEPS: CStep[] = [
       calc: 'Full supply chain assessment: from harvest through to landfill and compost. Includes agricultural production, processing, transport, retail, and end-of-life emissions.',
       result: '~9,300 Mt CO₂e (2017 data)',
       note: 'Study assessed all food loss and waste along every link in the supply chain. About 10× global aviation. Multiplier vs Llama 3.1 training: 9,300,000 ÷ 11.39 ≈ 817,000.',
-    },
-  },
-  {
-    label: 'Global beef and dairy, 1 year',
-    value: 4300000000000,
-    mult: '~×378,000 Llama',
-    color: '#d97706',
-    proof: {
-      primary: '~4,300 Mt CO₂e from beef and dairy cattle worldwide',
-      quote:
-        'Beef contribute 2.9 gigatonnes CO2-eq, or 41 percent, and cattle milk 1.4 gigatonnes CO2-eq, or 20 percent, of total sector emissions.',
-      source: 'FAO: Tackling Climate Change Through Livestock (2013)',
-      sourceUrl: 'https://www.fao.org/3/i3437e/i3437e.pdf',
-      calc: 'Beef: 2,891 Mt CO₂e. Dairy: 1,387 Mt CO₂e. Combined: ~4,278 Mt CO₂e. Covers enteric fermentation (digestive methane), manure, feed production (including soya-driven deforestation), and transport.',
-      result: '~4,300 Mt CO₂e',
-      note: 'Total global livestock is around 7,100 Mt CO₂e (FAO). Beef and dairy cattle together account for roughly 60% of that. Multiplier vs Llama 3.1 training: 4,300,000 ÷ 11.39 ≈ 378,000.',
     },
   },
   {

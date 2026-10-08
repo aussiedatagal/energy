@@ -46,6 +46,8 @@ const t = (kg: number) => n(Math.round(kg / 1000)); // tonnes, with commas
 const q = (kg: number) => Math.round(kg / chatgpt); // raw query count
 const qn = (kg: number) => n(q(kg)); // query count, formatted
 const Mt = (kg: number) => Math.round(kg / 1e9); // million tonnes (integer)
+// Two significant figures with thousands separators (toPrecision gives "2.4e+2").
+const sig2 = (x: number) => Number(x.toPrecision(2)).toLocaleString('en-AU');
 const Gt = (kg: number) => +(kg / 1e12).toFixed(1); // gigatonnes, 1 dp
 
 export const STEPS: StepItem[] = [
@@ -147,18 +149,18 @@ export const STEPS: StepItem[] = [
   {
     step: 19,
     heading: '5m³ of concrete (cement truck load)',
-    sub: `But there's huge carbon costs in other industries too. One cement truck worth of concrete costs the same as ${+(concrete / chatgpt / 1e6).toPrecision(2)} million ChatGPT queries. While infrastructure is unavoidable with our growing population, using more sustainable materials can have a big environmental impact`,
+    sub: `But there's huge carbon costs in other industries too. One cement truck worth of concrete costs the same as ${sig2(concrete / chatgpt / 1e6)} million ChatGPT queries. While infrastructure is unavoidable with our growing population, using more sustainable materials can have a big environmental impact`,
   },
   {
     step: 20,
     heading: 'Return flight, Sydney to London',
-    sub: `We called out petrol cars earlier, but air travel emits an immense amount. A return flight from Sydney to London emits about ${+(flight / chatgpt / 1e6).toPrecision(2)} million ChatGPT queries worth of CO₂e per passenger. Kerosene's energy density is why long-haul flight is possible at all. No current fuel alternative works at this scale. The figure is direct CO₂ only. Contrails and NOₓ at altitude roughly double the actual warming impact but aren't counted in official accounting.`,
+    sub: `We called out petrol cars earlier, but air travel emits an immense amount. A return flight from Sydney to London emits about ${sig2(flight / chatgpt / 1e6)} million ChatGPT queries worth of CO₂e per passenger. Kerosene's energy density is why long-haul flight is possible at all. No current fuel alternative works at this scale. The figure is direct CO₂ only. Contrails and NOₓ at altitude roughly double the actual warming impact but aren't counted in official accounting.`,
   },
   {
     step: 20,
     commentary: true,
     heading: 'Frequency is the key',
-    sub: `Each comparison above was a single action or item: one query, one trip, one garment, one device. You might not fly to London and back very often, but even if you messaged ChatGPT every second around the clock it would take ${Math.round(flight / chatgpt / (24 * 60 * 60)).toPrecision(2)} days to emit the same CO₂e. If your familiy lives in London, don't feel too bad. Because your yearly visit for Christmas (and your ChatGPT usage) is still a drop in the water compared to what's below`,
+    sub: `Each comparison above was a single action or item: one query, one trip, one garment, one device. You might not fly to London and back very often, but even if you messaged ChatGPT every second around the clock it would take ${sig2(flight / chatgpt / (24 * 60 * 60))} days to emit the same CO₂e. If your family lives in London, don't feel too bad. Because your yearly visit for Christmas (and your ChatGPT usage) is still a drop in the ocean compared to what's below`,
   },
   {
     step: 21,
@@ -229,12 +231,12 @@ export const STEPS: StepItem[] = [
   },
   {
     step: 32,
-    heading: 'Global food waste, 1 year',
-    sub: `Around one-third of all food produced globally is lost or wasted before it reaches a plate. That's ${Gt(foodWaste)} Gt CO₂e per year, including methane from organic matter decomposing in landfill. About ${Math.floor(foodWaste / aviation)}–${Math.ceil(foodWaste / aviation)}× commercial aviation.`,
+    heading: 'Global beef and dairy, 1 year',
+    sub: `Beef and dairy cattle together produce ${Gt(beefDairy)} Gt CO₂e per year, about 60% of all livestock emissions globally. Digestive methane, manure, feed production, and land clearing for pasture.`,
   },
   {
     step: 33,
-    heading: 'Global beef and dairy, 1 year',
-    sub: `Beef and dairy cattle together produce ${Gt(beefDairy)} Gt CO₂e per year, about 60% of all livestock emissions globally. Digestive methane, manure, feed production, and land clearing for pasture.`,
+    heading: 'Global food waste, 1 year',
+    sub: `Around one-third of all food produced globally is lost or wasted before it reaches a plate. That's ${Gt(foodWaste)} Gt CO₂e per year, including methane from organic matter decomposing in landfill. About ${Math.floor(foodWaste / aviation)}–${Math.ceil(foodWaste / aviation)}× commercial aviation.`,
   },
 ];
