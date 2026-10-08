@@ -65,9 +65,10 @@ export function App() {
               partly fossil-fuelled.
             </p>
             <p>
-              All AI queries came to about 6 million t CO₂e in 2025. Beef and dairy farming, food
-              waste and the fashion industry each emit roughly 200 to 1,500 times that. The AI
-              figure is the one expected to grow quickly: the IEA projects data centre electricity
+              All the world's data centres, of which AI is one part, emitted around 180 million t
+              CO₂ in 2024 (IEA). Beef and dairy cattle emit about 3.8 billion t CO₂e a year (FAO)
+              and food waste about 9.3 billion t (2017), roughly 20 and 50 times that. The data
+              centre figure is the one expected to grow quickly: the IEA projects their electricity
               use will more than double by 2030.
             </p>
           </div>

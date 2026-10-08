@@ -66,7 +66,7 @@ function updateTreemapLegend(categories: TreemapCategory[]) {
     `
         <div class="legend-item legend-ai-note">
           <div class="legend-dot" style="background:#56d364;outline:1.5px solid #fff;outline-offset:1px"></div>
-          All AI queries (in Digital Technology): ~6 million t CO₂e, too small to see at this scale
+          All data centres, including AI: around 180 million t CO₂ in 2024 (IEA)
         </div>`;
 }
 
