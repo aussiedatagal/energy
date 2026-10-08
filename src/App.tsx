@@ -41,7 +41,7 @@ export function App() {
           <div className="hero-framing">
             <p>There's been a lot of talk lately about the environmental impact of AI.</p>
             <p>Those concerns are valid, but are they overblown?</p>
-            <p> Lets find out how large the energy footprint is, compared to other industries?</p>
+            <p>Let's find out how large the energy footprint is, compared to other industries.</p>
           </div>
           <a href="#big-picture" className="scroll-cta">
             Scroll down <span className="arrow">↓</span>
@@ -65,9 +65,10 @@ export function App() {
               partly fossil-fuelled.
             </p>
             <p>
-              But the comparisons above show that other industries require far more of our
-              attention. Beef and dairy farming, food waste, and the fashion industry are hurting
-              the environment orders of magnitude more than the AI distraction.
+              All AI queries came to about 6 million t CO₂e in 2025. Beef and dairy farming, food
+              waste and the fashion industry each emit roughly 200 to 1,500 times that. The AI
+              figure is the one expected to grow quickly: the IEA projects data centre electricity
+              use will more than double by 2030.
             </p>
           </div>
         </div>

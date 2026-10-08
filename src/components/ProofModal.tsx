@@ -6,8 +6,20 @@ interface Props {
   onClose: () => void;
 }
 
+function SourceLink({ name, url }: { name?: string; url?: string }) {
+  if (!name) return null;
+  return url ? (
+    <a href={url} target="_blank" rel="noopener noreferrer">
+      {name}
+    </a>
+  ) : (
+    <>{name}</>
+  );
+}
+
 export function ProofModal({ item, onClose }: Props) {
   const p = item.proof!;
+  const twoSources = !!p.quote2 && p.sourceUrl2 !== p.sourceUrl;
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -36,39 +48,44 @@ export function ProofModal({ item, onClose }: Props) {
         </button>
         <p className="proof-content-title">{item.label}</p>
         <dl className="proof-dl">
-          {p.quote && (
+          {twoSources ? (
             <>
-              <dt>Source</dt>
-              <dd>{p.quote}</dd>
-            </>
-          )}
-          {p.quote2 && (
-            <>
-              <dt>Source (continued)</dt>
-              <dd>{p.quote2}</dd>
-            </>
-          )}
-          <dt>Reference</dt>
-          <dd>
-            {p.sourceUrl ? (
-              <a href={p.sourceUrl} target="_blank" rel="noopener noreferrer">
-                {p.source}
-              </a>
-            ) : (
-              p.source
-            )}
-          </dd>
-          {p.source2 && (
-            <>
-              <dt>Reference (continued)</dt>
+              <dt>Source 1</dt>
               <dd>
-                {p.sourceUrl2 ? (
-                  <a href={p.sourceUrl2} target="_blank" rel="noopener noreferrer">
-                    {p.source2}
-                  </a>
-                ) : (
-                  p.source2
-                )}
+                <blockquote className="proof-quote">{p.quote}</blockquote>
+                <p className="proof-source-name">
+                  <SourceLink name={p.source} url={p.sourceUrl} />
+                </p>
+              </dd>
+              <dt>Source 2</dt>
+              <dd>
+                <blockquote className="proof-quote">{p.quote2}</blockquote>
+                <p className="proof-source-name">
+                  <SourceLink name={p.source2} url={p.sourceUrl2} />
+                </p>
+              </dd>
+            </>
+          ) : (
+            <>
+              {p.quote && (
+                <>
+                  <dt>{p.quote2 ? 'Quote 1' : 'Quote'}</dt>
+                  <dd>
+                    <blockquote className="proof-quote">{p.quote}</blockquote>
+                  </dd>
+                </>
+              )}
+              {p.quote2 && (
+                <>
+                  <dt>Quote 2</dt>
+                  <dd>
+                    <blockquote className="proof-quote">{p.quote2}</blockquote>
+                  </dd>
+                </>
+              )}
+              <dt>Reference</dt>
+              <dd>
+                <SourceLink name={p.source} url={p.sourceUrl} />
               </dd>
             </>
           )}

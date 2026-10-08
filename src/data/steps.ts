@@ -52,7 +52,7 @@ export const STEPS: StepItem[] = [
   {
     step: 0,
     heading: 'Google search vs ChatGPT',
-    sub: `A ChatGPT query uses about ${Math.round(chatgpt / google)}× the energy of a traditional keyword Google search, before they added AI to it. Tap ? to read more about where the data is coming from.`,
+    sub: `A ChatGPT query uses about ${+(chatgpt / google).toFixed(1)}× the energy of a traditional keyword Google search, before they added AI to it. Tap ? to read more about where the data is coming from.`,
   },
   {
     step: 1,
@@ -168,7 +168,7 @@ export const STEPS: StepItem[] = [
   {
     step: 22,
     heading: 'Wikipedia servers, 1 year',
-    sub: `Data centers are used across the whole internet, not just AI. Wikipedia's servers costs ${t(wiki)} t CO₂e each year, about ${+(wiki / chatgpt / 1e9).toFixed(1)} billion ChatGPT queries' worth of electricity.`,
+    sub: `Data centres are used across the whole internet, not just AI. Wikipedia's servers cost ${t(wiki)} t CO₂e each year, about ${+(wiki / chatgpt / 1e9).toFixed(1)} billion ChatGPT queries' worth of electricity.`,
   },
   {
     step: 23,

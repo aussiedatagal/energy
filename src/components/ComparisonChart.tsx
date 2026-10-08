@@ -1,17 +1,28 @@
 import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import type { CStep } from '../types';
+import { CSTEPS } from '../data/csteps';
 import { fmtBarVal } from '../utils';
 
 interface ChartInstance {
   render: (data: CStep[]) => void;
 }
 
+// The multiplier labels sit in the right margin, so it has to fit the widest one
+// ("~×817,000 Llama") or they get clipped on phones.
+function labelColumnWidth(fontSize: number) {
+  const ctx = document.createElement('canvas').getContext('2d');
+  if (!ctx) return 100;
+  ctx.font = `600 ${fontSize}px Inter, sans-serif`;
+  const widest = d3.max(CSTEPS, (d) => ctx.measureText(d.mult).width) ?? 0;
+  return Math.ceil(widest) + 10;
+}
+
 function buildChart(container: HTMLElement, sticky: HTMLElement | null): ChartInstance {
   container.innerHTML = '';
 
   const isMobile = window.innerWidth < 640;
-  const rm = isMobile ? 86 : 100;
+  const rm = Math.max(isMobile ? 86 : 100, labelColumnWidth(isMobile ? 10 : 11));
   const margin = { top: 6, right: rm, bottom: 6, left: 4 };
 
   const W = container.clientWidth || 360;

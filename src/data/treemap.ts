@@ -16,10 +16,6 @@ export const TREEMAP_DATA: TreemapRoot = {
           quote:
             'Cattle are the primary contributors to GHG emissions, producing around 3.8 Gt CO2eq per year and accounting for approximately 62 percent of all livestock emissions. In terms of commodities, meat production claims the largest share of emissions at 67 percent, followed by milk at 30 percent and eggs 3 percent.',
           sourceUrl: 'https://doi.org/10.4060/cc9029en',
-          source2: 'FAO Livestock Environmental Assessment and Performance (LEAP) Partnership',
-          quote2:
-            'Livestock agrifood systems – which include cattle, buffaloes, sheep, goats, pigs and chickens – are responsible for 6.2 gigatonnes (Gt) of carbon dioxide equivalent emissions.',
-          sourceUrl2: 'https://doi.org/10.4060/cc9029en',
         },
         {
           name: 'Dairy cattle',
@@ -51,6 +47,10 @@ export const TREEMAP_DATA: TreemapRoot = {
           quote:
             "Pigs, chickens, buffaloes and small ruminants contribute to 14, 9, 8 and 7 percent, respectively, of livestock's overall emissions.",
           sourceUrl: 'https://doi.org/10.4060/cc9029en',
+          source2: 'FAO: Pathways towards lower emissions (2023)',
+          quote2:
+            'The findings from GLEAM reveal that livestock agrifood systems – which include cattle, buffaloes, sheep, goats, pigs and chickens – are responsible for 6.2 gigatonnes (Gt) of carbon dioxide equivalent (CO2eq) emissions.',
+          sourceUrl2: 'https://doi.org/10.4060/cc9029en',
         },
         {
           name: 'Poultry',
@@ -61,6 +61,10 @@ export const TREEMAP_DATA: TreemapRoot = {
           quote:
             "Pigs, chickens, buffaloes and small ruminants contribute to 14, 9, 8 and 7 percent, respectively, of livestock's overall emissions.",
           sourceUrl: 'https://doi.org/10.4060/cc9029en',
+          source2: 'FAO: Pathways towards lower emissions (2023)',
+          quote2:
+            'The findings from GLEAM reveal that livestock agrifood systems – which include cattle, buffaloes, sheep, goats, pigs and chickens – are responsible for 6.2 gigatonnes (Gt) of carbon dioxide equivalent (CO2eq) emissions.',
+          sourceUrl2: 'https://doi.org/10.4060/cc9029en',
         },
         {
           name: 'Sheep & goats',
@@ -71,6 +75,10 @@ export const TREEMAP_DATA: TreemapRoot = {
           quote:
             "Pigs, chickens, buffaloes and small ruminants contribute to 14, 9, 8 and 7 percent, respectively, of livestock's overall emissions.",
           sourceUrl: 'https://doi.org/10.4060/cc9029en',
+          source2: 'FAO: Pathways towards lower emissions (2023)',
+          quote2:
+            'The findings from GLEAM reveal that livestock agrifood systems – which include cattle, buffaloes, sheep, goats, pigs and chickens – are responsible for 6.2 gigatonnes (Gt) of carbon dioxide equivalent (CO2eq) emissions.',
+          sourceUrl2: 'https://doi.org/10.4060/cc9029en',
         },
         {
           name: 'Other livestock',
@@ -175,7 +183,7 @@ export const TREEMAP_DATA: TreemapRoot = {
             'With 167 million Netflix subscribers watching an average of two hours per day, the corrected Shift Project figures imply that Netflix streaming consumes around 94 terawatt hours (TWh) per year, which is 200 times larger than figures reported by Netflix (0.45TWh in 2019).',
           sourceUrl:
             'https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines',
-          note: "The IEA source presents 94 TWh as what the corrected Shift Project methodology implies, not as its own independent estimate, and explicitly contrasts it with Netflix's actual reported figure. Converted: ~250 TWh (upper-bound, contested estimate) × 0.4 kg CO₂/kWh = ~100 Mt CO₂e. High uncertainty.",
+          note: 'Converted: ~250 TWh (upper-bound, contested estimate) × 0.4 kg CO₂/kWh = ~100 Mt CO₂e. High uncertainty.',
         },
         {
           name: 'Bitcoin Mining',

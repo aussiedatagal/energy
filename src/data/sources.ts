@@ -8,6 +8,12 @@ export const SOURCES: Source[] = [
       'In total, electricity consumption from data centres is estimated to amount to around 415 terawatt hours (TWh), or about 1.5% of global electricity consumption in 2024.',
   },
   {
+    title: 'Google: Powering a Google search (2009)',
+    url: 'https://googleblog.blogspot.com/2009/01/powering-google-search.html',
+    quote:
+      'Together with other work performed before your search even starts (such as building the search index) this amounts to 0.0003 kWh of energy per search, or 1 kJ.',
+  },
+  {
     title: 'IEA: Streaming video factcheck',
     url: 'https://www.iea.org/commentaries/the-carbon-footprint-of-streaming-video-fact-checking-the-headlines',
     quote:

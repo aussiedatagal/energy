@@ -28,12 +28,13 @@ export function ComparisonSection({ onShowProof }: Props) {
 
   const { activeStep, visibleCount } = useScrollStep(stickyRef);
 
-  // When Google search is the reference point (step 0), show ChatGPT as "×40 Google".
-  // Once ChatGPT becomes the baseline (step 1+), flip Google to show "1/40×".
-  const googleRatio = Math.round(CSTEPS[1].value / CSTEPS[0].value);
+  // When Google search is the reference point (step 0), show ChatGPT as "×1.4 Google".
+  // Once ChatGPT becomes the baseline (step 1+), flip Google to show "×0.7".
+  const ratio = CSTEPS[1].value / CSTEPS[0].value;
+  const googleRatio = +ratio.toFixed(1);
   const chartData = CSTEPS.slice(0, visibleCount).map((step, i) => {
     if (activeStep <= 0 && i === 1) return { ...step, mult: `×${googleRatio} Google` };
-    if (activeStep >= 1 && i === 0) return { ...step, mult: `1/${googleRatio}×` };
+    if (activeStep >= 1 && i === 0) return { ...step, mult: `×${+(1 / ratio).toFixed(1)}` };
     return step;
   });
 

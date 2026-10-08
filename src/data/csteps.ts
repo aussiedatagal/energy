@@ -7,13 +7,14 @@ export const CSTEPS: CStep[] = [
     mult: '',
     color: '#58a6ff',
     proof: {
-      primary: '0.3 Wh per search (standard web search)',
-      quote: 'Text generation using a small language model takes around 0.3 Wh.',
-      source: 'IEA: Energy and AI (2024), citing experimental small-language-model inference',
-      sourceUrl: 'https://www.iea.org/reports/energy-and-ai/energy-demand-from-ai',
+      primary: '0.3 Wh per search (standard web search, Google 2009)',
+      quote:
+        'Together with other work performed before your search even starts (such as building the search index) this amounts to 0.0003 kWh of energy per search, or 1 kJ.',
+      source: 'Google Official Blog: Powering a Google search (January 2009)',
+      sourceUrl: 'https://googleblog.blogspot.com/2009/01/powering-google-search.html',
       calc: '0.3 Wh × 0.4 kg CO₂/kWh ÷ 1,000',
       result: '0.00012 kg CO₂e (0.12 g)',
-      note: "From IEA Energy and AI (2024), citing experimental small-language-model inference at 0.3 Wh. Standard web search, not AI-generated answers. Google's newer AI-powered Search Overview uses substantially more. 0.4 kg CO₂/kWh is the global average grid intensity used throughout this chart.",
+      note: "Google's own 2009 figure for a standard web search, including index building. Google hasn't published a newer per-search number, and its AI Overviews use more. Google gave 0.2 g CO₂ per search at the time; this chart uses 0.4 kg CO₂/kWh, the global average grid intensity used throughout.",
     },
   },
   {
@@ -396,7 +397,7 @@ export const CSTEPS: CStep[] = [
       source2: 'FAA EA Table 4-4 (same document)',
       sourceUrl2:
         'https://www.faa.gov/sites/faa.gov/files/space/environmental/nepa_docs/SpaceX_Falcon_Program_Final_EA_and_FONSI.pdf',
-      quote2: 'Table 4-4. Estimated Carbon Dioxide (CO2) Emissions Comparison',
+      quote2: 'Annual Emissions Source: 60 Falcon 9 launches. Metric Tons CO2e per Year: 23,226.',
       calc: 'Table 4-4: 60 Falcon 9 launches = 23,226 metric tons CO₂e per year (~387 t/launch in EA). Chart uses propellant-only estimate: ~73,600 kg RP-1 × 3.16 kg CO₂/kg ≈ 233 t CO₂e. Excludes black carbon, N₂O, and manufacturing.',
       result: '~233 t CO₂e per launch (propellant combustion)',
       note: 'SpaceX launched Falcon 9 more than 90 times in 2024, roughly one every four days. Black carbon from rocket exhaust has outsized high-altitude warming effects not captured in the CO₂-only figure. Multiplier vs ChatGPT: 233,000 ÷ 0.000168 ≈ 1.4 billion.',
@@ -501,15 +502,14 @@ export const CSTEPS: CStep[] = [
       primary: '~14.2 Mt CO₂e',
       quote:
         "We've calculated the product carbon footprint for the following configurations. iPhone 16 256GB: 61 kg CO2e.",
-      source:
-        'Apple Product Environmental Report (iPhone 16, Sept 2024); IDC Worldwide Quarterly Mobile Phone Tracker (Jan 2025)',
+      source: 'Apple Product Environmental Report (iPhone 16, Sept 2024)',
       sourceUrl:
         'https://www.apple.com/environment/pdf/products/iphone/iPhone_16_and_iPhone_16_Plus_PER_Sept2024.pdf',
-      source2: 'IDC Worldwide Quarterly Mobile Phone Tracker (Jan 2025, via Business Wire)',
+      source2: 'IDC Worldwide Quarterly Mobile Phone Tracker (Jan 2025), as reproduced by GSMArena',
       quote2:
-        'Top 5 Companies, Worldwide Smartphone Shipments, Market Share, and Year-Over-Year Growth, CY 2024 (Preliminary results, shipments in millions of units).',
+        '1. Apple: 232.1 million units shipped in 2024, 18.70% market share (down 0.9% from 234.3 million in 2023).',
       sourceUrl2:
-        'https://www.businesswire.com/news/home/20250113500219/en/Worldwide-Smartphone-Shipments-Grew-6.4-in-2024-Despite-Macro-Challenges-according-to-IDC',
+        'https://www.gsmarena.com/idc_reports_that_the_smartphone_market_grew_in_2024_apple_and_samsung_still_lead_the_pack-news-66105.php',
       calc: '232.1M iPhones shipped in 2024 (IDC CY 2024 table, Apple row) × 61 kg CO₂e (iPhone 16 256GB, Apple PER) = ~14.2 Mt CO₂e',
       result: '~14,152,000 t CO₂e (14.2 Mt)',
       note: "Derived: 232M devices × 61 kg Apple-reported footprint. Production is 80% of each device's total. Covers product footprint only, not usage or end-of-life. Multiplier vs Llama 3.1: 14,152,000 ÷ 11,390 ≈ 1,200.",
@@ -645,8 +645,7 @@ export const CSTEPS: CStep[] = [
       sourceUrl:
         'https://theicct.org/wp-content/uploads/2021/07/Global-Vehicle-LCA-White-Paper-A4-revised-v2.pdf',
       source2: 'ICCT (2021): battery production emissions, lower medium BEV segment (Table 2.4)',
-      quote2:
-        'Table 2.4. Battery capacity and GHG emissions of the production of batteries for BEVs and PHEVs registered in Europe, the United States, China, and India in 2021.',
+      quote2: 'Europe, Lower medium: BEV battery capacity 45.0 kWh, GHG emissions 2.7 t CO2 eq.',
       sourceUrl2:
         'https://theicct.org/wp-content/uploads/2021/07/Global-Vehicle-LCA-White-Paper-A4-revised-v2.pdf',
       calc: 'ICCT Table 2.4 (Europe, lower medium segment): battery production = 2.7 t CO₂e for a 45.0 kWh pack. Table A.1: body/chassis (BEV without battery) = 6.5 t CO₂e. Total: 6.5 + 2.7 = 9.2 t CO₂e.',
