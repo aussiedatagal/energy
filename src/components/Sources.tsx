@@ -16,9 +16,7 @@ export function Sources() {
           ))}
         </div>
         <p className="chart-note">
-          Raw source pages can be fetched locally using <code>data/fetch_sources.py</code>.
-          Structured data lives in <code>data/energy_data.json</code>. All figures should be
-          verified against the primary sources linked above before citing.
+          All figures should be checked against the primary sources linked above before citing.
         </p>
       </div>
     </section>
