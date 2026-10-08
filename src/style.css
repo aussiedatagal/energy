@@ -580,6 +580,10 @@ section:nth-child(even) {
   content: '\201D';
 }
 
+.proof-figure {
+  margin: 0 0 0.9rem;
+}
+
 .proof-source-name {
   margin-top: 0.3rem;
   font-size: 0.9em;

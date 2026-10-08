@@ -1,242 +1,212 @@
 import type { StepItem } from '../types';
-import { CSTEPS } from './csteps';
+import { byId } from './csteps';
 
-const v = (prefix: string) => CSTEPS.find((s) => s.label.startsWith(prefix))!.value;
+const v = (id: string) => byId(id).value;
+const chatgpt = v('chatgpt');
 
-const google = v('1 Google');
-const chatgpt = v('1 ChatGPT');
-const image = v('AI image');
-const phone = v('Charge a smartphone');
-const netflix = v('Netflix');
-const popcorn = v('Microwave popcorn');
-const kettle = v('Boil a full kettle');
-const movieNight = v('Movie night');
-const water = v('Bottled water');
-const video = v('AI video');
-const rice = v('1 kg of raw rice');
-const drive = v('Drive 10 km');
-const tshirt = v('Cotton t-shirt');
-const avgGarmentWears = 30; // WRAP UK "Valuing our Clothes" (2020): average across all clothing types, not garment-specific
-const phoneReplaceYears = 3; // CIRP (US): Americans replace smartphones every ~3 years on average
-const jeans = v('1 pair of fast fashion');
-const phoneMfg = v('Manufacturing 1 smartphone');
-const beef = v('Beef, 1 kg');
-const bitcoin = v('1 Bitcoin');
-const concrete = v('5m³ of concrete');
-const flight = v('Flight: SYD');
-const falcon = v('Falcon 9');
-const wiki = v('Wikipedia');
-const hollywood = v('Producing 1 Hollywood');
-const llama = v('Training Llama');
-const f1 = v('Formula 1');
-const sydney = v('Sydney Trains');
-const dataCentres = v('All data centres globally');
-const dataCentresProjected = 378000000000; // IEA Base Case: 945 TWh × 0.4 kg CO₂/kWh
-const iphones = v('All iPhones');
-const flaring = v('Global gas flaring');
-const aviation = v('Global commercial aviation');
-const fashion = v('Global fashion industry');
-const foodWaste = v('Global food waste');
-const beefDairy = v('Global beef and dairy');
-const globalGHG = 54e12; // ~54 Gt CO₂e (2023 global total, IEA/IPCC)
-
-// Format helpers — only used in template literals below
 const n = (x: number) => Math.round(x).toLocaleString('en-AU');
-const t = (kg: number) => n(Math.round(kg / 1000)); // tonnes, with commas
-const q = (kg: number) => Math.round(kg / chatgpt); // raw query count
-const qn = (kg: number) => n(q(kg)); // query count, formatted
-const Mt = (kg: number) => Math.round(kg / 1e9); // million tonnes (integer)
-// Two significant figures with thousands separators (toPrecision gives "2.4e+2").
+// Two significant figures with thousands separators (toPrecision alone gives "2.4e+2").
 const sig2 = (x: number) => Number(x.toPrecision(2)).toLocaleString('en-AU');
-const Gt = (kg: number) => +(kg / 1e12).toFixed(1); // gigatonnes, 1 dp
+const q = (kg: number) => (kg / chatgpt >= 1000 ? sig2(kg / chatgpt) : n(kg / chatgpt));
+const g = (kg: number) => n(kg * 1000);
+const k = (kg: number) => +kg.toPrecision(3);
+const t = (kg: number) => n(kg / 1000);
+const mt = (kg: number) => (+(kg / 1e9).toPrecision(3)).toLocaleString('en-AU');
+const times = (a: number, b: number) => +(a / b).toFixed(1);
+const llamaRuns = (kg: number) => sig2(kg / v('llama'));
+
+const flightRfKg = 2 * 17020 * 0.11704;
 
 export const STEPS: StepItem[] = [
   {
-    step: 0,
-    heading: 'Google search vs ChatGPT',
-    sub: `A ChatGPT query uses about ${+(chatgpt / google).toFixed(1)}× the energy of a traditional keyword Google search, before they added AI to it. Tap ? to read more about where the data is coming from.`,
+    item: 'chatgpt',
+    heading: 'A Google search and a ChatGPT question',
+    sub: `A short question to ChatGPT's default model uses about ${times(chatgpt, v('google'))} times the energy of a Google search, using Google's own figure from 2009. Tap ? on any step for the sources and the working.`,
   },
   {
-    step: 1,
-    heading: 'AI image generation',
-    sub: `For another ${+(image / chatgpt).toFixed(1)}× the energy you can create an image.`,
+    item: 'image',
+    heading: 'Making an AI image',
+    sub: `Generating one image uses about ${times(v('image'), chatgpt)} times as much as a ChatGPT question.`,
   },
   {
-    step: 2,
-    heading: 'Charging your phone (daily)',
-    sub: `To put that into perspective, you can ask ChatGPT ${Math.floor(phone / chatgpt)} questions, or generate just over ${Math.floor(phone / image)} AI images, for the same amount of electricity that your phone uses over a whole day.`,
+    item: 'phone',
+    heading: 'Charging your phone',
+    sub: `Charging a phone once uses about the same electricity as ${q(v('phone'))} ChatGPT questions, or ${n(v('phone') / v('image'))} AI images.`,
   },
   {
-    step: 3,
-    heading: '1 hour of Netflix HD',
-    sub: `You can ask ChatGPT about ${q(netflix)} questions for the same cost as watching Netflix for a whole hour.`,
+    item: 'popcorn',
+    heading: 'Microwave popcorn',
+    sub: `Three minutes of microwave popcorn is about ${q(v('popcorn'))} questions' worth.`,
   },
   {
-    step: 4,
-    heading: 'Microwave popcorn, 3 minutes',
-    sub: `But that popcorn you're eating adds another ${qn(popcorn)} ChatGPT queries worth of energy.`,
+    item: 'kettle',
+    heading: 'Boiling water for a cuppa',
+    sub: `Boiling a litre of water is about ${q(v('kettle'))}.`,
   },
   {
-    step: 5,
-    heading: 'Boiling a full kettle',
-    sub: `And your tea adds another ${qn(kettle)}. A kettle is one of the highest-draw appliances in most kitchens, just in a very short burst.`,
+    item: 'netflix',
+    heading: 'An hour of Netflix',
+    sub: `An hour of Netflix, counting the TV, the router and the network, is about ${q(v('netflix'))}.`,
   },
   {
-    step: 6,
-    heading: 'A movie night in queries',
-    sub: `So adding that all up, watching your show with some popcorn and a cuppa adds up to about ${Math.round(movieNight * 1000)} g CO₂e, which is around the same as ${q(movieNight)} ChatGPT text queries.`,
+    item: 'movie',
+    heading: 'A night in',
+    sub: `Together that's about ${g(v('movie'))} g CO₂e for a show, popcorn and a cuppa, or ${q(v('movie'))} ChatGPT questions.`,
   },
   {
-    step: 7,
-    heading: '1 day storing 1TB in the cloud',
-    sub: "That's more than the cost of storing your photos in the cloud for a day. Cloud storage data centres run around the clock to keep your files accessible.",
+    item: 'water',
+    heading: 'A bottle of water',
+    sub: `A 500 ml bottle of water comes to about ${g(v('water'))} g CO₂e, almost all of it from making the plastic bottle.`,
   },
   {
-    step: 8,
-    heading: 'A 500ml bottle of water',
-    sub: `But a single 500ml bottle of water is worse than either of them, with emissions equivalent to ${Math.round(water * 1000)} g CO₂e. The PET plastic accounts for roughly half of it. Petroleum-derived plastic is energy-intensive to produce, and the emissions are locked into the bottle before it's even filled.`,
+    item: 'video',
+    heading: 'Making an AI video',
+    sub: `AI video uses far more. One short clip from the largest open video model tested used 415 Wh, about ${q(v('video'))} ChatGPT questions. Small video models use much less. We couldn't find published figures for commercial tools such as Sora.`,
   },
   {
-    step: 9,
-    heading: 'AI video, 10 seconds',
-    sub: `But ChatGPT isn't just used for text chat and image generation. The cost of generating a short 10s video costs a whopping ${Math.round(video * 1000)} g CO₂e using Sora.`,
+    item: 'shower',
+    heading: 'A hot shower',
+    sub: `A 7-minute shower with electrically heated water is about ${times(v('shower'), v('video'))} times that clip, around ${k(v('shower'))} kg CO₂e.`,
   },
   {
-    step: 10,
-    heading: '7-minute shower',
-    sub: `That 10-second Sora video costs around the same as a 7-minute shower. An electric-powered hot-water shower draws 9 kW continuously, the same mechanism as a kettle but running for minutes rather than seconds.`,
+    item: 'drive',
+    heading: 'A 10 km drive',
+    sub: `Driving 10 km in an average petrol car releases about ${k(v('drive'))} kg CO₂e from the exhaust, or ${q(v('drive'))} ChatGPT questions.`,
   },
   {
-    step: 11,
-    heading: '1 kg of raw rice',
-    sub: `But agriculture is also a huge emitter. 1 kg of rice produces ${Math.round(rice)} kg of CO₂e. This is mostly from methane from flooded paddies. Obviously, food is a necessity and fake videos of cats saving babies is not. But if we really want to reduce the emitted CO₂e we have to look at where we can make the biggest impact.`,
-  },
-  {
-    step: 12,
-    heading: 'Drive 10 km in a petrol car',
-    sub: `Like petrol cars. Burning petrol releases CO₂ directly from the exhaust, about 150 g per kilometre for an average car. That's ${n(Math.round(drive / chatgpt / 100) * 100)} ChatGPT queries to travel 10km. And of that, around 80% of the fuel's energy is lost as heat. Only about 20% actually moves the vehicle.`,
-  },
-  {
-    step: 13,
+    item: 'tshirt',
     heading: 'A cotton t-shirt',
-    sub: `And it would be remiss to not talk about the fast fashion industry too. A standard 200 g cotton shirt emits about ${Math.round(tshirt)} kg CO₂e in production. Now obviously the t-shirt lasts much longer than anything we've discussed above, but according to WRAP UK research, the average fast-fashion garment is only worn around ${avgGarmentWears} times before disposal. So each time it's worn, it emits the same CO₂e as ${qn(tshirt / avgGarmentWears)} ChatGPT queries.`,
+    sub: `A cotton t-shirt is about ${k(v('tshirt'))} kg CO₂e, or ${q(v('tshirt'))} questions.`,
   },
   {
-    step: 14,
-    heading: '1 pair of fast fashion jeans',
-    sub: `And jeans are even higher, with a per-wear cost of ${qn(jeans / avgGarmentWears)} ChatGPT queries (or ${n(Math.round(jeans / chatgpt))} over its lifetime). Cotton farming needs fertiliser, irrigation, and often coal-powered spinning mills. The dyeing process is particularly intensive: synthetic indigo requires multiple dip cycles, and the runoff is one of the more toxic effluents in textile manufacturing.`,
+    item: 'rice',
+    heading: 'A kilo of rice',
+    sub: `A kilo of rice is about ${k(v('rice'))} kg CO₂e, or ${q(v('rice'))} questions.`,
   },
   {
-    step: 15,
-    heading: 'Manufacturing 1 smartphone',
-    sub: `Smartphones are a good example of an environmental tradeoff we've already made and accepted, collectively. Each smartphone has a 61 kg CO₂e product footprint (Apple iPhone 16 256GB). According to CIRP data, Americans replace their phones roughly every ${phoneReplaceYears} years, which makes the manufacturing carbon alone equivalent to about ${qn(phoneMfg / phoneReplaceYears / 365)} ChatGPT queries per day of ownership, and that's not including the emissions from actually using it.`,
+    item: 'jeans',
+    heading: 'Fast fashion jeans',
+    sub: `A pair of fast fashion jeans, flown between countries and worn 7 times, comes to ${k(v('jeans'))} kg CO₂e. That's 2.5 kg every time they're worn, or ${q(2.5)} ChatGPT questions per wear.`,
   },
   {
-    step: 16,
-    heading: '1 kilogram of beef',
-    sub: `A phone is a purchase every few years, but people in general eat beef multiple times per week. Just 1 kg emits the same as ${n(Math.round(beef / chatgpt / 1000) * 1000)} ChatGPT queries. About 60% of it is methane from the cow's digestive system, burped out continuously.`,
+    item: 'iphone',
+    heading: 'A new phone',
+    sub: `A new iPhone 16 is ${n(v('iphone'))} kg CO₂e over its life. Apple assumes three years of use, which works out to about ${q(v('iphone') / (3 * 365))} ChatGPT questions for every day you own it.`,
   },
   {
-    step: 17,
-    heading: 'Running a fridge, 6 months',
-    sub: `That 1 kg of beef produces the same emissions as running your fridge for half a year, a device that runs 24 hours a day and keeps your whole household's food safe.`,
+    item: 'fridge',
+    heading: 'Running a fridge',
+    sub: `Running an efficient fridge for six months is about ${n(v('fridge'))} kg CO₂e.`,
   },
   {
-    step: 18,
-    heading: 'One Bitcoin transaction',
-    sub: `While the beef and dairy industry produces around ${Math.round((beefDairy / globalGHG) * 100)}% of global annual emissions, Bitcoin is in a different league when you look at the per-transaction cost. Each Bitcoin transaction costs about ${n(bitcoin)} kg CO₂e. For comparison, Visa only costs 3 g CO₂e per transaction, 150,000× less`,
+    item: 'beef',
+    heading: 'A kilo of beef',
+    sub: `A kilo of beef from a beef herd is a little more, about ${n(v('beef'))} kg CO₂e, or ${q(v('beef'))} ChatGPT questions.`,
   },
   {
-    step: 19,
-    heading: '5m³ of concrete (cement truck load)',
-    sub: `But there's huge carbon costs in other industries too. One cement truck worth of concrete costs the same as ${sig2(concrete / chatgpt / 1e6)} million ChatGPT queries. While infrastructure is unavoidable with our growing population, using more sustainable materials can have a big environmental impact`,
+    item: 'concrete',
+    heading: 'A truck load of concrete',
+    sub: `A 5 m³ truck load of concrete is around ${n(v('concrete'))} kg CO₂, depending on the mix. That's about ${sig2(v('concrete') / chatgpt / 1e6)} million ChatGPT questions.`,
   },
   {
-    step: 20,
-    heading: 'Return flight, Sydney to London',
-    sub: `We called out petrol cars earlier, but air travel emits an immense amount. A return flight from Sydney to London emits about ${sig2(flight / chatgpt / 1e6)} million ChatGPT queries worth of CO₂e per passenger. Kerosene's energy density is why long-haul flight is possible at all. No current fuel alternative works at this scale. The figure is direct CO₂ only. Contrails and NOₓ at altitude roughly double the actual warming impact but aren't counted in official accounting.`,
+    item: 'flight',
+    heading: 'Sydney to London and back',
+    sub: `A return economy flight from Sydney to London is about ${n(v('flight'))} kg CO₂e per passenger from the fuel alone, or ${sig2(v('flight') / chatgpt / 1e6)} million ChatGPT questions. Counting contrails and other high-altitude effects, it's about ${n(flightRfKg)} kg.`,
   },
   {
-    step: 20,
-    commentary: true,
-    heading: 'Frequency is the key',
-    sub: `Each comparison above was a single action or item: one query, one trip, one garment, one device. You might not fly to London and back very often, but even if you messaged ChatGPT every second around the clock it would take ${sig2(flight / chatgpt / (24 * 60 * 60))} days to emit the same CO₂e. If your family lives in London, don't feel too bad. Because your yearly visit for Christmas (and your ChatGPT usage) is still a drop in the ocean compared to what's below`,
+    heading: 'How often matters',
+    sub: `Each bar so far is a single action. If you asked ChatGPT a question every second, day and night, it would take about ${sig2(v('flight') / chatgpt / 86400)} days to match one return flight to London.`,
   },
   {
-    step: 21,
-    heading: 'Falcon 9 launch (SpaceX)',
-    sub: `Each Falcon 9 launch burns through ${t(falcon)} t CO₂e in propellant. In 2024, SpaceX launched it more than 90 times.`,
+    item: 'falcon',
+    heading: 'A rocket launch',
+    sub: `One Falcon 9 launch is about ${t(v('falcon'))} t CO₂e, using the US aviation regulator's own estimate.`,
   },
   {
-    step: 22,
-    heading: 'Wikipedia servers, 1 year',
-    sub: `Data centres are used across the whole internet, not just AI. Wikipedia's servers cost ${t(wiki)} t CO₂e each year, about ${+(wiki / chatgpt / 1e9).toFixed(1)} billion ChatGPT queries' worth of electricity.`,
+    item: 'wikipedia',
+    heading: 'Wikipedia for a year',
+    sub: `Running all of Wikipedia's servers for a year was ${t(v('wikipedia'))} t CO₂e in 2021, about ${sig2(v('wikipedia') / chatgpt / 1e9)} billion ChatGPT questions.`,
   },
   {
-    step: 23,
-    heading: 'Producing 1 Hollywood blockbuster',
-    sub: `Producing a major Hollywood film generates around ${t(hollywood)} t CO₂e, roughly ${Math.round(hollywood / chatgpt / 1e9)} billion ChatGPT queries. It takes 2–4 years and moves thousands of people across multiple countries. Travel and transport account for about 65% of it.`,
+    item: 'film',
+    heading: 'Making a blockbuster',
+    sub: `Making one big-budget Hollywood film averages ${t(v('film'))} t CO₂e.`,
   },
   {
-    step: 23,
-    commentary: true,
-    heading: 'What about the training?',
-    sub: 'Now you might be (rightfully) asking: "What about the cost to train the models?" And that\'s certainly a concerning figure.',
+    heading: 'What about training the models?',
+    sub: 'The numbers above leave out the energy used to train each model in the first place. Few AI companies publish it.',
   },
   {
-    step: 24,
-    heading: "Training Facebook's Llama 3.1 Model",
-    sub: `Unfortunately not many of the AI companies are very open about the cost of training (ironic, given the name of one of these companies...). One data point we do have is the cost of training Meta's Llama 3.1 which cost ${t(llama)} t CO₂e on the average grid, roughly ${Math.round(llama / chatgpt / 1e9)} billion ChatGPT queries. That said, Meta uses renewable energy matching, so their reported figure is 0 t.`,
+    item: 'llama',
+    heading: 'Training Llama 3.1',
+    sub: `Meta did. Training its three Llama 3.1 models produced ${t(v('llama'))} t CO₂e on the local grids, about ${sig2(v('llama') / chatgpt / 1e9)} billion ChatGPT questions. This is a one-off cost for that release. Meta reports zero after buying renewable energy to match it.`,
   },
   {
-    step: 24,
-    commentary: true,
-    heading: 'Each new model is a new training run',
-    sub: 'Since 2023, every major AI lab has shipped at least one new frontier model, each a separate training run at roughly this scale, roughly once a year per lab. It is a whopping amount of CO₂e, but it is not the only thing emitting at this kind of scale. Lets take a look at other annual emission costs, using this training cost as the annual baseline.',
+    heading: 'Newer models are bigger',
+    sub: 'Llama 3.1 is one of the few published training figures, and newer models use more computing power. Epoch AI found the computing used to train leading models grew 4 to 5 times a year from 2010 to 2024. Emissions figures for newer models are rarely published, so the bars below are compared with Llama 3.1.',
   },
   {
-    step: 25,
-    heading: 'Formula 1 season 2024',
-    sub: `Formula 1 runs 24 race weekends a year on six continents. The full 2024 season produced ${t(f1)} t CO₂e across logistics, freight, factory operations, and events, about ${Math.round(f1 / llama)} Llama 3.1 training runs. Spectator travel adds roughly another 655,000 t on top.`,
+    item: 'mistral',
+    heading: 'Training and using a model',
+    sub: `Mistral published what it calls the first full life-cycle study of an AI model. Its Large 2 model produced ${t(v('mistral'))} t CO₂e across training, 18 months of use and making the hardware.`,
   },
   {
-    step: 26,
-    heading: 'Sydney Trains, 1 year (pre-renewable)',
-    sub: `Running Sydney's entire train network for a year costs ${t(sydney)} t CO₂e on a standard grid, roughly ${Math.round(sydney / llama)}× training Llama 3.1. Sydney Trains switched to 100% renewable electricity in 2021, but it gives an idea of the scale of running a major city's train network.`,
+    heading: 'Yearly totals',
+    sub: 'The rest are yearly totals, shown as multiples of the Llama 3.1 training run.',
   },
   {
-    step: 27,
-    heading: 'All iPhones manufactured in 2024',
-    sub: `For context, Apple shipped 232 million iPhones in 2024. At 61 kg CO₂e each (iPhone 16 256GB, Apple PER), the full year's fleet adds up to ${Mt(iphones)} million t CO₂e. Modern manufacturing is energy-intensive.`,
+    item: 'f1',
+    heading: 'Formula 1',
+    sub: `Formula 1's 2024 season was ${t(v('f1'))} t CO₂e by its own count, about ${llamaRuns(v('f1'))} Llama 3.1 training runs.`,
   },
   {
-    step: 28,
-    heading: 'All data centres globally, 2024 (annual)',
-    sub: `Data centres across all industries—not just AI but every website, every stream, every cloud backup, and every email server—emitted ${Mt(dataCentres)} million t CO₂e in 2024. The IEA projects this will roughly double to ${Mt(dataCentresProjected)} million t CO₂e by 2030 as demand grows.`,
+    item: 'sydneyTrains',
+    heading: 'Sydney Trains',
+    sub: `Sydney Trains reported ${t(v('sydneyTrains'))} t CO₂e in 2018–19.`,
   },
   {
-    step: 29,
-    heading: 'Global oil well gas flaring, 2024',
-    sub: `But these last few heavy hitters have immense emissions right now and will continue to have them for years to come. When an oil well also strikes natural gas, drillers often burn it off at the wellhead because its cheaper than building pipeline to capture it. This practice emitted ${Mt(flaring)} million t CO₂e in 2024, just from burning off gas that's inconvenient to sell.`,
+    item: 'iphones',
+    heading: 'A year of iPhones',
+    sub: `Apple shipped 232.1 million iPhones in 2024. At 61 kg each, that's about ${mt(v('iphones'))} million t CO₂e.`,
   },
   {
-    step: 30,
-    heading: 'Global commercial aviation, 1 year',
-    sub: `Global commercial aviation burned through ${Mt(aviation)} million t CO₂ from jet fuel in 2024, about ${+(aviation / flaring).toFixed(1)}× all gas flaring. That's direct CO₂ only, excluding contrails, NOₓ, and water vapour at altitude which roughly double to triple the actual warming impact. Jet fuel's energy density is why intercontinental flight remains feasible without an alternative fuel.`,
+    item: 'jets',
+    heading: 'Private jets',
+    sub: `Private jet flights produced at least ${mt(v('jets'))} million t CO₂ from fuel in 2023.`,
   },
   {
-    step: 31,
-    heading: 'Global fashion industry, 1 year',
-    sub: `The global fashion industry emits around ${Gt(fashion)} Gt CO₂e per year, roughly ${+(fashion / aviation).toFixed(1)}× commercial aviation. Supply chains are hard to measure end-to-end, so estimates range from 0.8 to 1.8 Gt depending on methodology.`,
+    item: 'bitcoin',
+    heading: 'Bitcoin',
+    sub: `Bitcoin mining used about 138 TWh of electricity in a year, producing about ${mt(v('bitcoin'))} million t CO₂e.`,
   },
   {
-    step: 32,
-    heading: 'Global beef and dairy, 1 year',
-    sub: `Beef and dairy cattle together produce ${Gt(beefDairy)} Gt CO₂e per year, about 60% of all livestock emissions globally. Digestive methane, manure, feed production, and land clearing for pasture.`,
+    item: 'dataCentres',
+    heading: 'Every data centre',
+    sub: `Every data centre in the world, running websites, streaming, banking, cloud storage and AI, emits about ${mt(v('dataCentres'))} million t CO₂ a year, according to the IEA. The IEA expects their electricity use to more than double by 2030, with AI the main driver. In Australia, AEMO forecasts data centres will use about 34 TWh a year by 2036, 13% of the grid's electricity.`,
   },
   {
-    step: 33,
-    heading: 'Global food waste, 1 year',
-    sub: `Around one-third of all food produced globally is lost or wasted before it reaches a plate. That's ${Gt(foodWaste)} Gt CO₂e per year, including methane from organic matter decomposing in landfill. About ${Math.floor(foodWaste / aviation)}–${Math.ceil(foodWaste / aviation)}× commercial aviation.`,
+    item: 'flaring',
+    heading: 'Gas flaring',
+    sub: `Burning off unwanted gas at oil fields produced ${mt(v('flaring'))} million t CO₂e in 2025.`,
+  },
+  {
+    item: 'aviation',
+    heading: 'Airlines',
+    sub: `Airlines emitted ${mt(v('aviation'))} million t CO₂ in 2025 from fuel alone.`,
+  },
+  {
+    item: 'textiles',
+    heading: 'Clothes and textiles',
+    sub: 'Making the world’s textiles produces about 1.2 billion t CO₂e a year.',
+  },
+  {
+    item: 'cattle',
+    heading: 'Beef and dairy cattle',
+    sub: 'Beef and dairy cattle produce about 3.8 billion t CO₂e a year (2015 data).',
+  },
+  {
+    item: 'foodWaste',
+    heading: 'Food that is never eaten',
+    sub: 'Food that was grown but never eaten accounted for 9.3 billion t CO₂e in 2017. This overlaps with the cattle bar, since wasted meat and milk count in both.',
   },
 ];

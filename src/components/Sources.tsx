@@ -1,4 +1,4 @@
-import { SOURCES } from '../data/sources';
+import { CITATIONS } from '../data/citations';
 
 export function Sources() {
   return (
@@ -6,17 +6,22 @@ export function Sources() {
       <div className="section-inner">
         <h2>Sources</h2>
         <div className="sources-grid">
-          {SOURCES.map((s) => (
-            <div key={s.url} className="source-item">
-              <a href={s.url} target="_blank" rel="noopener noreferrer">
-                {s.title}
+          {CITATIONS.map(({ source, quotes }) => (
+            <div key={source.url} className="source-item">
+              <a href={source.url} target="_blank" rel="noopener noreferrer">
+                {source.title}
               </a>
-              <blockquote className="source-quote">{s.quote}</blockquote>
+              {quotes.map((q) => (
+                <blockquote key={q.text} className="source-quote">
+                  {q.text}
+                  {q.page ? <span className="source-page"> (PDF page {q.page})</span> : null}
+                </blockquote>
+              ))}
             </div>
           ))}
         </div>
         <p className="chart-note">
-          All figures should be checked against the primary sources linked above before citing.
+          Every quote above was checked word for word against the linked source in October 2026.
         </p>
       </div>
     </section>

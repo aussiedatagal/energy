@@ -1,29 +1,28 @@
 import { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { TREEMAP_INTRO } from '../data/copy';
 import { TREEMAP_DATA } from '../data/treemap';
 import type { CStep, TreemapCategory, TreemapLeaf } from '../types';
 
-function fmtLeafDisplay(mt: number): string {
-  return mt >= 1000 ? `${+(mt / 1000).toFixed(1)} Gt CO₂e` : `${Math.round(mt)} million t CO₂e`;
+function fmtLeafDisplay(mt: number, co2Only = false): string {
+  const unit = co2Only ? 'CO₂' : 'CO₂e';
+  return mt >= 1000
+    ? `${+(mt / 1000).toPrecision(3)} billion t ${unit}`
+    : `${+mt.toPrecision(3)} million t ${unit}`;
 }
 
 function fmtLeafLabel(mt: number): string {
-  return mt >= 1000 ? `${+(mt / 1000).toFixed(1)} Gt` : `${Math.round(mt)}M t`;
+  return mt >= 1000 ? `${+(mt / 1000).toPrecision(3)} Gt` : `${+mt.toPrecision(3)}M t`;
 }
 
 const MOBILE_LABELS: Record<string, string> = {
-  'Agriculture & Land Use': 'Agriculture',
-  'Consumer & Transport': 'Consumer',
-  'Digital Technology': 'Digital',
-  'Fast Fashion': 'Fashion',
-  'Standby / Vampire Power': 'Standby',
+  'Food & farming': 'Food',
+  'Transport & consumer': 'Transport',
+  'Clothes & textiles': 'Textiles',
   'Sheep & goats': 'Sheep',
-  'Cement & Concrete': 'Cement',
-  'Mining & Metals': 'Mining',
-  'Video Streaming': 'Streaming',
-  'Other livestock': 'Other',
-  'Beef cattle': 'Beef',
-  'Dairy cattle': 'Dairy',
+  'Mining & metals': 'Mining',
+  'Cattle (beef & dairy)': 'Cattle',
+  'Data centres (incl. AI)': 'Data centres',
 };
 
 function fitLeafName(name: string, w: number, h: number, mobile: boolean): string {
@@ -66,7 +65,7 @@ function updateTreemapLegend(categories: TreemapCategory[]) {
     `
         <div class="legend-item legend-ai-note">
           <div class="legend-dot" style="background:#56d364;outline:1.5px solid #fff;outline-offset:1px"></div>
-          All data centres, including AI: around 180 million t CO₂ in 2024 (IEA)
+          All data centres, including AI: around 180 million t CO₂ a year (IEA)
         </div>`;
 }
 
@@ -77,13 +76,12 @@ function appendLeaves(
     el: HTMLElement;
     color?: string;
     mobile: boolean;
-    total: number;
     offsetX: number;
     offsetY: number;
     onShow: (item: CStep) => void;
   }
 ) {
-  const { el, color, mobile, total, offsetX, offsetY, onShow } = opts;
+  const { el, color, mobile, offsetX, offsetY, onShow } = opts;
   const leafColor = (d: RectNode) => color ?? (d.parent!.data as TreemapCategory).color;
 
   const leaf = parent
@@ -98,38 +96,27 @@ function appendLeaves(
     .attr('width', (d) => Math.max(0, d.x1 - d.x0))
     .attr('height', (d) => Math.max(0, d.y1 - d.y0))
     .attr('fill', (d) => leafColor(d))
-    .attr('opacity', (d) => ((d.data as TreemapLeaf).highlight ? 1 : 0.72))
-    .attr('stroke', (d) => ((d.data as TreemapLeaf).highlight ? '#fff' : 'none'))
-    .attr('stroke-width', 2)
+    .attr('opacity', 0.72)
     .attr('rx', 2)
     .style('cursor', 'pointer')
-    .on('mouseenter', function (_, d) {
-      d3.select(this).attr('opacity', (d.data as TreemapLeaf).highlight ? 0.85 : 0.88);
+    .on('mouseenter', function () {
+      d3.select(this).attr('opacity', 0.88);
     })
-    .on('mouseleave', function (_, d) {
-      d3.select(this).attr('opacity', (d.data as TreemapLeaf).highlight ? 1 : 0.72);
+    .on('mouseleave', function () {
+      d3.select(this).attr('opacity', 0.72);
     })
     .on('click', (event, d) => {
       event.stopPropagation();
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       const leafData = d.data as TreemapLeaf;
-      const pct = ((leafData.value / total) * 100).toFixed(1);
       onShow({
-        label: `${leafData.name} – ${fmtLeafDisplay(leafData.value)}`,
+        id: leafData.name,
+        label: `${leafData.name}: ${fmtLeafDisplay(leafData.value, leafData.co2Only)}`,
+        co2Only: leafData.co2Only,
         value: leafData.value,
         mult: '',
         color: leafColor(d),
-        proof: {
-          primary: leafData.detail,
-          quote: leafData.quote,
-          quote2: leafData.quote2,
-          source: leafData.source,
-          sourceUrl: leafData.sourceUrl,
-          source2: leafData.source2,
-          sourceUrl2: leafData.sourceUrl2,
-          result: `${fmtLeafDisplay(leafData.value)} · ${pct}% of sectors shown`,
-          note: leafData.note,
-        },
+        proof: leafData.proof,
       });
     });
 
@@ -238,7 +225,6 @@ function drawMobileTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
       el,
       color: cat.color,
       mobile: true,
-      total,
       offsetX: 2,
       offsetY: y + headerH + 2,
       onShow,
@@ -305,7 +291,6 @@ function drawDesktopTreemap(el: HTMLElement, onShow: (item: CStep) => void) {
   appendLeaves(svg.append('g'), root.leaves() as RectNode[], {
     el,
     mobile: false,
-    total: root.value ?? 1,
     offsetX: 0,
     offsetY: 0,
     onShow,
@@ -355,16 +340,11 @@ export function BigPicture({ onShowProof }: Props) {
       <div className="section-inner">
         <div className="section-header fade-in">
           <h2>Global annual emissions, by sector</h2>
-          <p className="section-sub">
-            CO₂e is a unit of measurement that represents the equivalent warming effect from all
-            greenhouse gases. It's a way to put methane emissions from cattle and exhaust emissions
-            from flights onto the same scale representing how much they are actually affecting
-            global warming. In the graph below, each block's area is proportional to annual
-            emissions in CO₂e. Where a source gives energy use rather than emissions, it's converted
-            at 0.4 kg CO₂ per kWh, a conservative estimate based on global grid averages. Not all
-            figures use identical accounting boundaries (some are CO₂ only, others include methane
-            and other gases), click a block for the source and calculation behind it.
-          </p>
+          {TREEMAP_INTRO.map((para) => (
+            <p key={para} className="section-sub">
+              {para}
+            </p>
+          ))}
         </div>
         <div ref={treemapRef} id="treemap" className="fade-in" />
         <div className="legend fade-in" id="treemap-legend" />

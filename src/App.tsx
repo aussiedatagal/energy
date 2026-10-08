@@ -3,6 +3,7 @@ import { BigPicture } from './components/BigPicture';
 import { ComparisonSection } from './components/ComparisonSection';
 import { ProofModal } from './components/ProofModal';
 import { Sources } from './components/Sources';
+import { HERO, TAKEAWAY } from './data/copy';
 import type { CStep } from './types';
 
 export function App() {
@@ -34,14 +35,14 @@ export function App() {
 
       <section id="hero">
         <div className="hero-inner">
-          <p className="eyebrow">Global energy use in perspective</p>
+          <p className="eyebrow">{HERO.eyebrow}</p>
           <h1>
-            <span className="quote">Is AI really the biggest problem?</span>
+            <span className="quote">{HERO.title}</span>
           </h1>
           <div className="hero-framing">
-            <p>There's been a lot of talk lately about the environmental impact of AI.</p>
-            <p>Those concerns are valid, but are they overblown?</p>
-            <p>Let's find out how large the energy footprint is, compared to other industries.</p>
+            {HERO.lines.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
           </div>
           <a href="#big-picture" className="scroll-cta">
             Scroll down <span className="arrow">↓</span>
@@ -59,18 +60,9 @@ export function App() {
             <h2>So what does this tell us?</h2>
           </div>
           <div className="takeaway-body fade-in">
-            <p>
-              AI's energy use is real and it is growing. Data centres are projected to roughly
-              double their electricity consumption by 2030, and most of the world's grid is still
-              partly fossil-fuelled.
-            </p>
-            <p>
-              All the world's data centres, of which AI is one part, emitted around 180 million t
-              CO₂ in 2024 (IEA). Beef and dairy cattle emit about 3.8 billion t CO₂e a year (FAO)
-              and food waste about 9.3 billion t (2017), roughly 20 and 50 times that. The data
-              centre figure is the one expected to grow quickly: the IEA projects their electricity
-              use will more than double by 2030.
-            </p>
+            {TAKEAWAY.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
           </div>
         </div>
       </section>
@@ -78,7 +70,7 @@ export function App() {
       <Sources />
 
       <footer>
-        <p>All figures from primary sources. See Sources above.</p>
+        <p>Every figure links to its source. See Sources above.</p>
       </footer>
 
       {proofItem && <ProofModal item={proofItem} onClose={() => setProofItem(null)} />}

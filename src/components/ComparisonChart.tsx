@@ -116,7 +116,7 @@ function buildChart(container: HTMLElement, sticky: HTMLElement | null): ChartIn
       .attr('font-family', 'inherit')
       .attr('font-size', isMobile ? '9px' : '10px')
       .attr('fill', '#8b949e')
-      .text((d) => fmtBarVal(d.value));
+      .text((d) => fmtBarVal(d.value, d.co2Only));
 
     // Merge entering + updating. All bars get opacity 1 and correct position,
     // so any bar caught mid-transition by rapid scrolling is immediately corrected.

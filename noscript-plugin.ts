@@ -1,7 +1,9 @@
 import type { Plugin } from 'vite';
 import { TREEMAP_DATA } from './src/data/treemap';
 import { CSTEPS } from './src/data/csteps';
-import { SOURCES } from './src/data/sources';
+import { CITATIONS } from './src/data/citations';
+import { HERO, TAKEAWAY, TREEMAP_INTRO } from './src/data/copy';
+import { GRID_NOTE } from './src/data/grid';
 
 function esc(s: string): string {
   return s
@@ -12,7 +14,7 @@ function esc(s: string): string {
 }
 
 function fmtKg(kg: number): string {
-  const sig = (n: number) => parseFloat(n.toPrecision(3)).toLocaleString('en-US');
+  const sig = (n: number) => parseFloat(n.toPrecision(3)).toLocaleString('en-AU');
   if (kg < 1) return `${sig(kg * 1000)} g CO₂e`;
   if (kg < 1000) return `${sig(kg)} kg CO₂e`;
   if (kg < 1e9) return `${sig(kg / 1000)} t CO₂e`;
@@ -25,7 +27,7 @@ function fmtMt(mt: number): string {
   return `${+(mt / 1000).toFixed(1)} Gt CO₂e`;
 }
 
-// Injected inline in <head> so it runs before first paint — adds data-js to <html>,
+// Injected inline in <head> so it runs before first paint. It adds data-js to <html>,
 // which the CSS below uses to hide the static fallback when JS is active.
 const HIDE_SCRIPT = `document.documentElement.dataset.js='1'`;
 
@@ -55,18 +57,6 @@ const CSS = `
 `.trim();
 
 function buildHtml(): string {
-  const allLeaves = TREEMAP_DATA.children.flatMap((c) => c.children);
-  const agLeaves = TREEMAP_DATA.children.find((c) => c.name === 'Agriculture & Land Use')!.children;
-  const dataCentresKg = CSTEPS.find((s) => s.label.startsWith('All data centres'))!.value;
-  const llamaKg = CSTEPS.find((s) => s.label.startsWith('Training Llama'))!.value;
-  const beefKg = CSTEPS.find((s) => s.label.startsWith('Global beef and dairy'))!.value;
-  const fashionKg = CSTEPS.find((s) => s.label.startsWith('Global fashion'))!.value;
-  const foodWasteKg = CSTEPS.find((s) => s.label.startsWith('Global food waste'))!.value;
-  const aviationMt = allLeaves.find((l) => l.name === 'Aviation')!.value;
-  const livestockMt = agLeaves
-    .filter((l) => l.name !== 'Food Waste')
-    .reduce((s, l) => s + l.value, 0);
-
   const sectorRows = TREEMAP_DATA.children
     .flatMap((cat) =>
       cat.children.map(
@@ -75,7 +65,7 @@ function buildHtml(): string {
         <td class="cat">${esc(cat.name)}</td>
         <td>${esc(item.name)}</td>
         <td class="val">${fmtMt(item.value)}</td>
-        <td class="note">${esc(item.detail)}</td>
+        <td class="note">${esc(item.proof.primary)}</td>
       </tr>`
       )
     )
@@ -90,13 +80,15 @@ function buildHtml(): string {
       </tr>`
   ).join('');
 
-  const sourceRows = SOURCES.map(
-    (s) => `
+  const sourceRows = CITATIONS.map(
+    ({ source, quotes }) => `
       <tr>
-        <td><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a></td>
-        <td class="note">${esc(s.quote)}</td>
+        <td><a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.title)}</a></td>
+        <td class="note">${quotes.map((q) => esc(q.text) + (q.page ? ` (PDF page ${q.page})` : '')).join('<br><br>')}</td>
       </tr>`
   ).join('');
+
+  const paras = (list: string[]) => list.map((p) => `<p>${esc(p)}</p>`).join('\n    ');
 
   return `<div id="static-fallback">
   <nav class="ns-nav">
@@ -108,31 +100,17 @@ function buildHtml(): string {
   </nav>
 
   <section id="ns-hero">
-    <p>Global energy use, in context</p>
-    <h1>"AI is destroying the planet."</h1>
-    <p>Here's what the data actually shows.</p>
-    <div class="ns-stats">
-      <div class="ns-stat">
-        <div class="ns-stat-n">${Math.round(dataCentresKg / 1e9)}M t CO₂e</div>
-        <div class="ns-stat-l">All data centres globally, 2024</div>
-      </div>
-      <div class="ns-stat">
-        <div class="ns-stat-n">${Math.round(aviationMt)}M t CO₂e</div>
-        <div class="ns-stat-l">Aviation globally, 2024</div>
-      </div>
-      <div class="ns-stat">
-        <div class="ns-stat-n">${+(livestockMt / 1000).toFixed(1)} Gt CO₂e</div>
-        <div class="ns-stat-l">Beef &amp; livestock, annually</div>
-      </div>
-    </div>
+    <p>${esc(HERO.eyebrow)}</p>
+    <h1>${esc(HERO.title)}</h1>
+    ${paras(HERO.lines)}
   </section>
 
   <section id="ns-sectors">
-    <h2>Sector emissions overview</h2>
-    <p>Digital sector figures converted from TWh using 0.4 kg CO₂/kWh global average. Values under 1 Gt shown in millions of tonnes.</p>
+    <h2>Global yearly emissions, by sector</h2>
+    ${paras(TREEMAP_INTRO)}
     <table>
       <thead>
-        <tr><th>Category</th><th>Item</th><th>CO₂e</th><th>Notes</th></tr>
+        <tr><th>Category</th><th>Item</th><th>Emissions</th><th>Figure</th></tr>
       </thead>
       <tbody>${sectorRows}
       </tbody>
@@ -140,11 +118,11 @@ function buildHtml(): string {
   </section>
 
   <section id="ns-comparison">
-    <h2>Per-activity comparison</h2>
-    <p>Scroll comparison on the full site. The multiplier column shows each activity relative to one ChatGPT text query (0.17 g CO₂e, baseline).</p>
+    <h2>One ChatGPT question, compared with everything else</h2>
+    <p>${esc(GRID_NOTE)} The last column compares each item with one ChatGPT question, and the yearly totals with training Llama 3.1.</p>
     <table>
       <thead>
-        <tr><th>Activity</th><th>CO₂e</th><th>vs ChatGPT query</th></tr>
+        <tr><th>Activity</th><th>Emissions</th><th>Compared with</th></tr>
       </thead>
       <tbody>${compRows}
       </tbody>
@@ -153,23 +131,21 @@ function buildHtml(): string {
 
   <section id="ns-takeaway">
     <h2>So what does this tell us?</h2>
-    <p>Data centres consume 415 TWh globally in 2024, about 1.5% of global electricity. The IEA projects data centre electricity demand will roughly double by 2030, and that trajectory is worth tracking. This includes AI inference, but also cloud storage, streaming, email, and all other digital services.</p>
-    <p>Training is a separate cost from inference. Only Meta has published verified training figures for a current frontier model: Llama 3.1 405B required 27.5 GWh, about ${Math.round(llamaKg / 1e3).toLocaleString('en-US')} t CO₂e on the average grid. GPT-4o, Claude, and Gemini have published nothing comparable. That opacity is a real problem.</p>
-    <p>The purpose of these comparisons is to put emissions in context. Beef and dairy produce around ${+(beefKg / 1e12).toFixed(1)} Gt CO₂e per year. The fashion industry, around ${+(fashionKg / 1e12).toFixed(1)} Gt. Food waste, around ${+(foodWasteKg / 1e12).toFixed(1)} Gt. Aviation produces ${Math.round(aviationMt)} Mt. All data centres (including all AI) produce around ${Math.round(dataCentresKg / 1e9)} million t. These industries attract a fraction of the scrutiny that AI does, and the gap in attention is not proportional to the gap in emissions. Holding all sectors accountable fairly matters.</p>
+    ${paras(TAKEAWAY)}
   </section>
 
   <section id="ns-sources">
     <h2>Sources</h2>
     <table>
       <thead>
-        <tr><th>Source</th><th>Quote</th></tr>
+        <tr><th>Source</th><th>Quotes</th></tr>
       </thead>
       <tbody>${sourceRows}
       </tbody>
     </table>
   </section>
 
-  <footer>All figures from primary sources. See Sources above.</footer>
+  <footer>Every figure links to its source. See Sources above.</footer>
 </div>`;
 }
 

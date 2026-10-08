@@ -1,36 +1,37 @@
+export interface Source {
+  title: string;
+  url: string;
+}
+
+export interface Quote {
+  source: Source;
+  text: string;
+  page?: number;
+}
+
 export interface Proof {
   primary: string;
-  quote?: string;
-  quote2?: string;
-  source: string;
-  sourceUrl?: string;
-  source2?: string;
-  sourceUrl2?: string;
+  quotes: Quote[];
   calc?: string;
   result: string;
   note?: string;
 }
 
 export interface CStep {
+  id: string;
   label: string;
   value: number;
-  mult: string;
   color: string;
-  proof?: Proof;
+  mult: string;
+  co2Only?: boolean;
+  proof: Proof;
 }
 
 export interface TreemapLeaf {
   name: string;
   value: number;
-  detail: string;
-  quote?: string;
-  quote2?: string;
-  source: string;
-  sourceUrl?: string;
-  source2?: string;
-  sourceUrl2?: string;
-  note?: string;
-  highlight?: boolean;
+  co2Only?: boolean;
+  proof: Proof;
 }
 
 export interface TreemapCategory {
@@ -44,15 +45,8 @@ export interface TreemapRoot {
   children: TreemapCategory[];
 }
 
-export interface Source {
-  title: string;
-  url: string;
-  quote: string;
-}
-
 export interface StepItem {
-  step: number;
+  item?: string;
   heading: string;
   sub: string;
-  commentary?: true;
 }

@@ -5,6 +5,14 @@ import { useScrollStep } from '../hooks/useScrollStep';
 import { ComparisonChart } from './ComparisonChart';
 import type { CStep } from '../types';
 
+// Each step's data-step is the index of its bar minus one, so the chart shows that bar once
+// the step is reached. Commentary steps share the number of the bar before them.
+const STEP_NUMBERS = STEPS.reduce<number[]>((acc, step) => {
+  const prev = acc.length ? acc[acc.length - 1] : 0;
+  acc.push(step.item ? CSTEPS.findIndex((d) => d.id === step.item) - 1 : prev);
+  return acc;
+}, []);
+
 interface Props {
   onShowProof: (item: CStep) => void;
 }
@@ -42,7 +50,7 @@ export function ComparisonSection({ onShowProof }: Props) {
     <section id="comparison">
       <div className="section-inner">
         <div className="section-header fade-in">
-          <h2>One ChatGPT query, compared to everything else</h2>
+          <h2>One ChatGPT question, compared with everything else</h2>
           <p className="section-sub">
             Scroll through to see how the scale changes, from a daily activity to training a model.
           </p>
@@ -56,20 +64,21 @@ export function ComparisonSection({ onShowProof }: Props) {
         </div>
         <div className="comparison-steps-wrap">
           {STEPS.map((step, i) => {
-            const cstepItem = !step.commentary ? CSTEPS[step.step + 1] : undefined;
-            const isActive = activeStep === step.step;
+            const stepNumber = STEP_NUMBERS[i];
+            const cstepItem = step.item ? CSTEPS.find((d) => d.id === step.item) : undefined;
+            const isActive = activeStep === stepNumber;
 
             return (
               <div
                 key={i}
                 className="comparison-step"
-                data-step={step.step}
-                {...(step.commentary ? { 'data-commentary': 'true' } : {})}
+                data-step={stepNumber}
+                {...(!step.item ? { 'data-commentary': 'true' } : {})}
               >
                 <div className={`step-content${isActive ? ' active' : ''}`}>
                   <p className="step-heading">{step.heading}</p>
                   <p className="step-sub">{step.sub}</p>
-                  {cstepItem?.proof && (
+                  {cstepItem && (
                     <button
                       className="step-proof-btn"
                       aria-label="Show source"

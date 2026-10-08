@@ -6,20 +6,8 @@ interface Props {
   onClose: () => void;
 }
 
-function SourceLink({ name, url }: { name?: string; url?: string }) {
-  if (!name) return null;
-  return url ? (
-    <a href={url} target="_blank" rel="noopener noreferrer">
-      {name}
-    </a>
-  ) : (
-    <>{name}</>
-  );
-}
-
 export function ProofModal({ item, onClose }: Props) {
-  const p = item.proof!;
-  const twoSources = !!p.quote2 && p.sourceUrl2 !== p.sourceUrl;
+  const p = item.proof;
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -48,44 +36,23 @@ export function ProofModal({ item, onClose }: Props) {
         </button>
         <p className="proof-content-title">{item.label}</p>
         <dl className="proof-dl">
-          {twoSources ? (
+          <dt>Figure</dt>
+          <dd>{p.primary}</dd>
+          {p.quotes.length > 0 && (
             <>
-              <dt>Source 1</dt>
+              <dt>{p.quotes.length > 1 ? 'Sources' : 'Source'}</dt>
               <dd>
-                <blockquote className="proof-quote">{p.quote}</blockquote>
-                <p className="proof-source-name">
-                  <SourceLink name={p.source} url={p.sourceUrl} />
-                </p>
-              </dd>
-              <dt>Source 2</dt>
-              <dd>
-                <blockquote className="proof-quote">{p.quote2}</blockquote>
-                <p className="proof-source-name">
-                  <SourceLink name={p.source2} url={p.sourceUrl2} />
-                </p>
-              </dd>
-            </>
-          ) : (
-            <>
-              {p.quote && (
-                <>
-                  <dt>{p.quote2 ? 'Quote 1' : 'Quote'}</dt>
-                  <dd>
-                    <blockquote className="proof-quote">{p.quote}</blockquote>
-                  </dd>
-                </>
-              )}
-              {p.quote2 && (
-                <>
-                  <dt>Quote 2</dt>
-                  <dd>
-                    <blockquote className="proof-quote">{p.quote2}</blockquote>
-                  </dd>
-                </>
-              )}
-              <dt>Reference</dt>
-              <dd>
-                <SourceLink name={p.source} url={p.sourceUrl} />
+                {p.quotes.map((q, i) => (
+                  <figure key={i} className="proof-figure">
+                    <blockquote className="proof-quote">{q.text}</blockquote>
+                    <figcaption className="proof-source-name">
+                      <a href={q.source.url} target="_blank" rel="noopener noreferrer">
+                        {q.source.title}
+                      </a>
+                      {q.page ? `, PDF page ${q.page}` : ''}
+                    </figcaption>
+                  </figure>
+                ))}
               </dd>
             </>
           )}
