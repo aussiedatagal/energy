@@ -2,7 +2,6 @@ const sig = (n: number) => (+n.toPrecision(3)).toLocaleString('en-AU');
 
 export function fmtBarVal(kg: number, co2Only = false): string {
   const unit = co2Only ? 'CO₂' : 'CO₂e';
-  if (kg < 0.001) return `${sig(kg * 1e6)}μg ${unit}`;
   if (kg < 1) return `${sig(kg * 1000)}g ${unit}`;
   if (kg < 1000) return `${(+kg.toPrecision(4)).toLocaleString('en-AU')}kg ${unit}`;
   if (kg < 10000) return `${Math.round(kg).toLocaleString('en-AU')}kg ${unit}`;
