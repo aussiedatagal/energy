@@ -135,6 +135,27 @@ const ITEMS: Item[] = [
     },
   },
   {
+    id: 'chatgptHeavy',
+    phase: 'action',
+    label: '1 long ChatGPT question with heavy reasoning',
+    value: fromWh(33.8),
+    color: '#79c0ff',
+    proof: {
+      primary: '33.8 Wh for a long question to GPT-5 with high reasoning',
+      quotes: [
+        {
+          source: SRC.jegham,
+          page: 11,
+          text: 'Conversely, a long, high-reasoning query reaches an average of 33.8 Wh, comparable to the upper bounds observed among the most energy-intensive models analyzed in this study.',
+        },
+        GRID_QUOTE,
+      ],
+      calc: '33.8 Wh × 458 g CO₂e/kWh',
+      result: `${kg(fromWh(33.8) * 1000)} g CO₂e`,
+      note: `The heaviest case measured for GPT-5: a long prompt with the highest reasoning setting. Most everyday questions are much shorter. ${GRID_NOTE}`,
+    },
+  },
+  {
     id: 'popcorn',
     phase: 'action',
     label: 'Microwave popcorn, 3 min',
@@ -705,6 +726,26 @@ const ITEMS: Item[] = [
       ],
       result: '545,749 t CO₂e',
       note: 'Reported under the National Greenhouse and Energy Reporting scheme for 2018–19, before the network started buying renewable energy certificates (announced October 2021). Table row.',
+    },
+  },
+  {
+    id: 'tomago',
+    phase: 'annual',
+    label: 'Tomago aluminium smelter (NSW), 1 year',
+    value: 7.9e9,
+    color: '#ffa657',
+    proof: {
+      primary: '7.9 million t CO₂e a year, scope 1 and 2',
+      quotes: [
+        { source: SRC.tomago, page: 11, text: 'Total Scope 1 & 2 = 7.9Mt' },
+        {
+          source: SRC.tomago,
+          page: 6,
+          text: '950MW constant power consumption, 12% of NSW Demand, largest load in Australia',
+        },
+      ],
+      result: '7.9 million t CO₂e',
+      note: 'Tomago’s own figure from its 2022 industry briefing: the smelter’s direct emissions plus those from the electricity it buys. Most of it is electricity.',
     },
   },
   {

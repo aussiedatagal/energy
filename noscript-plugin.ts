@@ -4,6 +4,7 @@ import { CSTEPS } from './src/data/csteps';
 import { CITATIONS } from './src/data/citations';
 import { HERO, TAKEAWAY, TREEMAP_INTRO } from './src/data/copy';
 import { GRID_NOTE } from './src/data/grid';
+import { GRID_TOTAL, GRID_USES } from './src/data/aemo';
 
 function esc(s: string): string {
   return s
@@ -125,6 +126,16 @@ function buildHtml(): string {
         <tr><th>Activity</th><th>Emissions</th><th>Compared with</th></tr>
       </thead>
       <tbody>${compRows}
+      </tbody>
+    </table>
+  </section>
+
+  <section id="ns-australia">
+    <h2>Australia’s grid</h2>
+    <p>AEMO forecasts the east coast grid will supply ${GRID_TOTAL.fy36} TWh a year by 2035–36, up from ${GRID_TOTAL.now} TWh now.</p>
+    <table>
+      <thead><tr><th>Use</th><th>TWh a year</th><th>Notes</th></tr></thead>
+      <tbody>${GRID_USES.map((d) => `<tr><td>${esc(d.name)}</td><td class="val">${d.twh}</td><td class="note">${esc(d.detail)}</td></tr>`).join('')}
       </tbody>
     </table>
   </section>

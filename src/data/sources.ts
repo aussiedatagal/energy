@@ -179,6 +179,18 @@ export const SRC = {
     'AEMO (2026): ESOO data centre forecasting overview',
     'https://www.aemo.com.au/-/media/files/electricity/nem/planning_and_forecasting/nem_esoo/2026/2026-esoo-data-centre-forecasting-overview.pdf'
   ),
+  esoo: s(
+    'AEMO (2026): 2026 Electricity Statement of Opportunities',
+    'https://www.aemo.com.au/-/media/files/electricity/nem/planning_and_forecasting/nem_esoo/2026/2026-electricity-statement-of-opportunities.pdf'
+  ),
+  fau: s(
+    'AEMO (2026): 2026 Forecasting Assumptions Update',
+    'https://www.aemo.com.au/-/media/files/stakeholder_consultation/consultations/nem-consultations/2025/draft-2026-fau/final/2026-forecasting-assumptions-update.pdf'
+  ),
+  tomago: s(
+    'Tomago Aluminium (2022): Industry briefing presentation',
+    'https://www.tomago.com.au/wp-content/uploads/2022/11/TAC-Industry-Briefing-Presentation-14-Nov-22.pdf'
+  ),
   flaring: s(
     'World Bank (2026): Global Gas Flaring Tracker Report',
     'https://thedocs.worldbank.org/en/doc/b34e0c054bb3fe3695e70154c28eef3f-0400072026/original/Global-Gas-FlaringTracker-June-23-2026.pdf'

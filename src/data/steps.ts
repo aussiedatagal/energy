@@ -1,5 +1,6 @@
 import type { StepItem } from '../types';
 import { byId } from './csteps';
+import { fromWh } from './grid';
 
 const v = (id: string) => byId(id).value;
 const chatgpt = v('chatgpt');
@@ -21,7 +22,7 @@ export const STEPS: StepItem[] = [
   {
     item: 'chatgpt',
     heading: 'A Google search and a ChatGPT question',
-    sub: `A short question to ChatGPT's default model uses about ${times(chatgpt, v('google'))} times the energy of a Google search, using Google's own figure from 2009. A long question with heavy reasoning uses about 50 times more. Counting training and the hardware too, Mistral's full life-cycle figure for one answer is about ${Math.round(1.14 / (chatgpt * 1000))} times this one. Tap ? on any step for the sources and the working.`,
+    sub: `A short question to ChatGPT's default model uses about ${times(chatgpt, v('google'))} times the energy of a Google search, using Google's own figure from 2009. Counting training and the hardware too, Mistral's full life-cycle figure for one answer is about ${Math.round(1.14 / (chatgpt * 1000))} times this one. Tap Sources on any step for the quotes and the working.`,
   },
   {
     item: 'image',
@@ -32,6 +33,11 @@ export const STEPS: StepItem[] = [
     item: 'phone',
     heading: 'Charging your phone',
     sub: `Charging a phone once uses about the same electricity as ${q(v('phone'))} ChatGPT questions, or ${n(v('phone') / v('image'))} AI images.`,
+  },
+  {
+    item: 'chatgptHeavy',
+    heading: 'A long question with heavy reasoning',
+    sub: `Not every question is short. A long question with the highest reasoning setting used ${n(v('chatgptHeavy') / chatgpt)} times as much energy as a short one in the same study, about ${+(v('chatgptHeavy') * 1000).toPrecision(3)} g CO₂e.`,
   },
   {
     item: 'popcorn',
@@ -173,7 +179,7 @@ export const STEPS: StepItem[] = [
   {
     item: 'chatgptYear',
     heading: 'ChatGPT for a whole year',
-    sub: `In mid-2025 OpenAI said ChatGPT received 2.5 billion prompts a day, at an average of 0.34 Wh each. Over a year that's about ${(+(v('chatgptYear') / 1000).toPrecision(3)).toLocaleString('en-AU')} t CO₂e, about ${llamaRuns(v('chatgptYear'))} times the Llama 3.1 training run. Use had more than doubled in the previous eight months.`,
+    sub: `In mid-2025 OpenAI said ChatGPT received 2.5 billion prompts a day, at an average of 0.34 Wh each. Over a year that's about ${(+(v('chatgptYear') / 1000).toPrecision(3)).toLocaleString('en-AU')} t CO₂e, about ${llamaRuns(v('chatgptYear'))} times the Llama 3.1 training run. Using the independent 0.67 Wh figure from the top of the page instead of OpenAI's average, it would be about ${(+(fromWh(2.5e9 * 365 * 0.67) / 1000).toPrecision(2)).toLocaleString('en-AU')} t. Use had more than doubled in the previous eight months.`,
   },
   {
     item: 'f1',
@@ -184,6 +190,11 @@ export const STEPS: StepItem[] = [
     item: 'sydneyTrains',
     heading: 'Sydney Trains',
     sub: `Sydney Trains reported ${t(v('sydneyTrains'))} t CO₂e in 2018–19. In October 2021 it started buying renewable energy certificates to cover its electricity, which is how it counts as net zero. It's the same approach that lets Meta report zero for Llama.`,
+  },
+  {
+    item: 'tomago',
+    heading: 'One aluminium smelter',
+    sub: `Tomago in NSW described itself in 2022 as the largest electricity load in Australia. It reported about ${mt(v('tomago'))} million t CO₂e a year, about ${n(v('tomago') / v('chatgptYear'))} times ChatGPT's yearly total above.`,
   },
   {
     item: 'iphones',

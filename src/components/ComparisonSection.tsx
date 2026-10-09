@@ -81,13 +81,13 @@ export function ComparisonSection({ onShowProof }: Props) {
                   {cstepItem && (
                     <button
                       className="step-proof-btn"
-                      aria-label="Show source"
+                      aria-label={`Sources for ${step.heading}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         onShowProof(cstepItem);
                       }}
                     >
-                      ?
+                      Sources
                     </button>
                   )}
                 </div>

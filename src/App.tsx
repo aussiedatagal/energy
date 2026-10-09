@@ -74,7 +74,7 @@ export function App() {
       <Sources />
 
       <footer>
-        <p>Every figure links to its source. See Sources above.</p>
+        <p>Every figure links to its source. Figures and quotes checked October 2026.</p>
       </footer>
 
       {proofItem && <ProofModal item={proofItem} onClose={() => setProofItem(null)} />}
