@@ -2,7 +2,7 @@ import type { CStep } from '../types';
 import { GRID_NOTE, GRID_QUOTE, fromKwh, fromWh } from './grid';
 import { SRC } from './sources';
 
-type Item = Omit<CStep, 'mult'> & { phase: 'action' | 'annual' };
+type Item = Omit<CStep, 'mult'> & { phase: 'action' | 'training' | 'annual' };
 
 const WATER_J_PER_KG_C = 4184;
 const kwhToHeatWater = (litres: number, riseC: number) =>
@@ -504,9 +504,64 @@ const ITEMS: Item[] = [
     },
   },
   {
+    id: 'gpt3',
+    phase: 'training',
+    label: 'Training GPT-3 (OpenAI, 2020)',
+    value: 552000,
+    color: '#a5d6ff',
+    proof: {
+      primary: '552 t CO₂e, estimated by Google researchers',
+      quotes: [
+        {
+          source: SRC.patterson,
+          page: 7,
+          text: 'Its estimated carbon emissions due to training are 552 tCO2e and its energy consumption is 1287 MWh.',
+        },
+      ],
+      result: '552 t CO₂e',
+      note: 'OpenAI hasn’t published a figure. This estimate is from Patterson et al. (2021), a study by Google and UC Berkeley researchers.',
+    },
+  },
+  {
+    id: 'llama2',
+    phase: 'training',
+    label: 'Training Llama 2 (Meta, 2023)',
+    value: 539000,
+    color: '#79c0ff',
+    proof: {
+      primary: '539 t CO₂e for the three Llama 2 models',
+      quotes: [
+        {
+          source: SRC.llama2,
+          text: 'Estimated total emissions were 539 tCO2eq, 100% of which were offset by Meta’s sustainability program.',
+        },
+        { source: SRC.llama2, text: 'Llama 2 was trained between January 2023 and July 2023.' },
+      ],
+      result: '539 t CO₂e',
+    },
+  },
+  {
+    id: 'llama3',
+    phase: 'training',
+    label: 'Training Llama 3 (Meta, April 2024)',
+    value: 2290000,
+    color: '#79c0ff',
+    proof: {
+      primary: '2,290 t CO₂e for the two Llama 3 models',
+      quotes: [
+        {
+          source: SRC.llama3,
+          text: 'Estimated total emissions were 2290 tCO2eq, 100% of which were offset by Meta’s sustainability program.',
+        },
+        { source: SRC.llama3, text: '**Model Release Date** April 18, 2024.' },
+      ],
+      result: '2,290 t CO₂e',
+    },
+  },
+  {
     id: 'llama',
-    phase: 'annual',
-    label: 'Training Llama 3.1 (Meta, one-off)',
+    phase: 'training',
+    label: 'Training Llama 3.1 (Meta, July 2024)',
     value: 11390000,
     color: '#79c0ff',
     proof: {
@@ -521,18 +576,46 @@ const ITEMS: Item[] = [
           text: 'Since 2020, Meta has maintained net zero greenhouse gas emissions in its global operations and matched 100% of its electricity use with renewable energy, therefore the total market-based greenhouse gas emissions for training were 0 tons CO2eq.',
         },
         { source: SRC.llama, text: 'Llama 3.1 405B | 30.84M | 700 | 8,930 | 0' },
-        {
-          source: SRC.epoch,
-          text: 'Our expanded AI model database shows that the compute used to train recent models grew 4-5x yearly from 2010 to May 2024.',
-        },
+        { source: SRC.llama, text: '**Model Release Date:** July 23, 2024.' },
       ],
       result: '11,390 t CO₂e',
       note: 'Meta trained three sizes for this release; the largest (405B) was 8,930 t of the total. “Location-based” means using the local grid’s emissions. Meta reports 0 t after buying renewable energy to match. This is a one-off cost for one release, not a yearly cost.',
     },
   },
   {
+    id: 'llama4',
+    phase: 'training',
+    label: 'Training Llama 4 (Meta, April 2025)',
+    value: 1999000,
+    color: '#79c0ff',
+    proof: {
+      primary: '1,999 t CO₂e for the two released Llama 4 models',
+      quotes: [
+        {
+          source: SRC.llama4,
+          text: 'Estimated total location-based greenhouse gas emissions were **1,999 tons** CO2eq for training.',
+        },
+        { source: SRC.llama4, text: '**Model Release Date:** April 5, 2025' },
+        {
+          source: SRC.llama4Blog,
+          text: 'These models are our best yet thanks to distillation from Llama 4 Behemoth, a 288 billion active parameter model with 16 experts that is our most powerful yet and among the world’s smartest LLMs.',
+        },
+        {
+          source: SRC.llama4Blog,
+          text: 'Llama 4 Behemoth is still training, and we’re excited to share more details about it even while it’s still in flight.',
+        },
+        {
+          source: SRC.epoch,
+          text: 'Our expanded AI model database shows that the compute used to train recent models grew 4-5x yearly from 2010 to May 2024.',
+        },
+      ],
+      result: '1,999 t CO₂e',
+      note: 'Doesn’t include Behemoth, the larger model these two were distilled from, which Meta was still training when they were released.',
+    },
+  },
+  {
     id: 'mistral',
-    phase: 'annual',
+    phase: 'training',
     label: 'Mistral Large 2: training plus 18 months of use',
     value: 20400000,
     color: '#a5d6ff',
@@ -553,22 +636,56 @@ const ITEMS: Item[] = [
     },
   },
   {
+    id: 'chatgptYear',
+    phase: 'annual',
+    label: 'Every ChatGPT prompt for a year (2025)',
+    // Rounded to the nearest 1,000 t: the inputs are themselves round numbers.
+    value: Math.round(fromWh(2.5e9 * 365 * 0.34) / 1e6) * 1e6,
+    color: '#79c0ff',
+    proof: {
+      primary: '2.5 billion prompts a day × 0.34 Wh average, both from OpenAI',
+      quotes: [
+        {
+          source: SRC.techcrunch,
+          text: 'ChatGPT receives 2.5 billion prompts from global users every day, OpenAI told Axios',
+        },
+        {
+          source: SRC.altman,
+          text: 'the average query uses about 0.34 watt-hours, about what an oven would use in a little over one second, or a high-efficiency lightbulb would use in a couple of minutes.',
+        },
+        {
+          source: SRC.techcrunch,
+          text: 'At Altman’s word, the company’s search volume has more than doubled in around eight months.',
+        },
+        GRID_QUOTE,
+      ],
+      calc: `2.5 billion × 365 days × 0.34 Wh = ${Math.round((2.5e9 * 365 * 0.34) / 1e9)} GWh, × 458 g CO₂e/kWh`,
+      result: `about ${Math.round(fromWh(2.5e9 * 365 * 0.34) / 1000).toLocaleString('en-AU')} t CO₂e`,
+      note: 'Both numbers are OpenAI’s, from mid-2025, and usage was still growing fast. Covers answering prompts in ChatGPT only: not training, not other companies’ AI, and not developers using OpenAI’s models through its API.',
+    },
+  },
+  {
     id: 'f1',
     phase: 'annual',
     label: 'Formula 1, 2024 season',
-    value: 168720000,
+    value: 188732000,
     color: '#f97316',
     proof: {
-      primary: '168,720 t CO₂e for 2024',
+      primary: '188,732 t CO₂e for 2024, before sustainable aviation fuel certificates',
       quotes: [
         {
           source: SRC.f1,
           page: 2,
           text: 'with the footprint for the sport now standing at 168,720 tCO2e, down from 228,793 tCO²e in 2018.',
         },
+        {
+          source: SRC.f1,
+          page: 11,
+          text: 'Total 256,551 228,793 189,496 188,732 228,793 182,801 168,720',
+        },
       ],
-      result: '168,720 t CO₂e',
-      note: 'F1’s own figure, using the market-based method.',
+      result: '188,732 t CO₂e',
+      note: 'The emissions table gives 2024 totals without certificates (188,732 t) and with them (168,720 t). We use the first so it’s counted the same way as the AI training figures, before any renewable or offset purchases.',
     },
   },
   {
@@ -579,9 +696,15 @@ const ITEMS: Item[] = [
     color: '#56d364',
     proof: {
       primary: '545,749 t CO₂e, scope 1 and 2, 2018–19',
-      quotes: [{ source: SRC.climateworks, page: 10, text: '545,749 Sydney Trains' }],
+      quotes: [
+        { source: SRC.climateworks, page: 10, text: '545,749 Sydney Trains' },
+        {
+          source: SRC.reneweconomy,
+          text: 'Sydney’s Train network will become one of the first public transport systems in Australia to transition to net zero emissions after striking a deal to purchase renewable energy certificates to offset its electricity use.',
+        },
+      ],
       result: '545,749 t CO₂e',
-      note: 'Sydney Trains’ reported scope 1 and 2 emissions for 2018–19 under the National Greenhouse and Energy Reporting scheme, as listed by Climateworks. Table row.',
+      note: 'Reported under the National Greenhouse and Energy Reporting scheme for 2018–19, before the network started buying renewable energy certificates (announced October 2021). Table row.',
     },
   },
   {
@@ -673,6 +796,30 @@ const ITEMS: Item[] = [
       ],
       result: '180 million t CO₂',
       note: 'Covers every data centre: websites, streaming, banking, cloud storage and AI. The IEA doesn’t publish an AI-only figure. CO₂ from electricity only.',
+    },
+  },
+  {
+    id: 'dataCentres2030',
+    phase: 'annual',
+    co2Only: true,
+    label: 'All data centres in the world, 2030 (IEA projection)',
+    value: 945e9 * 0.36,
+    color: '#56d364',
+    proof: {
+      primary: '945 TWh of electricity at a forecast 360 g CO₂ per kWh',
+      quotes: [
+        {
+          source: SRC.ieaAiSummary,
+          text: 'Data centre electricity consumption is set to more than double to around 945 TWh by 2030.',
+        },
+        {
+          source: SRC.ieaElectricity,
+          text: 'down from 435 g CO2/kWh in 2025 to 360 g CO2/kWh in 2030',
+        },
+      ],
+      calc: '945 TWh × 360 g CO₂/kWh (both IEA forecasts)',
+      result: `about ${Math.round(945 * 0.36)} million t CO₂`,
+      note: 'Our calculation from two IEA forecasts. The IEA expects grids to get cleaner by 2030, so emissions grow less than electricity use.',
     },
   },
   {
@@ -793,8 +940,8 @@ const llamaKg = ITEMS.find((d) => d.id === 'llama')!.value;
 
 function multiplier(d: Item): string {
   if (d.id === 'chatgpt') return 'baseline';
-  if (d.id === 'llama') return `~${compact(d.value / chatgptKg)} questions`;
-  if (d.phase === 'annual') return `~×${compact(d.value / llamaKg)} Llama`;
+  if (d.phase === 'training') return `~${compact(d.value / chatgptKg)} questions`;
+  if (d.phase === 'annual') return `~×${compact(d.value / llamaKg)} Llama 3.1`;
   const r = d.value / chatgptKg;
   return r >= 1e8 ? `~${compact(r)} questions` : `${r >= 1000 ? '~' : ''}×${compact(r)}`;
 }

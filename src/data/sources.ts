@@ -115,6 +115,34 @@ export const SRC = {
     'Meta: Llama 3.1 model card',
     'https://raw.githubusercontent.com/meta-llama/llama-models/main/models/llama3_1/MODEL_CARD.md'
   ),
+  llama2: s(
+    'Meta: Llama 2 model card',
+    'https://raw.githubusercontent.com/meta-llama/llama-models/main/models/llama2/MODEL_CARD.md'
+  ),
+  llama3: s(
+    'Meta: Llama 3 model card',
+    'https://raw.githubusercontent.com/meta-llama/llama-models/main/models/llama3/MODEL_CARD.md'
+  ),
+  llama4: s(
+    'Meta: Llama 4 model card',
+    'https://raw.githubusercontent.com/meta-llama/llama-models/main/models/llama4/MODEL_CARD.md'
+  ),
+  llama4Blog: s(
+    'Meta AI (April 2025): The Llama 4 herd',
+    'https://ai.meta.com/blog/llama-4-multimodal-intelligence/'
+  ),
+  patterson: s(
+    'Patterson et al. (2021): Carbon Emissions and Large Neural Network Training',
+    'https://arxiv.org/pdf/2104.10350'
+  ),
+  techcrunch: s(
+    'TechCrunch (July 2025): ChatGPT users send 2.5 billion prompts a day',
+    'https://techcrunch.com/2025/07/21/chatgpt-users-send-2-5-billion-prompts-a-day/'
+  ),
+  reneweconomy: s(
+    'RenewEconomy (October 2021): Sydney Trains goes zero emissions, with renewable certificate deal',
+    'https://reneweconomy.com.au/sydney-trains-goes-zero-emissions-with-renewable-certificate-deal/'
+  ),
   epoch: s(
     'Epoch AI (2024): Training compute of frontier AI models grows by 4-5x per year',
     'https://epoch.ai/blog/training-compute-of-frontier-ai-models-grows-by-4-5x-per-year'

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { AustraliaGrid } from './components/AustraliaGrid';
 import { BigPicture } from './components/BigPicture';
 import { ComparisonSection } from './components/ComparisonSection';
 import { ProofModal } from './components/ProofModal';
@@ -28,6 +29,7 @@ export function App() {
         <div className="nav-links">
           <a href="#big-picture">The Scale</a>
           <a href="#comparison">Per Activity</a>
+          <a href="#australia">Australia</a>
           <a href="#takeaway">Takeaway</a>
           <a href="#sources">Sources</a>
         </div>
@@ -53,6 +55,8 @@ export function App() {
       <BigPicture onShowProof={setProofItem} />
 
       <ComparisonSection onShowProof={setProofItem} />
+
+      <AustraliaGrid onShowProof={setProofItem} />
 
       <section id="takeaway">
         <div className="section-inner">

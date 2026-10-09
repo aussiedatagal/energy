@@ -21,7 +21,7 @@ export const STEPS: StepItem[] = [
   {
     item: 'chatgpt',
     heading: 'A Google search and a ChatGPT question',
-    sub: `A short question to ChatGPT's default model uses about ${times(chatgpt, v('google'))} times the energy of a Google search, using Google's own figure from 2009. Tap ? on any step for the sources and the working.`,
+    sub: `A short question to ChatGPT's default model uses about ${times(chatgpt, v('google'))} times the energy of a Google search, using Google's own figure from 2009. A long question with heavy reasoning uses about 50 times more. Counting training and the hardware too, Mistral's full life-cycle figure for one answer is about ${Math.round(1.14 / (chatgpt * 1000))} times this one. Tap ? on any step for the sources and the working.`,
   },
   {
     item: 'image',
@@ -115,7 +115,7 @@ export const STEPS: StepItem[] = [
   },
   {
     heading: 'How often matters',
-    sub: `Each bar so far is a single action. If you asked ChatGPT a question every second, day and night, it would take about ${sig2(v('flight') / chatgpt / 86400)} days to match one return flight to London.`,
+    sub: `Each bar so far is a single action. If you asked ChatGPT a question every second, day and night, it would take about ${sig2(v('flight') / chatgpt / 86400)} days to match one return flight to London. But ChatGPT answers billions of questions a day, so the totals further down matter more.`,
   },
   {
     item: 'falcon',
@@ -133,17 +133,33 @@ export const STEPS: StepItem[] = [
     sub: `Making one big-budget Hollywood film averages ${t(v('film'))} t CO₂e.`,
   },
   {
-    heading: 'What about training the models?',
-    sub: 'The numbers above leave out the energy used to train each model in the first place. Few AI companies publish it.',
+    heading: 'Training the models',
+    sub: 'Every question above leaves out the energy used to train the model in the first place. Here are published figures for some well-known models, in the order they came out.',
+  },
+  {
+    item: 'gpt3',
+    heading: 'GPT-3 (2020)',
+    sub: `Google researchers estimated that training GPT-3 produced ${t(v('gpt3'))} t CO₂e. We couldn't find a training figure from OpenAI itself.`,
+  },
+  {
+    item: 'llama2',
+    heading: 'Llama 2 (2023)',
+    sub: `Meta publishes figures for its open models. The three Llama 2 models took ${t(v('llama2'))} t CO₂e to train.`,
+  },
+  {
+    item: 'llama3',
+    heading: 'Llama 3 (April 2024)',
+    sub: `Llama 3 took ${t(v('llama3'))} t CO₂e.`,
   },
   {
     item: 'llama',
-    heading: 'Training Llama 3.1',
-    sub: `Meta did. Training its three Llama 3.1 models produced ${t(v('llama'))} t CO₂e on the local grids, about ${sig2(v('llama') / chatgpt / 1e9)} billion ChatGPT questions. This is a one-off cost for that release. Meta reports zero after buying renewable energy to match it.`,
+    heading: 'Llama 3.1 (July 2024)',
+    sub: `Llama 3.1, which added a much larger model, took ${t(v('llama'))} t CO₂e on the local grids, about ${sig2(v('llama') / chatgpt / 1e9)} billion ChatGPT questions. Meta says it offset or matched all of these with renewable energy, so it reports them as zero.`,
   },
   {
-    heading: 'Newer models are bigger',
-    sub: 'Llama 3.1 is one of the few published training figures, and newer models use more computing power. Epoch AI found the computing used to train leading models grew 4 to 5 times a year from 2010 to 2024. Emissions figures for newer models are rarely published, so the bars below are compared with Llama 3.1.',
+    item: 'llama4',
+    heading: 'Llama 4 (April 2025)',
+    sub: `The two Llama 4 models Meta released took ${t(v('llama4'))} t CO₂e. That doesn't include Llama 4 Behemoth, the bigger model they were trained from, which was still training. We couldn't find published training figures for the largest models from OpenAI, Google, Anthropic or xAI. Epoch AI found the computing used to train leading models grew 4 to 5 times a year from 2010 to 2024.`,
   },
   {
     item: 'mistral',
@@ -152,17 +168,22 @@ export const STEPS: StepItem[] = [
   },
   {
     heading: 'Yearly totals',
-    sub: 'The rest are yearly totals, shown as multiples of the Llama 3.1 training run.',
+    sub: 'The rest are yearly totals, shown as multiples of the Llama 3.1 training run, the largest published training figure.',
+  },
+  {
+    item: 'chatgptYear',
+    heading: 'ChatGPT for a whole year',
+    sub: `In mid-2025 OpenAI said ChatGPT received 2.5 billion prompts a day, at an average of 0.34 Wh each. Over a year that's about ${(+(v('chatgptYear') / 1000).toPrecision(3)).toLocaleString('en-AU')} t CO₂e, about ${llamaRuns(v('chatgptYear'))} times the Llama 3.1 training run. Use had more than doubled in the previous eight months.`,
   },
   {
     item: 'f1',
     heading: 'Formula 1',
-    sub: `Formula 1's 2024 season was ${t(v('f1'))} t CO₂e by its own count, about ${llamaRuns(v('f1'))} Llama 3.1 training runs.`,
+    sub: `Formula 1's 2024 season was ${t(v('f1'))} t CO₂e by its own count, before the sustainable aviation fuel certificates it buys. That's about ${llamaRuns(v('f1'))} Llama 3.1 training runs.`,
   },
   {
     item: 'sydneyTrains',
     heading: 'Sydney Trains',
-    sub: `Sydney Trains reported ${t(v('sydneyTrains'))} t CO₂e in 2018–19.`,
+    sub: `Sydney Trains reported ${t(v('sydneyTrains'))} t CO₂e in 2018–19. In October 2021 it started buying renewable energy certificates to cover its electricity, which is how it counts as net zero. It's the same approach that lets Meta report zero for Llama.`,
   },
   {
     item: 'iphones',
@@ -182,7 +203,12 @@ export const STEPS: StepItem[] = [
   {
     item: 'dataCentres',
     heading: 'Every data centre',
-    sub: `Every data centre in the world, running websites, streaming, banking, cloud storage and AI, emits about ${mt(v('dataCentres'))} million t CO₂ a year, according to the IEA. The IEA expects their electricity use to more than double by 2030, with AI the main driver. In Australia, AEMO forecasts data centres will use about 34 TWh a year by 2036, 13% of the grid's electricity.`,
+    sub: `Every data centre in the world, running websites, streaming, banking, cloud storage and AI, emits about ${mt(v('dataCentres'))} million t CO₂ a year, according to the IEA. The IEA expects their electricity use to more than double by 2030, with AI the main driver.`,
+  },
+  {
+    item: 'dataCentres2030',
+    heading: 'Every data centre in 2030',
+    sub: `Using the IEA's own forecasts for data centre electricity and for how clean the world's grids will be, that comes to about ${mt(v('dataCentres2030'))} million t CO₂ in 2030.`,
   },
   {
     item: 'flaring',

@@ -1,4 +1,5 @@
 import type { Quote, Source } from '../types';
+import { GRID_QUOTES } from './aemo';
 import { CSTEPS } from './csteps';
 import { TREEMAP_DATA } from './treemap';
 
@@ -10,6 +11,7 @@ export interface Citation {
 const allQuotes = [
   ...CSTEPS.flatMap((d) => d.proof.quotes),
   ...TREEMAP_DATA.children.flatMap((c) => c.children.flatMap((l) => l.proof.quotes)),
+  ...GRID_QUOTES,
 ];
 
 export const CITATIONS: Citation[] = allQuotes.reduce<Citation[]>((list, q) => {
