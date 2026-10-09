@@ -25,7 +25,7 @@ export function App() {
   return (
     <>
       <nav className="topnav">
-        <span className="nav-brand">Energy in Perspective</span>
+        <span className="nav-brand">AI Emissions in Perspective</span>
         <div className="nav-links">
           <a href="#big-picture">The Scale</a>
           <a href="#comparison">Per Activity</a>

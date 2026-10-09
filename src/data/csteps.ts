@@ -88,7 +88,7 @@ const ITEMS: Item[] = [
       ],
       calc: `${chatgptWh} Wh × 458 g CO₂e/kWh`,
       result: `${kg(fromWh(chatgptWh) * 1000)} g CO₂e`,
-      note: `GPT-5 is the default ChatGPT model family. This is an independent measurement of GPT-5 (Jegham et al., a preprint) that includes data centre cooling; OpenAI hasn't published figures for newer versions. A long question with heavy reasoning uses about 50 times more (33.8 Wh). Other published figures: OpenAI's own average of 0.34 Wh (June 2025) and Google's median Gemini prompt of 0.24 Wh. Mistral's 1.14 g is a full life-cycle figure that also counts the manufacture of the hardware. None of these per-question figures include training. ${GRID_NOTE}`,
+      note: `GPT-5 is the default ChatGPT model family. This is an independent measurement of GPT-5 (Jegham et al., 2025) that includes data centre cooling. OpenAI hasn't published figures for newer versions. A long question with heavy reasoning uses about 50 times more (33.8 Wh). Other published figures: OpenAI's own average of 0.34 Wh (June 2025) and Google's median Gemini prompt of 0.24 Wh. Mistral's 1.14 g is a full life-cycle figure that also counts the manufacture of the hardware. None of these per-question figures include training. ${GRID_NOTE}`,
     },
   },
   {
@@ -326,7 +326,7 @@ const ITEMS: Item[] = [
         },
       ],
       result: '3.0 kg CO₂e',
-      note: 'From a commercial life-cycle model (10,000 simulations), not a peer-reviewed study. Its middle 80% of results range from 2.1 to 4.1 kg.',
+      note: 'From a life-cycle model run 10,000 times. Its middle 80% of results range from 2.1 to 4.1 kg.',
     },
   },
   {
@@ -443,7 +443,7 @@ const ITEMS: Item[] = [
       ],
       calc: '5 m³ × 350 kg (middle of the range)',
       result: '1,750 kg CO₂ (range 1,000 to 2,500 kg)',
-      note: 'Depends on the mix. Source is a life-cycle software company’s guide.',
+      note: 'Depends on the concrete mix.',
     },
   },
   {
@@ -600,7 +600,7 @@ const ITEMS: Item[] = [
         { source: SRC.llama, text: '**Model Release Date:** July 23, 2024.' },
       ],
       result: '11,390 t CO₂e',
-      note: 'Meta trained three sizes for this release; the largest (405B) was 8,930 t of the total. “Location-based” means using the local grid’s emissions. Meta reports 0 t after buying renewable energy to match. This is a one-off cost for one release, not a yearly cost.',
+      note: 'Meta trained three sizes for this release. The largest (405B) was 8,930 t of the total. “Location-based” means using the local grid’s emissions. Meta reports 0 t after buying renewable energy to match. It is a one-off cost for one release.',
     },
   },
   {

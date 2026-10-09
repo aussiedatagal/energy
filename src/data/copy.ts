@@ -5,7 +5,7 @@ const gt = (id: string) => +(byId(id).value / 1e12).toFixed(1);
 const kt = (id: string) => (Math.round(byId(id).value / 1e6) * 1000).toLocaleString('en-AU');
 
 export const HERO = {
-  eyebrow: 'Emissions in perspective',
+  eyebrow: 'A data explainer',
   title: 'How big is AI’s carbon footprint?',
   lines: [
     'Here it is next to everyday things and other industries, per use and per year, with a source for every number.',

@@ -93,7 +93,7 @@ function buildHtml(): string {
 
   return `<div id="static-fallback">
   <nav class="ns-nav">
-    <strong>Energy in Perspective</strong>
+    <strong>AI Emissions in Perspective</strong>
     <a href="#ns-sectors">Sectors</a>
     <a href="#ns-comparison">Per activity</a>
     <a href="#ns-takeaway">Takeaway</a>
